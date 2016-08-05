@@ -40,6 +40,7 @@ PREREQ_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'captcha',
+    'rest_framework',
 ]
 # Listado de aplicaciones del sistema
 PROJECT_APPS = [
