@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Cumboto_v2 URL Configuration Usuario
 """

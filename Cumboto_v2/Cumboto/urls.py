@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Cumboto_v2 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -22,6 +23,8 @@ urlpatterns = [
     url(r'^', include('base.urls')),
     url(r'^$', 'base.views.inicio', name='inicio'),
     url(r'^', include('usuario.urls')),
+    url(r'^servicio/', include('servicio.urls')),
+    url(r'^biblioteca/', include('biblioteca.urls')),
     url(r'^captcha/', include('captcha.urls')),
     ]
 if settings.DEBUG:

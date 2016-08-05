@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for Cumboto_v2 project.
 
@@ -9,6 +10,7 @@ https://docs.djangoproject.com/en/1.9/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
+
 from __future__ import unicode_literals
 import os
 from .database_config import DATABASES_CONFIG
@@ -30,21 +32,25 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-REQUIREMENTS_APPS = [
+PREREQ_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
 ]
 # Listado de aplicaciones del sistema
-PROJECTS_APPS = [
-
+PROJECT_APPS = [
+    'base',
+    'biblioteca',
+    'servicio',
+    'usuario',
 ]
 
 # Listado de aplicaciones cargadas por el sistema
-INSTALLED_APPS = REQUIREMENTS_APPS + PROJECTS_APPS
+INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,7 +63,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Cumboto_v2.urls'
+ROOT_URLCONF = 'Cumboto.urls'
 
 # Directorio en donde se encuentran las plantillas en el root de la aplicación
 ROOT_TEMPLATES = os.path.join(BASE_DIR, "templates")
@@ -81,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Cumboto_v2.wsgi.application'
+WSGI_APPLICATION = 'Cumboto.wsgi.application'
 
 
 # Database

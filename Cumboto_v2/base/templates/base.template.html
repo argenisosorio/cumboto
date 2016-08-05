@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load i18n %}
+<html lang="es">
+{% include 'base.head.template.html' %}
+{% include 'base.footer.template.html' %}
+{% block contenido %}
+<head>
+<style type="text/css"> body{   text-align:center;  }
+</style>
+</head>
+<div class="contenedor">
+<div class="container-fluid">
+<div class="panel panel-default">
+<div class="panel-heading">
+<span style="color: gray; font-size: 30px;">
+<img src="{% static 'img/logo.png' %}">
+Flujo de Transporte para Datos en Televisión Digital Abierta
+</span>
+</div>
+<div class="panel-body" style="background-image: url({% static 'img/background.png' %}"); >
+    <div class="row">
+       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <input type="checkbox" name="my-checkbox" checked>
+    </div>
+</div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12 hidden-xs text-center">
+                <img src="{% static 'img/cenditel.png' %}" class="img-responsive" align="right">
+                <p style="color: #ff6600;"><br>
+                    <small>Centro Nacional de Desarrollo e Investigacion en Tecnologias Libres - CENDITEL - GPLv2.&#160;
+                    Copyleft</small> <span id="year-info-develop">2016</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
+{% endblock %}

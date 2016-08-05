@@ -8,10 +8,11 @@
 $(document).ready(function() {
     /** Declaración de variables */
     var browserName = navigator.appName, browserVer = navigator.appVersion, date = new Date(),
-        year_info_develop = $("#year-info-develop"), radio = $(".radio"),
-        select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
-        input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'), form_update = $('.form-update'),
-        tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
+        year_info_develop = $("#year-info-develop"), select = $('select'), data_table = $('.dataTable'),
+        refresh_captcha = $('.js-captcha-refresh'), input_captcha = $('input[name="captcha_1"]'),
+        email_mask = $('.email-mask'), form_update = $('.form-update'), tip_top = $('.tip-top'),
+        tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right'),
+        correr_detener = $('input[type="checkbox"].correr_detener');
 
     if (browserName.indexOf("Internet Explorer") > -1) {
         /** Verifica el tipo de navegador utilizado por el usuario */
@@ -60,6 +61,16 @@ $(document).ready(function() {
         });
     }
 
+    /** Convierte un campo CheckBox en Switch */
+    if (correr_detener.length) {
+        correr_detener.bootstrapSwitch({
+            onText: 'Correr', offText: 'Detener', offColor: 'danger'
+        });
+        correr_detener.on('switchChange.bootstrapSwitch', function (event, state) {
+            $(this).prop( "checked", state );
+        });
+    }
+
     /** Agrega el estilo para los tooltiptext de los elementos del formulario */
     if (!tip_top.length && !tip_bottom.length && !tip_left.length && !tip_right.length) {
         $('[data-toggle="tooltip"]').tooltip();
@@ -84,30 +95,16 @@ $(document).ready(function() {
         });
     }
 
-    if (radio.length) {
-        /** Instrucción que alinea los elementos radio options */
-        $('form div ul').contents().unwrap();
-        $('form div li').contents().unwrap();
-        radio.each(function() {
-            $(this).parent().addClass('radio-inline col-md-3');
-            $(this).parent().attr('style', 'margin-left: 0;');
-        });
-
-        /** Instruccion para calcular la altura maxima de los campos del tipo radio y establecer la misma altura para
-         * todos los elementos de este tipo
-         */
-        var radio_inline = $(".radio-inline");
-        var heights = radio_inline.map(function() {
-            return $(this).height();
-        }).get(), maxHeight = Math.max.apply(null, heights);
-        radio_inline.height(maxHeight);
-    }
-
     if (select.length) {
         /** Instrucción que asigna el estilo select2 a los campos del formulario del tipo select */
         select.select2();
     }
+
     if (data_table.length) {
+        $.extend( $.fn.dataTableExt.oStdClasses, {
+            "sFilterInput": "form-control",
+            "sLengthSelect": "form-control select2"
+        });
         /** Inicializa los elementos del dataTable */
         data_table.dataTable({
             "language": {
@@ -117,9 +114,13 @@ $(document).ready(function() {
             "order": [[0, 'asc']],
             "bDestroy": true,
             "bPaginate": true,
-            "bInfo": true
+            "bInfo": true,
+            "initComplete": function(settings, json) {
+                $('.dataTables_length select').select2();
+            }
         });
     }
+
     if (email_mask.length) {
         /** Crea la respectiva maskara a implementar en los campos de correo electrónico */
         email_mask.mask('A', {translation: {
