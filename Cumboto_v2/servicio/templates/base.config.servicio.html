@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+{% load i18n %}
+{% include 'base.head.template.html' %}
+{% include 'base.footer.template.html' %}
+{% block contenido %}
+
+<head>
+</head>
+        <div class="panel panel-default" id="cumboto">
+            <div class="panel-heading">
+                <div class="row">
+                    <span style="color: gray; font-size: 30px;">
+                        <img src="{% static 'img/logo.png' %}" class="">
+                        Flujo de Transporte para Datos en Televisión Digital Abierta
+                    </span>
+                </div>
+            </div>
+            <div class="panel-body">
+                    <div class="col-md-4">
+                        <!--Menu-->
+                    </div>
+                    <div class="col-md-8" style="padding-left:25px; border-left: 1px solid #ccc;">
+                        <h3 align="center" style="color: #ff6600;">Consultar servicios en transmisión</h3>
+                        <hr>
+                    </div>
+            </div>
+        </div>
+
+{% endblock %}

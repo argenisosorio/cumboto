@@ -24,7 +24,6 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://cumaco.cenditel.gob.ve/desarro
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework.renderers import JSONRenderer
-from django.views.generic import ListView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
@@ -49,135 +48,13 @@ from django.http import HttpResponse
 ###################################################
 #             REST-FRAMEWORK CUMBOTO              #
 ###################################################
-class GLOBAL_REST_FRAMEWORK(CreateView):
-
-    model = servicioModel
-    form_class = servicioForm
-    template_name = 'base.servicio.html'
-    success_url = reverse_lazy('global')
-
-    def post(request):
-        if request.method == 'POST':
-            form = servicioForm(request.POST)
-            if form.is_valid():
-                accion = form.cleaned_data['accion']
-                serv = form.cleaned_data['servicio']
-                app = form.cleaned_data['ranura']
-                cod = form.cleaned_data['codigo_app']
-                ctl = form.cleaned_data['modalidad']
-
-                octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-                aplicacion = octs.check_app(form.cleaned_data['codigo_app'])
-                if aplicacion == True:
-                    nv_edo = {
-                    'serv':	int(serv, 0),
-                    'app':	int(app, 0),
-                    'cod':	cod,
-                    'ctl':	int(ctl, 0),
-                    }
-                    print(nv_edo)
-                    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf', nv_edo)
-                    txt = str(octs)
-                    print (octs)
-                    return Response(txt)
-            else:
-                form = servicioForm()
-                return render(request, 'base.servicio.html', {'form': form})
-        else:
-                form = servicioForm()
-                return render(request, 'base.servicio.html', {'form': form})
-
-
-class GLOBAL_REST(CreateView):
-
-    model = servicioModel
-    form_class = servicioForm
-    template_name = 'base.servicios.html'
-
-    @api_view(['POST'])
-    def form_valid(self, form):
-
-        self.object.acc = (form.cleaned_data['accion'])
-        self.object.serv = (form.cleaned_data['servicio'])
-        self.object.app = (form.cleaned_data['ranura'])
-        self.object.cod = (form.cleaned_data['codigo_app'])
-        self.object.ctl = (form.cleaned_data['modalidad'])
-
-        print(self.object.form.cleaned_data['accion'])
-
-        if self.object.acc == 'nuevo_edo':
-
-            octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-            aplicacion = octs.check_app(form.cleaned_data['codigo_app'])
-
-            if aplicacion == True:
-                nv_edo = {
-                    'serv':	int(self.object.serv, 0),
-                    'app':	int(self.object.app, 0),
-                    'cod':	self.object.cod,
-                    'ctl':	int(self.object.ctl, 0),
-                }
-                octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf', nv_edo)
-                txt = str(octs)
-                print (octs)
-                return Response(txt)
-
-            else:
-                if self.object.acc == 'detener':
-                    servicio = int(self.object.serv, 0)
-                    ranura = int(self.object.app, 0)
-                    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-                    stop = octs.detener_ranura(servicio, ranura)
-                    print(stop)
-                    stp = str(stop)
-                    return Response(stp)
-                else:
-                    form = servicioForm()
-                    return render('base.servicios.html', {'form': form})
-        else:
-            form = servicioForm()
-            return render('base.servicios.html', {'form': form})
-
-    """def form_valid(self, form):
-        self.object.accion = form.cleaned_data['accion']
-        self.object.serv = form.cleaned_data['servicio']
-        self.object.app = form.cleaned_data['ranura']
-        self.object.cod = form.cleaned_data['codigo_app']
-        self.object.ctl = form.cleaned_data['modalidad']
-        if self.object.accion == 'nuevo_edo':
-            octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-            aplicacion = octs.check_app(form.cleaned_data['codigo_app'])
-            if aplicacion == True:
-                nv_edo = {
-                    'serv':	int(self.object.serv, 0),
-                    'app':	int(self.object.app, 0),
-                    'cod':	self.object.cod,
-                    'ctl':	int(self.object.ctl, 0),
-                }
-                octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf', nv_edo)
-                txt = str(octs)
-                print (octs)
-                return Response(txt)
-            else:
-                form = servicioForm()
-                return render('index.html', {'form': form})
-        else:
-            if form.cleaned_data['accion'] == 'detener':
-                servicio = int(self.object.serv, 0)
-                ranura = int(self.object.app, 0)
-                octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-                stop = octs.detener_ranura(servicio, ranura)
-                print(stop)
-                stp = str(stop)
-                return Response(stp)
-            else:
-                form = servicioForm()
-                return render('servicios.base.html', {'form': form})"""
-
-########################################
+def tst(request):
+    if request.method == 'GET':
+        form = servicioForm()
+        return render(request, 'base.config.servicio.html', {'form': form})
 
 @api_view(['POST' ,'GET'])
-def add_app(request):
+def GLOBAL_REST_FRAMEWORK(request):
     if request.method == 'GET':
         form = servicioForm()
         return render(request, 'base.servicio.html', {'form': form})
@@ -206,8 +83,8 @@ def add_app(request):
                 print(stop)
                 stp = str(stop)
                 print("detenido")
+                success_message = "éxito"
                 return Response(stp)
-
             else:
                 if(dtn == "True"):
                     nv_edo = {
@@ -222,10 +99,6 @@ def add_app(request):
                     print (octs)
                     print("Nuevo Estado")
                     return Response(txt)
-
-
-
-
         else:
             form = servicioForm()
             return render(request, 'base.servicio.html', {'form': form})
@@ -233,33 +106,9 @@ def add_app(request):
             form = servicioForm()
             return render(request, 'base.servicio.html', {'form': form})
 
-@api_view(['POST'])
-def validator_app(request):
-    if request.method == 'POST':
-        form = servicioForm(request.POST)
-        if form.is_valid():
-            serv = (form.cleaned_data['servicio'])
-            app = (form.cleaned_data['ranura'])
-            cod = (form.cleaned_data['codigo_app'])
-            ctl = (form.cleaned_data['modalidad'])
-            octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-            rest = octs.check_app(cod)
-            if rest == True:
-                nv_edo = {
-                    'serv':	serv,
-                    'app':	app,
-                    'cod':	cod,
-                    'ctl':	ctl,
-                }
-                print (nv_edo)
-                chk_app = octs.check_app(cod)
-                if chk_app == True:
-                    chk_edo = octs.check_edo(cod)
-                return Response(chk_edo)
-
-        else:
-            form = servicioForm()
-            return render(request, 'servicios.base.html', {'form': form})
+###################################################
+#             REST-FRAMEWORK CUMBOTO              #
+###################################################
 
 @api_view(['GET'])
 def check(request, accion, codigo_apps):
@@ -282,49 +131,6 @@ def check(request, accion, codigo_apps):
             return Response(delete)
         else:
             return Response(False)
-
-
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
-
-@api_view(['GET'])
-def nuevo_edo_app(request,accion,serv,app,cod,ctl):
-
-    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-    if octs.check_app(cod) == True:
-        print (ctl)
-        print(serv)
-        if accion == 'nuevo_edo':
-            nv_edo = {
-                'serv':	int(serv, 0),
-                'app':	int(app, 0),
-                'cod':	cod,
-                'ctl':	int(ctl, 0),
-            }
-            """print type(cod)
-            print (nv_edo)
-            s = nv_edo['serv']
-            sx = int(s)
-            print type(sx)
-            print (sx)
-            print (s)
-            print type(s)"""
-            #tst = octs.gen_nvtsco(nv_edo)
-            #carrusel = octs.gen_nv_carrusel(serv, app)
-            #print (carrusel)
-            octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf', nv_edo)
-            #new_edo = octs.nv_edoc('/etc/cumaco/ocumare.conf', nv_edo)
-            #print(new_edo)
-            #new_edo = ocumare.lutheria.tsco.nv_edoc('/etc/cumaco/ocumare.conf', nv_edo)
-            #print(new_edo)
-            #nv = str(octs)
-            #print(nv)
-            result = str(octs)
-            return Response(result)
-    else:
-        return Response(False)
-
 
 ###################################################
 #             REST-FRAMEWORK CUMBOTO              #
@@ -390,8 +196,8 @@ def listar_servicios(request, accion_serv):
 def Obt_ranuras(request, accion_rns, serv):
     if accion_rns == 'obt_edo_ranuras':
         octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
-        print (serv)
+        print(serv)
         rs_ctl = octs.obt_edo_ranuras(serv)
-        print (rs_ctl)
+        print(rs_ctl)
         return Response(rs_ctl)
 
