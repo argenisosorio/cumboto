@@ -39,9 +39,11 @@ from functools import wraps
 
 class tsco(object):
 	APP_CONTROL_AUTO = 0x01
+
 	def __init__(self, ruta_conf, nv_edo = None):
 		cf = ConfigParser.SafeConfigParser()
 		cf.read(ruta_conf)
+
 		ruta_trans = cf.get('Transmision', 'ruta')
 
 		self.conf = cf
@@ -94,9 +96,11 @@ class tsco(object):
 
 		for i in range(ns):
 			self.svc_md.append(
-				{
+				{	
+					'codigo': 'servicio_%s' % i,
 					'np': cf.get('servicio_%s' % i, 'proveedor'),
 					'n': cf.get('servicio_%s' % i, 'nombre'),
+					'na': int(cf.get('servicio_%s' % i, 'num_app'), 0),
 				}
 			)
 			# ID de servicio de TV Digital. (16 bit):
@@ -508,44 +512,85 @@ class tsco(object):
 		else:
 			return None
 
-    #######################################################################
+        #######################################################################
 	@_serializar
-	def check_app(self,codigo_apps):
-		# Verificación del codigo de la aplicación según el patrón
-		if re.match('[0-9A-Fa-f]{12}', codigo_apps):
-			if os.path.isdir(os.path.join(self.app_biblio, codigo_apps)):
-				return True
-			else:
-				return False
-		else:
-			return 'El codigo de la aplicacion no cumple con el patron'
+        def check_app(self,codigo_apps):
+                # Verificación del codigo de la aplicación según el patrón
+                if re.match('[0-9A-Fa-f]{12}', codigo_apps):
+                # Verificacion de existencia de la aplicación
+                # en el directorio de la Biblioteca de aplicaciones
+                        if os.path.isdir(os.path.join(self.app_biblio, codigo_apps)):
+                                return True 
+                        else:
+                                return False
+                else:
+                        return 'El codigo de la aplicacion no cumple con el patron'
+        
+        #####################################################################
+	@_serializar
+        def check_edo(self,codigo_apps):
+                if re.match('[0-9A-Fa-f]{12}', codigo_apps):
+                        app_edos = []
+                        app_edo_codigo = [None] * self.ns
+                        for i in range(self.ns):
+                                # Datos y estado de las aplicaciones
+                                na = int(self.conf.get('servicio_%s' % i, 'num_app'), 0)
+                                if na > 0:
+                                        app_edo_codigo[i] = []
+                                        for j in range(na):
+                                                # Aplicaciones que se encuentran asignadas en los 
+                                                # servicios que se estan transmitiendo
+                                                app_edo_codigo[i].append(
+                                                        self.app_edo_reg.get('app_%s_%s' % (i, j), 'codigo'),
+                                                )
+                                                if codigo_apps in app_edo_codigo[i]:
+                                                        app_edos.append(
+                                                                {
+                                                                        'Estado': 'Ocupada',
+                                                                        'servicio': self.conf.get('servicio_%s' % i, 'nombre'),
+                                                                        'control': int(self.app_edo_reg.get('app_%s_%s' % (i, j), 'control'), 0),
+                                                                        'codigo': self.app_edo_reg.get('app_%s_%s' % (i, j), 'codigo'),
+                	       	            			}
+                                                        )
+                        return app_edos
+                else:
+                        return 'El codigo de la aplicacion no cumple con el patron'
 
-    #####################################################################
+        #####################################################################
 	@_serializar
-	def check_edo(self,codigo_apps):
-		if re.match('[0-9A-Fa-f]{12}', codigo_apps):
-			app_edos = []
-			app_edo_codigo = [None] * self.ns
-			for i in range(self.ns):
-				# Datos y estado de las aplicaciones
-				na = int(self.conf.get('servicio_%s' % i, 'num_app'), 0)
-				if na > 0:
-					app_edo_codigo[i] = []
-					for j in range(na):
-						# Aplicaciones que se encuentran asignadas en los
-						#  servicios que se estan transmitiendo
-						app_edo_codigo[i].append(
-							self.app_edo_reg.get('app_%s_%s' % (i, j), 'codigo'),
-						)
-						if codigo_apps in app_edo_codigo[i]:
-							app_edos.append(
-								{
-									'Estado': 'Ocupada',
-									'servicio': self.conf.get('servicio_%s' % i, 'nombre'),
-									'control': int(self.app_edo_reg.get('app_%s_%s' % (i, j), 'control'), 0),
-									'codigo': self.app_edo_reg.get('app_%s_%s' % (i, j), 'codigo'),
-								}
-							)
-							return app_edos
-		else:
-			return 'El codigo de la aplicacion no cumple con el patron'
+        def obt_apps_biblio(self):        
+		list_file_md = []
+		list_codigo = []
+		app_md = [] 
+		
+		for dir_apps in os.listdir(self.app_biblio):
+		        if os.path.isdir(os.path.join(self.app_biblio, dir_apps)):
+				# Verificación del nombre del dedirectorio con el patrón
+				if re.match('[0-9A-Fa-f]{12}', dir_apps):
+					list_codigo.append(dir_apps)
+					dirs_apps = os.walk(os.path.join(self.app_biblio, dir_apps))
+
+					# Archivos metadatos.conf de las aplicaciones
+					for subpath, subdir, files in dirs_apps:
+						for metadatos in files:
+						       	(nombreFichero, extension) = os.path.splitext(metadatos)
+					       		if(extension == ".conf"):
+			        			    	list_file_md.append(nombreFichero+extension)
+
+		for i in range(len(list_codigo)):
+			ruta_file_md = os.path.join(os.path.join(self.app_biblio, list_codigo[i]), list_file_md[i])
+			md = ConfigParser.SafeConfigParser()
+			md.read(ruta_file_md)
+
+			# Información de las aplicaciones en la biblioteca del archivo metadatos.conf
+			app_md.append(
+				{
+					'codigo': list_codigo[i],
+                		        'nombre': md.get('metadatos', 'nombre'),
+                                }
+			)
+
+		return app_md
+	# Retorna:
+	#	codigo  -> código de identificación de la aplicación en la biblioteca.
+	#	nombre -> nombre de la aplicación en la biblioteca

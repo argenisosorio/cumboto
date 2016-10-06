@@ -3,57 +3,63 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from .models import servicioModel
 from django.forms.models import ModelForm
+import ocumare
+#from .views import CONSULT_REST
+from ocumare.lutheria import tsco
 
-
-List_App = ('', _("Seleccione...")),\
-           ('0000000A0020', _("0000000A0020")),\
-           ('0000000A0030', _("0000000A0030")),\
-           ('0000000A0040', _("0000000A0040")),\
-           ('0000000A0064', _("0000000A0064")),
-
-List_Serv = ('', _("Seleccione...")),\
-           ('0', _("Tves")),\
-           ('1', _("Vive")),\
-           ('2', _("2")),\
-           ('3', _("3")),\
-           ('4', _("4")),
-
-List_ran = ('', _("Seleccione...")),\
-           ('0', _("0")),\
-           ('1', _("1")),\
-
-
-List_Mod = ('', _("Seleccione...")),\
-           ('1', _("1")),\
-           ('2', _("2")),\
 
 class servicioForm(ModelForm):
 
+    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+    lst = octs.obt_serv_md()
+    opciones = ()
+    for x in lst:
+        opciones += (x['codigo'], x['n']),
     servicio = forms.ChoiceField(
-        choices=List_Serv,
+        choices=opciones,
         widget=forms.Select(attrs={
             'class': 'form-control',
             'required': 'true',
-
-
         })
     )
+
+    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+    lst = octs.obt_serv_md()
+    ranuras = ()
+    for i in lst:
+        if i['na'] == 2:
+            ranuras = ('', _("Seleccione...")),\
+           ('1', _("Ranura_1")),\
+           ('2', _("Ranura_2")),\
+
     ranura = forms.ChoiceField(
-        choices=List_ran,
+        choices=ranuras,
         widget=forms.Select(attrs={
             'class': 'form-control',
             'required': 'true',
 
         })
     )
+
+    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+    app = octs.obt_apps_biblio()
+    apps = ()
+    for a in app:
+        apps += (a['codigo'], a['nombre']),
+
     codigo_app = forms.ChoiceField(
         widget=forms.Select(attrs={
             'class': 'form-control',
             'required': 'false',
             'disabled': 'disabled',
 
-        }), choices=List_App, required=False,
+        }), choices=apps, required=False,
     )
+
+    List_Mod = ('', _("Seleccione...")),\
+           ('1', _("Automatico")),\
+           ('2', _("Menu")),\
+
     modalidad = forms.ChoiceField(
         widget=forms.Select(attrs={
             'class': 'form-control',
@@ -61,6 +67,7 @@ class servicioForm(ModelForm):
             'disabled': 'disabled',
         }),choices=List_Mod, required=False,
     )
+
     detener = forms.ChoiceField(
         label=_("Detener Servicio"),
         choices=((True,''), (False,'')),
@@ -76,4 +83,16 @@ class servicioForm(ModelForm):
         model = servicioModel
         fields = ('codigo_app',)
 
-
+class SelectForm(forms.Form):
+    octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+    lst = octs.obt_serv_md()
+    opciones = ()
+    for x in lst:
+        opciones += (x['codigo'],x['n']),
+    select_serv = forms.ChoiceField(
+        choices=opciones,
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'required': 'true',
+        })
+    )

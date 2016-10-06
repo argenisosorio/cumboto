@@ -40,14 +40,43 @@ import sys
 import re
 import ocumare
 from ocumare.lutheria import tsco
-from ocumare.listar import listar
-from django.views.generic import CreateView
+#from ocumare.listar import listar
+from django.views.generic import CreateView, TemplateView
 from django.http import HttpResponse
-
+from django.views.generic.edit import FormView
+from .models import servicioModel
+from .forms import servicioForm, SelectForm
 
 ###################################################
 #             REST-FRAMEWORK CUMBOTO              #
 ###################################################
+
+class servicioView(CreateView):
+
+    """!
+    Clase que permite almacenar los datos solicitados al servidor
+    @author Hramirez (hramirez at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 08-06-2016
+    """
+
+    model = servicioModel
+    form_class = servicioForm
+    template_name = 'maquinaria.equipo.base.html'
+    success_url = reverse_lazy('equipos')
+
+    def form_valid(self, form):
+
+
+        self.object = form.save(commit=False)
+        self.object.servicio = form.cleaned_data['servicio']
+        self.object.ranura = form.cleaned_data['ranura']
+        self.object.codigo_app = form.cleaned_data['codigo_app']
+        self.object.modalidad = form.cleaned_data['modalidad']
+        self.object.save()
+
+        return super(servicioView, self).form_valid(form)
+
 def tst(request):
     if request.method == 'GET':
         form = servicioForm()
@@ -65,39 +94,46 @@ def GLOBAL_REST_FRAMEWORK(request):
 
             dtn = (form.cleaned_data['detener'])
             serv = (form.cleaned_data['servicio'])
+
+            if serv == 'servicio_0':
+                sv = int(0)
+                print(sv)
+            elif serv == 'servicio_1':
+                sv = int(1)
+                print(sv)
+            elif serv == 'servicio_2':
+                sv = int(2)
+                print(sv)
+            elif serv == 'servicio_3':
+                sv = int(3)
+                print(sv)
+            elif serv == 'servicio_3':
+                sv = int(4)
+                print(sv)
+
             app = (form.cleaned_data['ranura'])
             cod = form.cleaned_data['codigo_app']
             ctl = form.cleaned_data['modalidad']
 
-            print(dtn)
-            print(serv)
-            print(app)
-            print(cod)
-            print(ctl)
 
             if(dtn == "False"):
-                servicio = int(serv, 0)
+                servicio = sv
                 ranura = int(app, 0)
                 octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
                 stop = octs.detener_ranura(servicio, ranura)
-                print(stop)
                 stp = str(stop)
-                print("detenido")
                 success_message = "éxito"
                 return Response(stp)
             else:
                 if(dtn == "True"):
                     nv_edo = {
-                    'serv': int(serv, 0),
+                    'serv': sv,
                     'app':  int(app, 0),
                     'cod':  cod,
                     'ctl':  int(ctl, 0),
                     }
-                    print(nv_edo)
                     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf', nv_edo)
                     txt = str(octs)
-                    print (octs)
-                    print("Nuevo Estado")
                     return Response(txt)
         else:
             form = servicioForm()
@@ -136,7 +172,7 @@ def check(request, accion, codigo_apps):
 #             REST-FRAMEWORK CUMBOTO              #
 ###################################################
 
-@api_view(['GET'])
+"""@api_view(['GET'])
 def listar_elementos(request, accion_list):
     if accion_list == 'listar':
         lst = ocumare.listar.listar('/etc/cumaco/ocumare.conf')
@@ -149,7 +185,7 @@ def listar_elementos(request, accion_list):
             octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
             list_serv = octs.obt_serv_md()
             #js = json.loads(list_serv)
-            return Response(list_serv)
+            return Response(list_serv)"""
 
 ####################################################
 #             REST-FRAMEWORK CUMBOTO               #
@@ -201,3 +237,93 @@ def Obt_ranuras(request, accion_rns, serv):
         print(rs_ctl)
         return Response(rs_ctl)
 
+@api_view(['POST' ,'GET'])
+def REST_FRAMEWORK_CONSULT(request):
+
+    if request.method == 'GET':
+        return render(request, 'base.config.servicio.html')
+
+    if request.method == 'POST':
+        octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+        lst = octs.obt_serv_md()
+        a = type(lst)
+        b = len(lst)
+        for x in lst:
+            return Response(lst)
+    else:
+        return render(request, 'base.config.servicio.html')
+
+@api_view(['POST' ,'GET'])
+def CONSULT_REST(request):
+
+    if request.method == 'GET':
+        form = SelectForm()
+        return render(request, 'base.config.servicio.html', {'form': form})
+
+    if request.method == 'POST':
+        form = SelectForm(request.POST)
+        if form.is_valid():
+            octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+            servicio = form.cleaned_data['select_serv']
+
+            if servicio == 'servicio_0':
+                sv = int(0)
+            elif servicio == 'servicio_1':
+                sv = int(1)
+            elif servicio == 'servicio_2':
+                sv = int(2)
+            elif servicio == 'servicio_3':
+                sv = int(3)
+            elif servicio == 'servicio_3':
+                sv = int(4)
+
+            opciones = octs.obt_edo_ranuras(sv)
+            op = ()
+            for count in opciones:
+                op += (count['control'], count['codigo'])
+            print(op)
+            n = opciones[0]
+            m = opciones[1]
+            for md in n, m:
+                print(md.keys())
+                #print(md.values())
+            return Response(opciones)
+        else:
+            form = SelectForm()
+            return render(request, 'base.config.servicio.html', {'form': form})
+    else:
+        form = SelectForm()
+        return render(request, 'base.config.servicio.html', {'form': form})
+
+
+class SELECT_VIEW(FormView):
+
+    template_name = 'base.config.servicio.html'
+    form_class = SelectForm
+    success_url = 'servicio/consult/'
+
+    def form_valid(self, form):
+        octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+        servicio = form.cleaned_data['select_serv']
+
+        if servicio == 'servicio_0':
+            sv = int(0)
+        elif servicio == 'servicio_1':
+            sv = int(1)
+        elif servicio == 'servicio_2':
+            sv = int(2)
+        elif servicio == 'servicio_3':
+            sv = int(3)
+        elif servicio == 'servicio_3':
+            sv = int(4)
+
+        opciones = octs.obt_edo_ranuras(sv)
+        opc = str(opciones)
+        return Response(opc)
+
+class index(TemplateView):
+    emplate_name = 'base.config.servicio.html'
+
+    def get(self,request):
+        form = servicioForm()
+        return render(request,self.template_name, {'form': form})
