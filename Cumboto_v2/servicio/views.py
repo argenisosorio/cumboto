@@ -46,6 +46,7 @@ from django.http import HttpResponse
 from django.views.generic.edit import FormView
 from .models import servicioModel
 from .forms import servicioForm, SelectForm
+from django.shortcuts import render_to_response
 
 ###################################################
 #             REST-FRAMEWORK CUMBOTO              #
@@ -258,7 +259,7 @@ def CONSULT_REST(request):
 
     if request.method == 'GET':
         form = SelectForm()
-        return render(request, 'base.config.servicio.html', {'form': form})
+        return render(request, 'base.consultar.servicio.html', {'form': form})
 
     if request.method == 'POST':
         form = SelectForm(request.POST)
@@ -287,13 +288,14 @@ def CONSULT_REST(request):
             for md in n, m:
                 print(md.keys())
                 #print(md.values())
-            return Response(opciones)
+            return render_to_response('base.consultar.servicio.html', {'opciones': opciones})
+            #return Response(opciones)
         else:
             form = SelectForm()
-            return render(request, 'base.config.servicio.html', {'form': form})
+            return render(request, 'base.consultar.servicio.html', {'form': form})
     else:
         form = SelectForm()
-        return render(request, 'base.config.servicio.html', {'form': form})
+        return render(request, 'base.consultar.servicio.html', {'form': form})
 
 
 class SELECT_VIEW(FormView):
@@ -320,6 +322,7 @@ class SELECT_VIEW(FormView):
         opciones = octs.obt_edo_ranuras(sv)
         opc = str(opciones)
         return Response(opc)
+
 
 class index(TemplateView):
     emplate_name = 'base.config.servicio.html'
