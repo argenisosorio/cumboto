@@ -1,0 +1,110 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+
+<script type='text/javascript'>
+$(document).ready(function() {
+
+  $('a[data-toggle=modal], button[data-toggle=modal]').click(function () {
+    var data_id = '';
+    if (typeof $(this).data('user-id') !== 'undefined') {
+      data_id = $(this).data('user-id');
+    }
+    $('#idusuario').val(data_id);
+  });
+  })
+</script>
+<script>
+$('#myModal').on('hidden', function () {
+  document.location.reload();
+})
+</script>
+
+  <div class="col-md-12 col-sm-12 col-xs-18">
+    
+      <div class="x_panel">
+        <h2>Activar y Desactivar Usuarios</h2>
+       <div class="checkbox">          
+      <div class="x_content">
+         <form action="" method="post">
+                   {% csrf_token %}
+              <table class="table table-bordered" align="center">
+                  <tr>
+                    <th>Opciones</th>
+                    <th>Usuario</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Correo</th>
+                    <th>Estatus</th>
+                  </tr>
+              {% for u in users %}
+                  {% if u.is_active%}
+                    <tr class="bg-success" > 
+		    <td>
+                        <label>
+                               <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">    
+                              <input type="checkbox" class="js-switch" checked /> Activado</a>
+                            </label>
+                        
+	
+                  {% else %}    
+                    <tr class="danger" > 
+		   <td>
+                        <label>
+                              <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">    
+                              <input type="checkbox" class="js-switch"  /> Desactivado</a>
+                            </label>
+                        
+                  {% endif%}
+                    </td>
+                    <td>{{u.username}}</td>
+                    <td>{{u.first_name}}</td>
+                    <td>{{u.last_name}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.is_active|yesno:"Activo,Inactivo"}}</td>
+              {% endfor %}
+              </table>
+        </form>
+      </div>
+      </div>
+    </div>
+  
+
+     <br><br>
+        <div align="center">
+          <p><a class="btn btn-primary" align="center" role="button" href="{% url 'home' %}">Regresar</a></p>
+        </div>
+
+
+        <!--iniciomodal--> 
+          <div class="modal fade bs-example-modal-xs" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xs">
+              <div class="modal-content">
+
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel2">Confirmación</h4>
+                </div>
+                <div class="modal-body">
+                   ¿Desea realizar el cambio de estatus? 
+                </div>
+                <form method='post' action="{% url 'usuario:changestatus' %}">
+                {% csrf_token %}
+                <input type="hidden" id="idusuario" name="idusuario"/>
+                <div class="modal-footer">
+                  <button type="button" onclick="javascript:window.location.reload()" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit"  class="btn btn-primary">Aceptar</button>
+                </div>
+               </div>
+            </div>
+          </div>
+          <!--finmodal-->  
+    </div>
+  </div>
+
+
+{% endblock %}
+
+

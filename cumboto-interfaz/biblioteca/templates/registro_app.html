@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row top_tiles" style="margin: 10px 0;">
+        <div class="col-lg-3">
+        </div>
+    <div class="col-xs-12" >
+      <div class="x_panel">
+          <div class="col-xs-6" >
+          <div class="page-header">
+              <h3 align="center">Registrar Aplicaciones</h3>
+          </div>
+          <div class="x_panel">
+          <div class="content">
+            <br><br>
+              <form method="POST" class="form-horizontal" enctype="multipart/form-data" action="">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+              <br><br>
+              <div class="actions form-actions">
+              <div align="center">
+                <a data-toggle="modal" data-target="#myModal" id="continuar" class="btn btn-primary" href="#">Registrar</a>
+              </div>
+              <br><br>
+                <div class="modal fade bs-example-modal-xs" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-xs">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2">Confirmación</h4>
+                      </div>
+                      <div class="modal-body">
+                        ¿Esta seguro(a) que desea registrar la aplicación?
+                      </div>
+                      <div class="modal-footer">
+                       <button type="submit" class="btn btn-primary">Aceptar</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </form>           
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+   </div>
+  </div>
+{% endblock %}

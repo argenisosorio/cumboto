@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+{% load static from staticfiles %}
+{% if form.errors %}
+
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+
+<p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+
+<p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Cumboto</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{% static 'vendors/css/animate.min.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form  class="form-horizontal form-label-left" name="LoginForm" action="" method="post" novalidate>
+               {% csrf_token %}
+
+              <h1>Ingresar</h2>
+                  {% if message %}
+                     {{messaje}}
+                  {%  endif %}
+              <div class="item form-group">
+
+               <input id="id_username" name="username" type="text" class="form-control col-md-5 col-xs-16" placeholder="Usuario" required="required" autofocus>
+               </div>
+              
+              <div class="item form-group" >
+                <input id="id_password" name="password" type="password" class="form-control col-md-5 col-xs-16" placeholder="Contraseña" required="required" autofocus/>
+              </div> 
+               <div>
+                <input class="btn btn-default submit" type="submit" value="Autenticarse" />
+                <a class="reset_pass" href="#">¿Olvidaste tu contraseña?</a>
+              </div>
+               <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Estas Registrado?
+                  <a href="{% url 'usuario:registro' %}" class="to_register"> Crear una cuenta de usuario </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-television"></i> Cumboto</h1>
+                  <p>©2016 Copyleft CENDITEL</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Registrarse</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Usuario" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" placeholder="Correo" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Contraseña" required="" />
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="base.html">Enviar</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Tienes tu cuenta activa?
+                  <a href="#signin" class="to_register"> Ingresar </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-television"></i> Cumboto</h1>
+                  <p>©2016 Copyleft CENDITEL</p>
+                </div>
+              </div>
+                <!-- jQuery -->
+                <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+                <!-- Bootstrap -->
+                <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+                <!-- FastClick -->
+                <script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+                <!-- NProgress -->
+                <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+                <!-- validator -->
+                <script src="{% static 'vendors/validator/validator.js' %}"></script>
+
+                <!-- Custom Theme Scripts -->
+                <script src="{% static 'build/js/custom.min.js' %}"></script>
+
+                <!-- validator -->
+                <script>
+                  // initialize the validator function
+                  validator.message.date = 'not a real date';
+
+                  // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+                  $('form')
+                    .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+                    .on('change', 'select.required', validator.checkField)
+                    .on('keypress', 'input[required][pattern]', validator.keypress);
+
+                  $('.multi.required').on('keyup blur', 'input', function() {
+                    validator.checkField.apply($(this).siblings().last()[0]);
+                  });
+
+                  $('form').submit(function(e) {
+                    e.preventDefault();
+                    var submit = true;
+
+                    // evaluate the form using generic validaing
+                    if (!validator.checkAll($(this))) {
+                      submit = false;
+                    }
+
+                    if (submit)
+                      this.submit();
+
+                    return false;
+                  });
+                </script>
+                <!-- /validator -->
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
