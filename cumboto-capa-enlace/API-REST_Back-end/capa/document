@@ -1,0 +1,66 @@
+"""
+    Función que permite enviar la lista de la data contenida del lado del servidor
+
+    @author Hugo Ramirez (hramirez at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 02-06-2016
+    @param accion_list <b>{object}</b> Objeto que obtiene la peticion listar solicita por la sala de control
+    @return Devuelve un JSON
+    """
+
+
+
+    # Clase de Prueba
+class test(CreateView):
+    model = appModel
+    form_class = appForm
+    template_name = 'bootboxjs.html'
+
+def app(request,codigo_apps):
+    var = codigo_apps
+    if request.method == 'GET':
+        return HttpResponse('result')
+
+class inicio(CreateView):
+
+    model = appModel
+    form_class = appForm
+    template_name = 'index.html'
+
+@api_view(['POST'])
+def add_app(request):
+    if request.method == 'POST':
+        form = appForm(request.POST)
+        if form.is_valid():
+            print (form.cleaned_data['codigo_app'])
+            octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
+            if(octs.check_app(form.cleaned_data['codigo_app'])) == True:
+                return Response('La Aplicacion esta Disponible en la Biblioteca de Ocumare ')
+                #reverse('index')
+            if(octs.check_app(form.cleaned_data['codigo_app'])) == False:
+                return Response('La aplicacion solicitada no existe')
+                #reverse('index')
+                #form.save()
+                #return HttpResponseRedirect(reverse('api:index'))
+
+        else:
+            form = appForm()
+            return render(request, 'index.html', {'form': form})
+
+    """def codigo_app(request):
+
+        if request.method == "POST":
+            form = appForm(request.POST)
+            print (form)
+            ###################
+            if form.is_valid():
+
+                return redirect('inicio')
+        else:
+            form = appForm()
+        return render(request, 'inicio', {'form': form})"""
+
+
+ url(r'^inicio/$',inicio.as_view(), name='index'),
+    url(r'^alert/$',test.as_view(), name='modal'),
+    url(r'^add-app/$',add_app, name='app'),

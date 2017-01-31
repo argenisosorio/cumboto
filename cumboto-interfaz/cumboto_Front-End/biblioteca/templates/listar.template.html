@@ -1,0 +1,114 @@
+{% extends "base.template.html" %}
+{% load staticfiles %}
+{% block content %}
+<script type="text/javascript">
+    $(document).ready(function() {
+
+       var info = bootbox.dialog({
+              size: '',
+              title: 'Notificacion:',
+              message: 'Seleccione haciendo click en la celda de la aplicacion a eliminar',
+              buttons: {
+                main: {
+                  label: 'Aceptar' ,
+                  className: 'btn btn-default',
+                }
+              }
+            });
+
+    var table = $('#datatable').DataTable({
+
+        "processing": true,
+        "serverSide": true,
+        "ajax": "{% url 'biblioteca:listar_data' %}"
+        });
+    
+    
+    //$('#datatable').dataTable({
+    $('#datatable')
+    .addClass('table table-striped table-bordered dt-responsive nowrap');
+        
+ 
+    $('#datatable tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+ 
+    $('#button').click( function () {
+      
+        var a = table.row('.selected').data();
+        var id = a[0]
+        var codigo = a[1]
+        var nombre = a[2]
+
+        $.ajax({url:'ajax/delete-data',
+          data:{'id': id, 'codigo': codigo, 'nombre': nombre},
+          type:'get',
+          success:function(response){
+
+            var exito = bootbox.dialog({
+              size: '',
+              title: 'Notificacion:',
+              message: response,
+              buttons: {
+                main: {
+                  label: 'Aceptar' ,
+                  className: 'btn btn-default',
+                }
+              }
+            });
+          },
+          });
+        window.location.reload();
+        //$("#datatable").empty();
+        //table.row('.selected').remove().draw( false );
+    });
+});    
+
+
+   
+
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+    </div>
+</div>
+     <div class="x_panel">
+           <div class="row">
+              <br>
+              <div class="col-md-4">
+                   <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+              </div>
+              <div class="col-md-8"></div>
+           </div><br>
+           <div class="row">
+               <div class="col-xs-1"></div>
+               <div class="col-xs-10">
+
+               <h1 align="center">Lista de Aplicaciones</h1><hr><br>
+                        
+                        <table id="datatable" cellspacing="0" width="100%" style="text-align: center;" >
+                            <thead>
+                            <tr align="center">
+                                <th style="text-align: center">id</th>
+                                <th style="text-align: center">codigo aplicacion</th>
+                                <th style="text-align: center">nombre</th>
+                                <th style="text-align: center">version</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="">
+                          <button type="button" class="btn btn-default btn-circle btn-xl" align="rigth" id="button"><i class="fa fa-trash-o"></i></button>
+                        </div>
+              </div>
+              <div class="col-xs-1"></div>
+          </div>
+    </div>
+{% endblock %}
+

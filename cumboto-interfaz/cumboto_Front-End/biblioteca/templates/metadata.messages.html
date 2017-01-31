@@ -1,0 +1,57 @@
+{% load i18n %}
+{% if metadatos %}
+      <script type="text/javascript">
+          var msg = "{{ metadatos }}";
+          var modal = bootbox.dialog({
+              message: msg,
+              title: "Metadatos-Aplicacion",
+              buttons: {
+                  success: {
+                      label: "Cerrar",
+                      className: "btn-success",
+                      callback: function() {
+
+                      }
+                  }
+              }
+          });
+          $(modal).find(".bootbox-body").addClass('text-justify');
+
+
+          var x = {{metadatos | safe }};
+          $('#metadata').click(function(){
+            var nombre = x[0].nombre
+            var id_organizacion = x[1].id_organizacion
+            var id = x[2].id
+            var version = x[3].version
+            var clase_inicial = x[4].clase_inicial
+
+            $.ajax({url:'ajax/metadatos-data',data:{'nombre': nombre, 'id_organizacion': id_organizacion, 'id': id , 'version':version, 'clase_inicial':clase_inicial},type:'get',
+              success:function(data){
+                var error = bootbox.dialog({
+                  title: 'Alertas',
+                  message: 'Exito Al Enviar Data',
+                  buttons: {
+                    main: {
+                      label: 'OK' ,
+                      className: "btn btn-primary btn-sm"
+                    }
+                  }
+                });
+              },
+              error:function(error)
+              {
+                var error = bootbox.dialog({
+                  title: 'Alertas',
+                  message: 'Error Al Enviar Data',
+                  buttons: {
+                    main: {
+                      label: 'OK',
+                      className: "btn btn-primary btn-sm"
+                    }
+                  }
+                });
+              },
+            });
+      </script>
+{% endif %}

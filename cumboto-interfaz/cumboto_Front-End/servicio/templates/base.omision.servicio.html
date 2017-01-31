@@ -1,0 +1,76 @@
+{% extends "base.template.html" %}
+{% load staticfiles %}
+{% block content %}
+<script type="text/javascript">
+     $(document).ready(function() {
+        $('#button').click( function () {
+            var combo = document.getElementById('codigo_app');
+            var selected = combo.options[combo.selectedIndex].text;
+            var cod = document.getElementById('codigo_app').value;
+            
+            $.ajax({url:'ajax/config-omision-data',
+              data:{'cod': cod},
+              type:'get',
+              success:function(response){
+
+                if (response == 'true') {
+                    msg = 'La aplicacion '+selected+' es la nueva aplicacion por omision'
+                }
+                else{
+                    if (response = 'false') {
+                        msg = 'Fallo en la configuracion'
+                    }
+                }
+
+                var exito = bootbox.dialog({
+                  size: 'small',
+                  title: 'Notificacion:',
+                  message: msg,
+                  buttons: {
+                    main: {
+                      label: 'Aceptar' ,
+                      className: 'btn btn-default',
+                    }
+                  }
+                });
+              },
+              });
+        });
+});
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+    </div>
+</div>
+<div class="x_panel">
+        <div class="row">
+                <br>
+                <div class="col-md-4">
+                   <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+                </div>
+                <div class="col-md-8"></div>
+           </div>
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-8" style="">
+                    <div class="page-header">
+                    <h1>Configurar Aplicación por Omisión</h1>
+                        <h4 align="center">Seleccione una Aplicación</h4>
+                    </div>
+                    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off" id="myOnision">
+                    {% csrf_token %}
+                    <div class="form-group">
+                    {{ form.codigo_app }}
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-default btn-circle btn-xl" align="right" id="button"><i class="fa fa-wrench"></i></button>
+                    </div>
+                    </form>
+               
+           </div>
+                <div class="col-xs-2"></div>
+            </div>
+     
+</div>
+{% endblock %}

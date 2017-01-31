@@ -1,0 +1,191 @@
+{% extends "base.template.html" %}
+{% load static from staticfiles %}
+{% block content %}
+<script type="text/javascript">
+
+  $(document).ready(function() {
+     var info = bootbox.dialog({
+              size: '',
+              title: 'Notificacion:',
+              message: 'Consulte el servicio que desee y para detener selecione con un click y presione el boton detener',
+              buttons: {
+                main: {
+                  label: 'Aceptar' ,
+                  className: 'btn btn-default',
+                }
+              }
+            });
+  });
+
+    function obt_ranuras(){
+              
+                serv = document.getElementById('servicio').value;
+                $.ajax({
+                url: "{% url 'servicios:ranuras_data' %}",
+                type: 'GET',
+                data: {'servicio': serv},
+
+                success: function (response) {
+
+
+                        if (response.length == 2) {
+                            
+                            var x = response[0]
+                            var y = response[1]
+
+                            // Ranura 0
+                            var ranura_0 = x[0] 
+                            var aplicacion_0 = x[1]
+                            var modalidad_0 = x[2]
+                            var serv_0 = x[3]
+
+                            // Ranura 1
+                            var ranura_1 = y[0] 
+                            var aplicacion_1 = y[1]
+                            var modalidad_1 = y[2]
+                            var serv_1 = y[3]
+                            
+
+                            var dataSet = [[serv_0, ranura_0 , aplicacion_0, modalidad_0],[serv_1, ranura_1 , aplicacion_1, modalidad_1]]
+
+                            table = $('#data').DataTable({
+                            data: dataSet,
+                            columns: [
+                                { title: "Servicio:" },
+                                { title: "Ranura:" },
+                                { title: "Aplicacion:" },
+                                { title: "Modalidad:" }
+                            ]
+                            });
+                            $('#data')
+                            .addClass('table table-striped table-bordered dt-responsive nowrap');
+        
+ 
+                            $('#data tbody').on( 'click', 'tr', function () {
+                                if ( $(this).hasClass('selected') ) {
+                                    $(this).removeClass('selected');
+                                }
+                                else {
+                                    table.$('tr.selected').removeClass('selected');
+                                    $(this).addClass('selected');
+                                }
+                            });
+ 
+                            $('#button').click( function () {
+                                var a = table.row('.selected').data();
+                                var serv = a[0]
+                                var app = a[1]
+                                
+                                $.ajax({url:'ajax/detener-data',
+                                data:{'serv': serv, 'app': app},
+                                type:'get',
+                                success:function(response){
+
+                                  if (response == 'None') {
+                                    msg = 'La aplicacion fue detenida con exito'
+                                  }
+                                  else{
+                                    msg = response
+                                  }
+
+                                  var exito = bootbox.dialog({
+                                    id: 'bootbox',
+                                    size: 'small',
+                                    title: 'Notificacion:',
+                                    message: msg,
+                                    buttons: {
+                                      main: {
+                                        label: 'Aceptar' ,
+                                        className: 'btn btn-default',
+                                      }
+                                    }
+                                  });
+                                   //$('#bootbox').on('hide', function () {
+                                    //window.location.reload(true);
+                                    //})
+                                  //window.location.reload(true);
+                                },
+                                });
+                                window.location.reload();
+                                //document.location.href="{% url 'servicios:rest_consulta' %}";
+                                //table.row('.selected').remove().draw( false );
+                              });
+                            //$("#data").dataTable().fnDestroy();
+                            //table.destroy();
+
+                        };
+
+                        if (response == false) {
+
+                              
+                                var error = bootbox.dialog({
+                                    size: 'small',
+                                    title: 'Notificacion:',
+                                    message: '<i class="fa fa-frown-o"></i>'+' Servicio inactivo',
+                                    buttons: {
+                                      main: {
+                                        label: 'Aceptar',
+                                        className: "btn btn-default"
+                                      }
+                                    }
+                                  });
+                                $("#data").empty();
+                    };
+
+                    }   
+                });
+            }
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+    </div>
+</div>
+<div class="x_panel">
+        <div class="row">
+                <br>
+                <div class="col-md-4">
+                   <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+                </div>
+                <div class="col-md-8"></div>
+           </div>
+            <div class="row">
+                <div class="col-xs-3"></div>
+                <div class="col-xs-6" style="">
+                    <div class="page-header">
+                    <h1>Consulta de Servicios</h1>
+                        <h4 align="center">Consultar servicios en transmisión</h4>
+                    </div>
+                <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <td>{{ form.select_serv }}</td>
+                        </div>
+                     <div class="form-group">
+                            <input type="button" class="btn btn-default" name="consulta" id="consulta" value="Consultar" title="Detener servicio" onclick="obt_ranuras()">
+                        </div>
+                </form>
+                </div>
+                <div class="col-xs-3"></div>
+                </div>
+                <div class="row">
+                <div class="col-xs-1"></div>
+                <div class="col-xs-10">
+                            <div class="form-group" align="left">
+                               <h2>Tabla de Datos</h2>
+                               <hr>
+                            </div>
+
+                    <div class="form-group">
+                        <table cellspacing="0" width="100%" style="text-align: left;" id="data">
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-default btn-circle btn-xl" id="button"><i class="fa fa-stop"></i></button>
+                </div>
+                <div class="col-xs-1"></div>
+                </div>
+            
+         
+     <br><br><br><br><br><br>
+</div>
+{% endblock %}

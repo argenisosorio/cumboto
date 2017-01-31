@@ -1,0 +1,290 @@
+os.system('rsync -va /home/lcolina/50x.html -e "sshpass -p hacking007 ssh cenditel@192.168.12.197:/home/"')
+
+
+"""app_ruta = name
+                                    app_cod = os.path.basename(metadata)
+                                    print(app_ruta)
+                                    print(app_cod)
+                            
+                                    directorio = os.path.isdir(app_ruta)
+                                    validar = re.match('[0-9A-Fa-f]{12}', app_cod)
+                                    metadatos = os.path.isfile(os.path.join(app_ruta, 'metadatos.conf'))
+                                    aplicacion = os.path.isdir(os.path.join(app_ruta, 'aplicacion'))
+                            
+                                    if directorio and validar and metadatos and aplicacion:
+                                        form = registrar_form
+                                        message_error = 'El archivo metadatos.conf existe'
+                                        return render_to_response(self.template_name, {'form': form , 'message_error': message_error})
+                                    else:
+                                        
+                                        form = registrar_form
+                                        message_error = 'El archivo metadatos.conf no existe'
+                                        return render_to_response(self.template_name, {'form': form , 'message_error': message_error})"""
+                
+            #shutil.copytree(app_ruta, os.path.join(self.app_biblio, app_cod))
+            #return True
+
+
+            """### Ruta ###
+                                    os.chdir('/tmp/')
+                                    ruta = os.getcwd()
+                                    openfile = ruta+'/'+namefile
+                                    print(openfile)
+                                    gpg = GPG()
+                                    archivo = open(openfile,"rb")
+                                    data = archivo.read()
+                                    #print(data)
+                                    datacifrada = gpg.encrypt(data)
+                                    #print(datacifrada)
+                                    archivo.close()
+
+os.system('rsync -va /home/lcolina/50x.html -e "sshpass -p hacking007 ssh cenditel@192.168.12.197:/home/"')
+                                    """
+
+ """print(name)
+                                                metadatos = os.path.isfile(os.path.join(name, 'metadatos.conf'))
+                                                print(metadatos)
+                                                aplicacion = os.path.isdir(os.path.join(name, 'aplicacion'))
+                                                print(aplicacion)
+                                                if (metadatos != True and aplicacion != True):
+                                                    form = registrar_form
+                                                    msg_error = 'El archivo No cumple con los requeisitos'
+                                                    return render(self.request, self.template_name, {'msg_error': msg_error, 'form': form})"""
+
+            #validar = re.match('[0-9A-Fa-f]{12}', metadata)
+            #metadatos = os.path.isfile(os.path.join(metadata, 'metadatos.conf'))
+            #aplicacion = os.path.isdir(os.path.join(metadata, 'aplicacion'))
+            #if not(metadatos and aplicacion):
+                #form = registrar_form
+                #msg_error = 'El archivo No cumple con los requeisitos'
+                #return render(self.request, self.template_name, {'msg_error': msg_error, 'form': form})
+            #return HttpResponseRedirect(urlresolvers.reverse("biblioteca:subir"),{'msg_error': msg_error})
+            #raise ValidationError("El archivo No cumple con los requeisitos")
+
+
+
+
+
+
+
+             """def zip_and_metadatos(self):
+                  
+                  namefile = self.cleaned_data['cargar_app'].name
+                  #app_cod = os.path.basename(name)
+                  #directorio = os.path.isdir(namefile)
+                  validar = re.match('[0-9A-Fa-f]{12}', app_cod)
+                  #metadatos = os.path.isfile(os.path.join(namefile, 'metadatos.conf'))
+                  #aplicacion = os.path.isdir(os.path.join(namefile, 'aplicacion'))
+                  if not (validar):
+                    raise ValidationError("El archivo No cumple con los requeisitos")"""
+
+ try:
+
+
+ except zipfile.BadZipfile, err:
+            form = registrar_form
+            msg_error = 'El archivo no es un .zip'
+            return render(self.request, self.template_name, {'msg_error': msg_error, 'form': form})
+
+
+
+
+
+
+            # -*- coding: utf-8 -*-
+import os
+import shutil
+#from gnupg import *
+import gnupg
+
+FilePath =('/tmp/'+'0000000A0020.zip')
+absoluta = os.path.abspath(FilePath)
+print(absoluta)
+#gpg = GPG()
+#gpg = gnupg.GPG()
+gpg = gnupg.GPG(binary='/usr/bin/gpg', homedir='./keys', keyring='pubring.gpg', secring='secring.gpg')
+archivo = open(absoluta,"rb")
+data = archivo.read()
+#print(data)
+datacifrada = gpg.encrypt(data)
+print(datacifrada)
+archivo.close()
+
+
+
+
+<div class="item form-group">
+                  {{ form.username }}
+                  {% if form.username.errors %}
+                  <div class="oaerror danger">
+                  <strong>Error: </strong>El usuario indicado no existe
+                  </div>
+                  {% endif %}
+               </div>
+
+ <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form  class="form-horizontal form-label-left" name="LoginForm" action="" method="post" >
+               {% csrf_token %}
+
+              <h1>Iniciar Sesion</h1>
+              <div class="item form-group">
+               {{ form.username }}
+               </div>
+               {% if form.username.errors %}
+               <div class="oaerror danger">
+               <strong>Error: </strong>El usuario indicado no existe
+               </div>
+               {% endif %}
+    
+              <div class="item form-group" >
+                <input id="id_password" name="password" type="password" class="form-control col-md-5 col-xs-16" placeholder="Contraseña" required="required" title="Ingrese su contraseña" autofocus/>
+              </div> 
+               <div aling="center">
+                <input class="btn btn-default submit" type="submit" style="margin-left: 115px" value="Autenticarse" />
+              </div>
+               <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">
+                  <a href='{% url "usuario:registro" %}' class="to_register">Crear cuenta</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+ def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        if not user or not user.is_active:
+            raise forms.ValidationError("Lo sentimos, El usuario o la contraseña no son válidos. Vuelve a intentarlo.")
+        return self.cleaned_data
+
+
+
+
+
+        temp = tempfile.TemporaryFile()
+        archive = zipfile.ZipFile(temp, 'w', zipfile.ZIP_DEFLATED)
+        for index in range(10):
+            filename = zipfile # Select your files here.
+            archive.write(filename, 'file%d.txt' % index)
+            archive.close()
+            wrapper = FileWrapper(temp)
+            response = HttpResponse(wrapper, content_type='application/zip')
+            response['Content-Disposition'] = 'attachment; filename=test.zip'
+            response['Content-Length'] = temp.tell()
+            temp.seek(0)
+            ezip = requests.get(settings.URL_API_REST+'api_rest/file/'+response+'?format=json')
+            return cargar_app
+
+# views.py
+#class FileUploadView(APIView):
+    #parser_classes = (FileUploadParser,)
+
+    #def put(self, request, filename, format=None):
+        #file_obj = request.data['file']
+        # ...
+        # do some stuff with uploaded file
+        # ...
+        #return Response(status=204)
+
+ ## TEST ###
+            """files = open(absoluta, "rb")
+                                                sock = socket.socket()
+                                                sock.connect(("127.0.0.1", 8888))
+                                                while True:
+                                                    chunk = files.read(65536)
+                                                    if not chunk:
+                                                        break  # EOF
+                                                    sock.sendall(chunk)"""
+            
+            #r = requests.get(zip_file_url)
+            #z = zipfile.ZipFile(io.BytesIO(r.content))
+            #z.extractall()
+            #url = settings.URL_API_REST+'api_rest/file/'
+            #files = {'file': open(absoluta, 'rb' )}
+            #r = requests.post(url, files=files)
+
+
+            #print(absoluta)
+            #with open(absoluta, "rb", buffering=-1) as files:
+                #gpg = gnupg.GPG()
+                #encoded = gpg.encrypt(file_z.read())
+                #datason = json.dumps(encoded)
+                #print(file_z)
+            #files = {'file': open(absoluta, 'rb+')}
+
+            ### Almaceno en file en la memoria ###
+            #files = open(absoluta, 'rb+')
+            #read = files.read()
+            #files.close()
+            
+            ### Generar PAss ###
+            #gpg = gnupg.GPG()
+            #input_data = gpg.gen_key_input(key_type="RSA", key_length=1024)
+            #key = gpg.gen_key(input_data)
+
+            ### Convierto la pass en obejto pass con la libreria ###
+            #key = 'qscg7536'
+            #keypass = des(key)
+            #obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
+
+            ### Encripto ###
+            #Encripto = obj.encrypt(read)
+            
+            #print(type(Encripto))
+            #print(str(Encripto))
+            #print(len(Encripto))
+
+            #encode = Charset.forName("UTF-8").encode(Encripto)
+            #encode =  Encripto.encode(encoding='UTF-8',errors='strict')
+            #print(encode)
+            #files = open(absoluta, 'wb+')
+            #files.write(Encripto)
+            #print(type(files))
+            #files.close()
+
+            ### Envio el File Encriptado ###
+            #ezip = requests.get(settings.URL_API_REST+'api_rest/file/'+Encripto+'?format=json')
+            #r = requests.post(settings.URL_API_REST+'api_rest/file', files=files)
+            #print(r.text)
+            #encoded = base64.b64decode(files)
+            #print(encoded)
+            #print(type(encoded))
+
+                #restfile = ezip.content
+                #print(restfile)
+                #datacifrada = gpg.encrypt(file_z.read())
+                #print(datacifrada)
+                #print(encoded)
+                #decoded = base64.b64decode(encoded)
+                #print(decoded)
+            #print(absoluta)
+            #print(key)
+            #print(type(key))
+            #archivo = open(absoluta,"rb")
+            #datacifrada = gpg.encrypt(archivo)
+            #print(datacifrada)
+            #archivo.close()
+
+
+def send_zipfile(self):
+
+      zipfile = self.cleaned_data['cargar_app']
+      temp = tempfile.TemporaryFile()
+      archive = zipfile.ZipFile(temp, 'w', zipfile.ZIP_DEFLATED)
+      for index in range(10):
+          filename = zipfile # Select your files here.                           
+          archive.write(filename, 'file%d.txt' % index)
+      archive.close()
+      wrapper = FileWrapper(temp)
+      response = HttpResponse(wrapper, content_type='application/zip')
+      response['Content-Disposition'] = 'attachment; filename=test.zip'
+      response['Content-Length'] = temp.tell()
+      temp.seek(0)
+      ezip = requests.get(settings.URL_API_REST+'api_rest/file/'+response+'?format=json')
+      return cargar_app

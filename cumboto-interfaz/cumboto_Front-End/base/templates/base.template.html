@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html lang="es">
+{% include 'base.head.template.html' %}
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="{% url 'inicio' %}" class="site_title"><img src="{% static 'img/logo.png' %}"><span> umboto</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-users"></i> Gestion de Usuarios <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#"><i class="fa fa-user"></i>Perfil</a></li>
+                      <li><a><i class="fa fa-wrench"></i>Opciones<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                          {% if user.is_superuser %}
+                            <li class="sub_menu"><a href="{% url 'usuario:adminuser' %}">Control de usuarios</a></li>
+                           {% endif %}
+                            <li><a href="{% url 'usuario:editar_contrasena' %}">Cambiar Contraseña</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i>Biblioteca<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'biblioteca:subir' %}"><i class="fa fa-edit"></i>Registrar Aplicaciones</a></li>
+                      <li><a href="{% url 'biblioteca:listar' %}"><i class="fa fa-list-alt"></i>Listar Aplicaciones</a></li>
+                       </ul>
+                  </li>
+                  <li><a><i class="fa fa-cogs"></i>Servicios<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'servicios:global' %}"><i class="fa fa-cog"></i>Configurar Servicios</a></li>
+                      <li><a href="{% url 'servicios:app_omision' %}"><i class="fa fa-cogs"></i>Configurar Aplicacion</a></li>
+                      <li><a href="{% url 'servicios:rest_consulta' %}"><i class="fa fa-eye"></i>Consultar Servicios</a></li>
+                       </ul>
+                  </li> 
+                  <li><a href="#"><i class="fa fa-calendar"></i>Agenda<span class="fa fa-chevron-down"></span></a>
+                  </li>
+          				{% if user.is_authenticated %}
+          					<li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out"></i>Cerrar Sesión</a></li>
+        				  {% endif %}
+            
+                </ul>
+                
+              </div>
+            </div>
+            <!-- /sidebar menu -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                     {{ user.username }}  <i  class="fa fa-user" ></i> <span class="fa fa-angle-down"></span>
+                  </a>
+              
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                 {% if user.is_authenticated %}
+      					<li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</a></li>
+      			{% endif %}
+                  </ul>
+              
+                </li>
+
+                </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          {% block content %}
+            
+          {% endblock %} 
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+</body>
+{% include 'base.footer.template.html' %}
+</html>

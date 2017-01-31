@@ -1,0 +1,87 @@
+{% extends "base.template.html" %}
+{% load staticfiles %}
+{% block content %}
+<script type="text/javascript">
+    
+    function New_status(){
+
+            var serv = document.getElementById('servicio').value;
+            var app = document.getElementById('ranura').value;
+            var cod = document.getElementById('codigo_app').value;
+            var ctl = document.getElementById('modalidad').value;
+
+            $.ajax({
+                url: 'ajax/correr-data',
+                type: 'GET',
+                data: {'serv': serv, 'app': app, 'cod': cod, 'ctl': ctl },
+                success: function (response) {
+
+                    var exito = bootbox.dialog({
+                    size: 'small',
+                    title: 'Notificacion:',
+                    message: 'Response: '+response,
+                    buttons: {
+                      main: {
+                        label: 'Aceptar' ,
+                        className: "btn btn-default"
+                      }
+                    }
+                  });
+                  document.getElementById("myServ").reset();
+                    
+                }
+            });
+        };
+</script>
+<div class="page-title">
+    <div class="title_left">
+        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+    </div>
+</div>
+     <div class="x_panel">
+           <div class="row">
+              <br>
+              <div class="col-md-4">
+                   <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+              </div>
+              <div class="col-md-8"></div>
+           </div><br>
+           <div class="row">
+               <div class="col-xs-3"></div>
+               <div class="col-xs-6">
+
+               <h1 align="center">Configuración de Servicios</h1><hr><br>
+               <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off" id="myServ">
+                    {% csrf_token %}
+                        <td>{{ form.servicio }}</td>
+                        <table id="servicios" class="table table-striped table-bordered" cellspacing="0" width="100%" style="text-align: center;">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center">Ranura</th>
+                                <th style="text-align: center">Aplicación</th>
+                                <th style="text-align: center">Modalidad</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                {% block form_inputs %}
+                                <td>{{ form.ranura }}</td>
+                                <td>{{ form.codigo_app }}</td>
+                                <td>{{ form.modalidad }}</td>
+                                {% endblock %}
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group" align="right">
+                            <input type="button" class="btn btn-default" value="Configurar" onclick="New_status()">
+                        </div>
+                </form>
+              </div>
+              <div class="col-xs-3"></div>
+          </div>
+
+            
+    </div>
+{% endblock %}
+
+
