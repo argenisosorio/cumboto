@@ -42,7 +42,7 @@ Lo anterior solicitara la contraseña de administrador del sistema operativo par
 Una vez autenticados como usuario root del sistema operativo, mostrará en la consola el símbolo "#" que identifica que el usuario actual es root, esto permitirá instalar en el sistema operativo los requerimientos de funcionamiento del sistema para lo cual se ejecutarán los comandos detallados a continuación:
 
 -Instalación de paquetes del sistema operativo
-# apt-get install postgresql install postgresql-server-dev-all python3.4 python3-pip
+# apt-get install postgresql postgresql-server-dev-all python3.4 python3-pip
 
 -Instalación de paquetes del sistema operativo necesarios para la compilación de los requerimientos
 # apt-get install build-essential autoconf libtool pkg-config python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python3.4 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 python3.4-dev libpq-dev
