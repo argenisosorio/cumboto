@@ -46,7 +46,7 @@ Una vez autenticados como usuario root del sistema operativo, mostrará en la co
 
 __Instalación de paquetes del sistema operativo__
 ```
-# apt-get install postgresql install postgresql-server-dev-all python3.4 python3-pip
+# apt-get install postgresql postgresql-server-dev-all python3.4 python3-pip
 ```
 
 __Instalación de paquetes del sistema operativo necesarios para la compilación de los requerimientos__
