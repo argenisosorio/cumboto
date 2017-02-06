@@ -52,7 +52,7 @@ Una vez autenticados como usuario root del sistema operativo, mostrará en la co
 
 Esto ejecutara los distintos procesos de instalación sobre los requerimientos del sistema.
 
-Posteriormente se debe crear la base de datos del CUMBOTO-V2 y el correspondiente usuario que tendrá los privilegios necesarios para interactuar con la misa, esto se hace de la siguiente forma:
+Posteriormente se debe crear la base de datos del CUMBOTO-V2 y el correspondiente usuario que tendrá los privilegios necesarios para interactuar con la misma, esto se hace de la siguiente forma:
 
 -Acceso al usuario postgres
 # su postgres
@@ -94,7 +94,7 @@ $ python manage.py runserver
     
 Lo anterior ejecutará el servidor de desarrollo de django bajo la URL [http://localhost:8000](http://localhost:8000), para lo cual deberemos acceder a un navegador web y escribir dicha dirección URL.
 
-### Documentación del código ###
+### Documentación del código fuente ###
 
 Para acceder a la documentación del sistema, en donde se especifiquen las clases, funciones, atributos y métodos utilizados en la aplicación, debe abrir cada archivo .py donde el mismo presentara la descripcion que corresponda.
 
