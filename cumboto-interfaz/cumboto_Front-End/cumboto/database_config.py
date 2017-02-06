@@ -1,4 +1,5 @@
-# coding=utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 DATABASES_CONFIG = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
