@@ -103,7 +103,7 @@ Para acceder a la documentación del sistema, en donde se especifiquen las clase
 1-) Modifica el archivo settings.py con los datos de la base de datos a utilizar mas la variable URL_API_REST con la direccion ip y el puerto por el cual el api estara en ejecucion. URL_API_REST =  http://localhost:8888
 
 2-) Ejecuta el comando para crear las migraciones de los modelos de datos:
-$ python manage.py migrate 
+$ python manage.py migrate
 
 3-) Ejecuta el servidor de desarrollo:
 $ python manage.py runserver

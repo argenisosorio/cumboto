@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^$',inicio, name='inicio'),
     url(r'^cumboto/', include('usuario.urls')),
     url(r'^cumboto/', include('biblioteca.urls', namespace='biblioteca')),
-    url(r'^cumboto/', include('servicio.urls', namespace='servicios')),
+    #url(r'^cumboto/', include('servicio.urls', namespace='servicios')),
     #url(r'^', include('agenda.urls')),
     url(r'^cumboto/', include('django.contrib.auth.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
