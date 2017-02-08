@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 from base.views import inicio
 
 urlpatterns = [
-    url(r'^cumboto/admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^cumboto/', include('base.urls', namespace='base', app_name='base')),
     url(r'^$',inicio, name='inicio'),
     url(r'^cumboto/', include('usuario.urls')),
