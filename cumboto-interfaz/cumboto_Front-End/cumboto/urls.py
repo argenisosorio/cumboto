@@ -8,6 +8,7 @@ from django.views.static import serve
 from django.conf.urls.static import static
 from base.views import inicio
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^cumboto/', include('base.urls', namespace='base', app_name='base')),

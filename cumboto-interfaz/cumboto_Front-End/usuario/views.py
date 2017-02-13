@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -17,39 +18,33 @@ from django.contrib import messages
 import logging
 logger = logging.getLogger("usuario")
 
+
 def acceso(request):
-   
-    form = AuthenticationForm()
-
-
-    if request.method == "POST":
-
-        username = request.POST.get('username')
-        if not User.objects.filter(username=username):
-            messages = 'Lo sentimos, El usuario o la contraseña no son válidos. Vuelve a intentarlo.'
-            return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
-        
-        form = AuthenticationForm(data=request.POST)
-
-        if form.is_valid():
-
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-
-            usuario = authenticate(username=username, password=str(password))
-
-            if usuario is not None:
-                login(request, usuario)
-                usr = User.objects.get(username=username)
-                usr.save()
+    """
+    Función que gestiona la autenticación de los usuarios, maneja estatus de no logeado, inactivo en espera de activación y sin usuario creado.
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 13-02-2017
+    """
+    if not request.user.is_anonymous():
+        return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        if form.is_valid:
+            usuario = request.POST['username']
+            clave = request.POST['password']
+            acceso = authenticate(username=usuario, password=clave)
+            if acceso is not None:
+                if acceso.is_active:
+                    login(request, acceso)
+                    return render_to_response('home.template.html',context_instance=RequestContext(request))
+                else:
+                    messages = 'Lo sentimos, este usuario está en espera de activación'
+                    return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
             else:
-                messages = 'Lo sentimos, El usuario o la contraseña no son válidos. Vuelve a intentarlo.'
+                messages = 'Lo sentimos, el usuario o la contraseña no son válidos. Vuelve a intentarlo.'
                 return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
-                #logger.error(str(_("Error al autenticar el usuario [%s]") % username))
-
-            logger.info(str(_("Acceso al sistema por el usuario [%s]") % username))
-            return HttpResponseRedirect(urlresolvers.reverse("base:inicio"))
-
+    else:
+        form = AuthenticationForm()
     return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
 
 
@@ -74,6 +69,7 @@ class registro_usuario_view(FormView):
     def form_valid(self, form):
         user = form.save()
         return super(registro_usuario_view, self).form_valid(form)
+
 
 #Cambiar estatus de los usuarios
 def changestatus(request):
@@ -111,6 +107,7 @@ def update_profile(request):
         user_form = UserForm(instance=request.user)
         profile_form = PerfilForm(instance=request.user.profile)
     return render(request, 'perfil.html', {'user_form': user_form, 'profile_form': profile_form}) 
+
 
 def editar_contrasena(request):
     if request.method == 'POST':
