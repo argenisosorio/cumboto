@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core import urlresolvers
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 import logging
 logger = logging.getLogger("usuario")
 
@@ -68,7 +69,8 @@ class registro_usuario_view(FormView):
     
     def form_valid(self, form):
         user = form.save()
-        return super(registro_usuario_view, self).form_valid(form)
+        messages = '¡Registro exitoso!, debe esperar la activación de su cuenta'
+        return render_to_response('base.login.html', {'messages': messages})
 
 
 #Cambiar estatus de los usuarios
