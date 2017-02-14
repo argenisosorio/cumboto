@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^login/$', views.acceso, name='acceso'),
 	#url(r'^login/$', views.login_view, name='login'),
 	url(r'^registro/$', views.registro_usuario, name="registro"),
+	url(r'^profile/$', views.Profile, name='perfil'),
 	url(r'^logout/$', views.logout_view, name="logout"),
     url(r'^adminuser/$', login_required(useractive), name='adminuser'),
     url(r'^changestatus/', login_required(changestatus), name='changestatus'),
