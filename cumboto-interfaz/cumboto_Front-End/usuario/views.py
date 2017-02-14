@@ -62,15 +62,22 @@ def useractive(request):
     return render_to_response('admin.template.html', {"users": users},context_instance=RequestContext(request))
 
 
-class registro_usuario_view(FormView):
-    template_name = 'registro.html'
-    form_class = UserForm
-    success_url = reverse_lazy('login')
-    
-    def form_valid(self, form):
-        user = form.save()
-        messages = '¡Registro exitoso!, debe esperar la activación de su cuenta'
-        return render_to_response('base.login.html', {'messages': messages})
+def registro_usuario(request):
+    """
+    Función que permite crear usuarios del sistema, en espera de activación.
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 14-02-2017
+    """
+    usuario = request.user
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            nuevo_usuario = form.save()
+            messages = '¡Registro exitoso!, debe esperar la activación de su cuenta'
+            return render_to_response('base.login.html', {'messages': messages}, context_instance=RequestContext(request))
+    args = {}
+    args['form'] = UserForm
+    return render(request, 'registro.html', args)
 
 
 #Cambiar estatus de los usuarios
