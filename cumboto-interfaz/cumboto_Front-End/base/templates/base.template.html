@@ -39,10 +39,10 @@
                   </li>
                   <li><a><i class="fa fa-cogs"></i>Servicios<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#"><i class="fa fa-cog"></i>Configurar Servicios</a></li>
-                      <li><a href="#"><i class="fa fa-cogs"></i>Configurar Aplicacion</a></li>
-                      <li><a href="#"><i class="fa fa-eye"></i>Consultar Servicios</a></li>
-                       </ul>
+                      <li><a href="{% url 'servicios:global' %}"><i class="fa fa-cog"></i>Configurar Servicios</a></li>
+                      <li><a href="{% url 'servicios:app_omision' %}"><i class="fa fa-cogs"></i>Configurar Aplicacion</a></li>
+                      <li><a href="{% url 'servicios:rest_consulta' %}"><i class="fa fa-eye"></i>Consultar Servicios</a></li>
+                    </ul>
                   </li> 
                   <li><a href="#"><i class="fa fa-calendar"></i>Agenda<span class="fa fa-chevron-down"></span></a>
                   </li>
