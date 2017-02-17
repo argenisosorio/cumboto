@@ -167,11 +167,21 @@ LOGS_PATH = ''
 
 ## Registro de mensajes al usuario
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-
+"""
+# Configuración de variables para el envío de correo electrónico
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'soporte.cumboto@gmail.com'
+EMAIL_HOST_PASSWORD = 'cumboto2017'
+EMAIL_FROM = EMAIL_HOST_USER
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+"""
 # Configuración de variables para el envío de correo electrónico
 ## Nombre del Servidor de correo SMTP
 EMAIL_HOST = 'localhost'
 ## Puerto del Servidor de correo SMTP
 EMAIL_PORT = 25
 ## Dirección de correo electrónico de quien envía
-EMAIL_FROM = ''
+EMAIL_FROM = 'yibarguen@cenditel.gob.ve'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
