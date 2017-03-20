@@ -16,6 +16,10 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.core import urlresolvers
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.template import loader, Context
 import logging
 logger = logging.getLogger("usuario")
 
@@ -56,12 +60,6 @@ def logout_view(request):
     return redirect(reverse('login'))
 
 
-def useractive(request):
-
-    users = User.objects.order_by('-pk')
-    return render_to_response('admin.template.html', {"users": users},context_instance=RequestContext(request))
-
-
 def registro_usuario(request):
     """
     Función que permite crear usuarios del sistema, en espera de activación.
@@ -90,13 +88,23 @@ def Profile(request):
     user = request.user
     return render_to_response('user_profile.html', {'user':user}, context_instance=RequestContext(request))
 
+        
+def useractive(request):
+
+    users = User.objects.order_by('-pk')
+    return render(request, 'admin.template.html', {"users": users})
 
 #Cambiar estatus de los usuarios
 def changestatus(request):
+    """
+    Funcion que activa, desactiva usuario y envia correo de confirmación
+    Autor: Yngris Ibarguen (yibarguen@cenditel.gob.ve)
+    Fecha: 2016
+    Modificado: 2017
+    """
     if request.method == 'POST':
         #obtengo el id del usuario 
-        usuario = request.POST['idusuario'] 
-        print (usuario)
+        usuario = request.POST['idusuario']
         try:
             Usuario = User.objects.get(pk=usuario)
         except User.DoesNotExist:
@@ -106,7 +114,24 @@ def changestatus(request):
                 Usuario.is_active = False
             else:
                 Usuario.is_active = True
-            Usuario.save()
+            dat_user = Usuario
+            dat_user.save()
+            
+            if Usuario.is_active:
+                email_subject = 'Cuenta activada'
+                to_email = dat_user.email
+                email_body = loader.get_template('mensaje-activacion.html').render(dict({'dat_user': dat_user}))
+                send_mail(email_subject, email_body, settings.EMAIL_HOST_USER,
+                [to_email], fail_silently=False)
+                validate_email(to_email)
+            else:
+                email_subject = 'Cuenta desactivada'
+                to_email = dat_user.email
+                email_body = loader.get_template('mensaje-desactivacion.html').render(dict({'dat_user': dat_user}))
+                send_mail(email_subject, email_body, settings.EMAIL_HOST_USER,
+                [to_email], fail_silently=False)
+                validate_email(to_email)
+
     return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
 
@@ -135,9 +160,9 @@ def editar_contrasena(request):
         if form.is_valid():
             request.user.password = make_password(form.cleaned_data['password'])
             request.user.save()
-            messages.success(request, 'La contraseña ha sido cambiado con exito!.')
-            messages.success(request, 'Es necesario introducir los datos para entrar.')
-            return redirect(reverse('base:inicio'))
+            messages = '¡La contraseña ha sido actualizada con exito!'
+            return render(request, 'base.login.html', {'messages': messages}, context_instance=RequestContext(request))
     else:
-        form = EditarContrasenaForm()
-    return render(request, 'base.password.html', {'form': form}) 
+        args = {}
+        args['form'] = EditarContrasenaForm
+    return render(request, 'base.password.html', args)
