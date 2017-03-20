@@ -30,16 +30,23 @@ class servicioForm(ModelForm):
     )
 
     ### No siempre las ranuras son uno y dos mejorar el metodo###
+    ### FALTA FILTRAR POR EL SERVICIO SELECCIONADO PARA QUE APAREZCA LAS RANURAS ASIGNADA A ESE SERVICIO, SI COMO ESTA LISTAS LAS RANURAS DE TODOS LOS SERVICIOS, QUE TRAE EL DECODE_DATA)
     ranuras = ()
     for i in decode_data:
-        if i['na'] == 2:
-            ranuras = ('', _("Seleccione...")),\
-           ('0', _("Ranura 0")),\
-           ('1', _("Ranura 1")),\
-
-        if i['na'] == 1:
-            ranuras = ('', _("Seleccione...")),\
-           ('0', _("Ranura 0")),\
+        print decode_data
+        r = i['na']
+        for j in range(r):
+               ranuras +=('%s' % j, _('Ranura %s' % j )),
+#               ranuras += ('', _("Seleccione...")),\
+#               ('%s' % j, _('Ranura %s' % j ))
+#        if i['na'] == 2:
+#            ranuras = ('', _("Seleccione...")),\
+#           ('0', _("Ranura 0")),\
+#           ('1', _("Ranura 1")),\
+#
+#        if i['na'] == 1:
+#            ranuras = ('', _("Seleccione...")),\
+#           ('0', _("Ranura 0")),\
 
     ranura = forms.ChoiceField(
         choices=ranuras,

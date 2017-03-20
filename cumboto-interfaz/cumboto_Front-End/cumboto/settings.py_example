@@ -166,8 +166,9 @@ LOGIN_REDIRECT_URL = 'inicio'
 LOGS_PATH = ''
 
 ## Registro de mensajes al usuario
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-"""
+#MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 # Configuración de variables para el envío de correo electrónico
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -184,5 +185,6 @@ EMAIL_HOST = 'localhost'
 ## Puerto del Servidor de correo SMTP
 EMAIL_PORT = 25
 ## Dirección de correo electrónico de quien envía
-EMAIL_FROM = 'yibarguen@cenditel.gob.ve'
+EMAIL_FROM = 'aosorio@cenditel.gob.ve'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+"""
