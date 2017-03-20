@@ -6,16 +6,17 @@ from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader, Context,  RequestContext
 from django.contrib.auth.models import User
-from .forms import UserForm, LoginForm, EditarEmailForm, EditarContrasenaForm
+from .forms import UserForm, LoginForm, EditarEmailForm, EditarContrasenaForm, EditProfileForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.views.generic import TemplateView, FormView, UpdateView
+from django.views.generic import TemplateView, FormView, UpdateView, FormView
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core import urlresolvers
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import TemplateView, CreateView, ListView
 import logging
 logger = logging.getLogger("usuario")
 
@@ -80,16 +81,44 @@ def registro_usuario(request):
     return render(request, 'registro.html', args)
 
 
-@login_required(login_url='login')
-def Profile(request):
+def edit_profile(request, pk):
     """
-    Funcion que muestra la plantilla del perfil del usuario
+    Función que permite editar el perfil del usuarios autenticado.
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 14-02-2017
+    Fecha: 20-03-2017
     """
-    user = request.user
-    return render_to_response('user_profile.html', {'user':user}, context_instance=RequestContext(request))
+    user = User.objects.get(pk=pk)
+    form_class1 = EditProfileForm
+    if request.method == 'POST':
+        form = form_class1(data=request.POST, instance=user)       
+        if form.is_valid():
+            form.save()
+            #return redirect('perfil/', pk=user.pk)
+            return render(request, 'user_profile.html', {'form_class1': form_class1, 'form': form,})
+    else:
+        form = form_class1(instance=user)
+        return render(request, 'user_profile.html', {'form_class1': form_class1, 'form': form,})
 
+
+'''
+class ProfileView(FormView):
+    template_name = 'user_profile.html'
+    form_class = EditProfileForm
+    #fields = ['first_name', 'last_name',  'email', 'username', 'password1', 'password2']
+    #template_name = 'user_profile.html'
+
+    def get_object(self, *args, **kwargs):
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        form = EditProfileForm(request.POST or None, initial={'username':user.username, 'first_name':user.first_name, 'last_name':user.last_name, 'email':user.email,})
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')
+        return render(request, 'user_profile.html', {'form':form})
+        #return user.userprofile
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse("/perfil")
+'''
 
 #Cambiar estatus de los usuarios
 def changestatus(request):

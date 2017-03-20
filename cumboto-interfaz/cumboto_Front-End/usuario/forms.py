@@ -207,3 +207,13 @@ class EditarContrasenaForm(forms.Form):
         if password != password2:
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
+
+class EditProfileForm(forms.ModelForm):
+    username = forms.CharField(label='Username')
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
+
+    class Meta:
+        model = User
+        fields = ['username','first_name', 'last_name', 'email']

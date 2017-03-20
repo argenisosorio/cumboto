@@ -14,10 +14,34 @@
 		<div class="col-md-6">
 			<section class="login_content">
         <h1>Perfil</h1>
-        Usuario: {{user.username}} <br />
-				Nombreo: {{user.first_name}} <br />
-				Apellido: {{user.last_name}} <br />
-				Dirección de Correo: {{user.email}} <br />
+				<form method="POST" action="" class="" />
+    			<form class="form-horizontal form-label-left" name="UserForm" action="" method="post">{% csrf_token %}
+    					  <div>
+                	{{ form.username }}
+                </div>                
+                <div>
+                	{{ form.first_name }}
+                </div>
+                <div>
+                	{{ form.last_name }}
+                </div>
+                <div>
+                	{{ form.email }}
+                </div>
+              <div align="center">
+                <input class="btn btn-default submit" type="submit" value="Actualizar">
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+
+                <div class="clearfix"></div>
+                <br />
+
+              </div>
+            </form>
+				</form>
 			</section>
 		</div>
 		<div class="col-md-3"></div>
