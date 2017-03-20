@@ -6,6 +6,7 @@ from usuario.forms import LoginForm
 from django.contrib.auth.views import *
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from validate_email import validate_email
 
 #inclusión del nombre del metodo login
 from usuario.views import (
