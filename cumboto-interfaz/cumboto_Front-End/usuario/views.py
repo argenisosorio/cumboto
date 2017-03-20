@@ -16,14 +16,11 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.core import urlresolvers
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-<<<<<<< HEAD
 from django.views.generic import TemplateView, CreateView, ListView
-=======
 from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.template import loader, Context
->>>>>>> 02d703e9649c5f439c6ac199dbf8e18da3b94bfc
 import logging
 logger = logging.getLogger("usuario")
 
@@ -101,7 +98,6 @@ def edit_profile(request, pk):
         return render(request, 'user_profile.html', {'form_class1': form_class1, 'form': form,})
 
 
-<<<<<<< HEAD
 '''
 class ProfileView(FormView):
     template_name = 'user_profile.html'
@@ -121,13 +117,11 @@ class ProfileView(FormView):
     def get_success_url(self, *args, **kwargs):
         return reverse("/perfil")
 '''
-=======
         
 def useractive(request):
 
     users = User.objects.order_by('-pk')
     return render(request, 'admin.template.html', {"users": users})
->>>>>>> 02d703e9649c5f439c6ac199dbf8e18da3b94bfc
 
 #Cambiar estatus de los usuarios
 def changestatus(request):
@@ -158,14 +152,12 @@ def changestatus(request):
                 email_body = loader.get_template('mensaje-activacion.html').render(dict({'dat_user': dat_user}))
                 send_mail(email_subject, email_body, settings.EMAIL_HOST_USER,
                 [to_email], fail_silently=False)
-                validate_email(to_email)
             else:
                 email_subject = 'Cuenta desactivada'
                 to_email = dat_user.email
                 email_body = loader.get_template('mensaje-desactivacion.html').render(dict({'dat_user': dat_user}))
                 send_mail(email_subject, email_body, settings.EMAIL_HOST_USER,
                 [to_email], fail_silently=False)
-                validate_email(to_email)
 
     return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
