@@ -19,7 +19,7 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-users"></i> Gestion de Usuarios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#"><i class="fa fa-user"></i>Perfil</a></li>
+                      <li><a href="{% url 'usuario:perfil' user.id%}"><i class="fa fa-user"></i>Perfil</a></li>
                       <li><a><i class="fa fa-wrench"></i>Opciones<span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
                           {% if user.is_superuser %}
