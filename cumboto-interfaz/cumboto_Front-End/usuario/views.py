@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader, Context,  RequestContext
 from django.contrib.auth.models import User
@@ -86,37 +86,16 @@ def edit_profile(request, pk):
     Fecha: 20-03-2017
     """
     user = User.objects.get(pk=pk)
-    form_class1 = EditProfileForm
-    if request.method == 'POST':
-        form = form_class1(data=request.POST, instance=user)       
-        if form.is_valid():
-            form.save()
-            #return redirect('perfil/', pk=user.pk)
-            return render(request, 'user_profile.html', {'form_class1': form_class1, 'form': form,})
+    if request.method == 'GET':
+        form = EditProfileForm(instance=user)
     else:
-        form = form_class1(instance=user)
-        return render(request, 'user_profile.html', {'form_class1': form_class1, 'form': form,})
-
-
-'''
-class ProfileView(FormView):
-    template_name = 'user_profile.html'
-    form_class = EditProfileForm
-    #fields = ['first_name', 'last_name',  'email', 'username', 'password1', 'password2']
-    #template_name = 'user_profile.html'
-
-    def get_object(self, *args, **kwargs):
-        user = get_object_or_404(User, pk=self.kwargs['pk'])
-        form = EditProfileForm(request.POST or None, initial={'username':user.username, 'first_name':user.first_name, 'last_name':user.last_name, 'email':user.email,})
+        form = EditProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('perfil')
-        return render(request, 'user_profile.html', {'form':form})
-        #return user.userprofile
+        messages = '¡Perfil actualizado!'
+        return render_to_response('user_profile.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
+    return render(request, 'user_profile.html', {'form':form})
 
-    def get_success_url(self, *args, **kwargs):
-        return reverse("/perfil")
-'''
         
 def useractive(request):
 
