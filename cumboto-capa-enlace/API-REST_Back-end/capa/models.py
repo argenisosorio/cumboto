@@ -18,12 +18,3 @@ class appModel(models.Model):
             #),
         #]
     )
-
-
-
-
-
-
-
-
-
