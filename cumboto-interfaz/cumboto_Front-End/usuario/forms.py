@@ -209,11 +209,43 @@ class EditarContrasenaForm(forms.Form):
         return password2
 
 class EditProfileForm(forms.ModelForm):
-    username = forms.CharField(label='Username')
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    email = forms.EmailField(label='Email')
+    #username = forms.CharField(label='Nombre de usuario')
+    #first_name = forms.CharField(label='Primer nombre')
+    #last_name = forms.CharField(label='Apellido')
+    #email = forms.EmailField(label='Email')
 
     class Meta:
         model = User
-        fields = ['username','first_name', 'last_name', 'email']
+
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        ]
+
+        labels = {
+            'username': 'Nombre de usuario',
+            'first_name': 'Nombre',
+            'last_name': 'Apellidos',
+            'email': 'Dirección de correo electrónico',
+        }
+
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class':'form-control input-md',
+                #'style': 'min-width: 0; width: 50%; display: inline;',
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class':'form-control input-md',
+                #'style': 'min-width: 0; width: 50%; display: inline;',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class':'form-control input-md',
+                #'style': 'min-width: 0; width: 50%; display: inline;',
+            }),
+            'email': forms.TextInput(attrs={
+                'class':'form-control input-md',
+                #'style': 'min-width: 0; width: 50%;',
+            }),
+        }
