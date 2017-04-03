@@ -85,7 +85,7 @@ def edit_profile(request, pk):
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
     Fecha: 20-03-2017
     """
-    user = User.objects.get(pk=pk)
+    user = User.objects.get(pk=request.user.pk)
     if request.method == 'GET':
         form = EditProfileForm(instance=user)
     else:
