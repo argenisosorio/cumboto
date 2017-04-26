@@ -8,6 +8,9 @@
             });
             var selected = [];
 			var valboton = 0;
+			//[INICIO]-------------------------------------------------------------------------------------------------------vv
+			// Se crea la variable table, se vincula con el elemento #datatable y se inicializa consumiendo los datos del 
+			// API-Rest junto con la creación de un botón único a cada fila
 			var table = $("#datatable").DataTable({
 				"processing": true,
 				"serverSide": true,
@@ -32,25 +35,23 @@
 					}
 				}
 			});
-
+			//[FIN]--------------------------------------------------------------------------------------------------------^^
+			
+			//[INICIO]-----------------------------------------------------------------------------------------------------vv
+			// Se crea la secuencia de seleccion de las filas y la interacción con el valor del boton 
 			$('#datatable')
                 .addClass('table table-striped table-bordered dt-responsive nowrap');
             $('#datatable tbody').on( 'click', 'tr', function () {
                 if ( $(this).hasClass('selected') ) {
-                	console.log('deseleccionado');
-                	console.log("valor del boton: "+valboton);
                     $(this).removeClass('selected');
 					$("#boton"+valboton).prop("disabled", true);
                     $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
 
                 }
                 else {
-					console.log("seleccionado");
-					console.log(table.row( this ).index() );
                     $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
 					$("#boton"+valboton).prop("disabled", true);
 					valboton = table.row( this ).index();
-					console.log("valor del boton:"+valboton);
                     table.$('tr.selected').removeClass('selected');
 	                $(this).addClass('selected');
 					$("#boton"+valboton).prop("disabled", false);
@@ -58,13 +59,12 @@
 
                 }
 			});
+			//[FIN]-----------------------------------------------------------------------------------------------------^^
             
+			//[INICIO]--------------------------------------------------------------------------------------------------vv
+			//Función que permite eliminar los valores de la fila en el API-Rest y actualiza la vista de la tabla
 			$('#datatable tbody').on( 'click', 'button', function () {
-        		console.log("eliminado");
 				var data = table.row('.selected').index();
-				console.log("numero de fila: " + data );
-
-            	console.log("eliminando...");
                 var a = table.row('.selected').data();
                 var id = a[0]
                 var codigo = a[1]
@@ -73,24 +73,12 @@
 					url:'ajax/delete-data',
                     data:{'id': id, 'codigo': codigo, 'nombre': nombre},
                     type:'get',
-//                    success:function(response){
-//                        var exito = bootbox.dialog({
-//                            size: '',
-//                            title: 'Notificacion:',
-//                            message: response,
-//                            buttons: {
-//                                main: {
-//                                    label: 'Aceptar' ,
-//                                    className: 'btn btn-default',
-//                                }
-//                            }
-//                        });
-//                    },
                 });
                 table.ajax.reload();
                 window.location.reload();
 
     		} );
+			//[FIN]-----------------------------------------------------------------------------------------------------^^
         });
     </script>
 
