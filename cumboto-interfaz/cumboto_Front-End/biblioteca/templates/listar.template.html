@@ -1,114 +1,139 @@
 {% extends "base.template.html" %}
 {% load staticfiles %}
 {% block content %}
-<script type="text/javascript">
-    $(document).ready(function() {
-
-       var info = bootbox.dialog({
-              size: '',
-              title: 'Notificacion:',
-              message: 'Seleccione haciendo click en la celda de la aplicacion a eliminar',
-              buttons: {
-                main: {
-                  label: 'Aceptar' ,
-                  className: 'btn btn-default',
-                }
-              }
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".alert-success").fadeTo(2000, 500).slideUp(200, function(){
+                $(".alert-success").slideUp(10);
             });
+            var selected = [];
+			var valboton = 0;
+			var table = $("#datatable").DataTable({
+				"processing": true,
+				"serverSide": true,
+				"ajax": "{% url 'biblioteca:listar_data' %}",
+				"columns": [
+					null,
+					null,
+					null,
+					null,
+					{
+						"targets": -1,
+						"data": null,
+						"render" : function(type, full, row, meta) {
+							var id = meta.row;
+					        return '<button type="button" class="btn btn-default btn-circle"  data-toggle="tooltip" data-placement="top" title="Seleccione una fila de la tabla para eliminar" align="rigth" id="boton'+id+'" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>'
+						}
+					}
+				],
+				"rowCallback": function( row, data ) {
+					if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
+						$(row).addClass('selected');
+					}
+				}
+			});
 
-    var table = $('#datatable').DataTable({
+			$('#datatable')
+                .addClass('table table-striped table-bordered dt-responsive nowrap');
+            $('#datatable tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                	console.log('deseleccionado');
+                	console.log("valor del boton: "+valboton);
+                    $(this).removeClass('selected');
+					$("#boton"+valboton).prop("disabled", true);
+                    $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
 
-        "processing": true,
-        "serverSide": true,
-        "ajax": "{% url 'biblioteca:listar_data' %}"
+                }
+                else {
+					console.log("seleccionado");
+					console.log(table.row( this ).index() );
+                    $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
+					$("#boton"+valboton).prop("disabled", true);
+					valboton = table.row( this ).index();
+					console.log("valor del boton:"+valboton);
+                    table.$('tr.selected').removeClass('selected');
+	                $(this).addClass('selected');
+					$("#boton"+valboton).prop("disabled", false);
+                    $("#boton"+valboton).removeClass("btn btn-default btn-circle").addClass("btn btn-default btn-circle btn-danger");
+
+                }
+			});
+            
+			$('#datatable tbody').on( 'click', 'button', function () {
+        		console.log("eliminado");
+				var data = table.row('.selected').index();
+				console.log("numero de fila: " + data );
+
+            	console.log("eliminando...");
+                var a = table.row('.selected').data();
+                var id = a[0]
+                var codigo = a[1]
+                var nombre = a[2]
+                $.ajax({
+					url:'ajax/delete-data',
+                    data:{'id': id, 'codigo': codigo, 'nombre': nombre},
+                    type:'get',
+//                    success:function(response){
+//                        var exito = bootbox.dialog({
+//                            size: '',
+//                            title: 'Notificacion:',
+//                            message: response,
+//                            buttons: {
+//                                main: {
+//                                    label: 'Aceptar' ,
+//                                    className: 'btn btn-default',
+//                                }
+//                            }
+//                        });
+//                    },
+                });
+                table.ajax.reload();
+                window.location.reload();
+
+    		} );
         });
-    
-    
-    //$('#datatable').dataTable({
-    $('#datatable')
-    .addClass('table table-striped table-bordered dt-responsive nowrap');
-        
- 
-    $('#datatable tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-    });
- 
-    $('#button').click( function () {
-      
-        var a = table.row('.selected').data();
-        var id = a[0]
-        var codigo = a[1]
-        var nombre = a[2]
+    </script>
 
-        $.ajax({url:'ajax/delete-data',
-          data:{'id': id, 'codigo': codigo, 'nombre': nombre},
-          type:'get',
-          success:function(response){
-
-            var exito = bootbox.dialog({
-              size: '',
-              title: 'Notificacion:',
-              message: response,
-              buttons: {
-                main: {
-                  label: 'Aceptar' ,
-                  className: 'btn btn-default',
-                }
-              }
-            });
-          },
-          });
-        window.location.reload();
-        //$("#datatable").empty();
-        //table.row('.selected').remove().draw( false );
-    });
-});    
-
-
-   
-
-</script>
-<div class="page-title">
-    <div class="title_left">
-        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+        </div>
     </div>
-</div>
-     <div class="x_panel">
-           <div class="row">
-              <br>
-              <div class="col-md-4">
-                   <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
-              </div>
-              <div class="col-md-8"></div>
-           </div><br>
-           <div class="row">
-               <div class="col-xs-1"></div>
-               <div class="col-xs-10">
-
-               <h1 align="center">Lista de Aplicaciones</h1><hr><br>
-                        
-                        <table id="datatable" cellspacing="0" width="100%" style="text-align: center;" >
-                            <thead>
-                            <tr align="center">
-                                <th style="text-align: center">id</th>
-                                <th style="text-align: center">codigo aplicacion</th>
-                                <th style="text-align: center">nombre</th>
-                                <th style="text-align: center">version</th>
-                            </tr>
-                            </thead>
-                        </table>
-                        <div class="">
-                          <button type="button" class="btn btn-default btn-circle btn-xl" align="rigth" id="button"><i class="fa fa-trash-o"></i></button>
-                        </div>
-              </div>
-              <div class="col-xs-1"></div>
-          </div>
+    <div class="x_panel">
+        {% if messages %}
+            <div class="alert alert-success alert-dismissable fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ messages }}</strong>
+            </div>
+        {% endif %}
+        <div class="row">
+            <br>
+            <div class="col-md-4">
+                <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="mensaje"></div>
+            <div class="col-xs-10">
+                <h1 align="center">Lista de Aplicaciones</h1><hr><br>
+                <table id="datatable" cellspacing="0" width="100%" style="text-align: center;" >
+                    <thead>
+                        <tr align="center">
+                            <th style="text-align: center">id</th>
+                            <th style="text-align: center">codigo aplicacion</th>
+                            <th style="text-align: center">nombre</th>
+                            <th style="text-align: center">version</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-xs-1"></div>
+        </div>
     </div>
+
 {% endblock %}
 

@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['cumaco.cumboto.capa.cenditel.gob.ve']
 
-
 # Application definition
 
 INSTALLED_APPS = [
