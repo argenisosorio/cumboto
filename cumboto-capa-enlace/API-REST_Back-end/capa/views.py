@@ -1,15 +1,4 @@
-# Create your views here.
 # -*- coding: utf-8 -*-
-
-    ###################################################################################################
-    #   ######## #####      ###              ###   #####  ##       #  #####  ###### ###### ########   #
-    #      ##    ##   ##  ##   ##          ##   ## ##   # ##      #   ##   # ##     ##        ##      #
-    #      ##    ##    ## #######  ######  ####### #####  ##     #    #####  ####   ######    ##      #
-    #      ##    ##    ## ##   ##          ##   ## ##     ##    #     ##  ## ##         ##    ##      #
-    #      ##    #####    ##   ##          ##   ## ##     ##   #      ##  ## ###### ######    ##      #
-    ###################################################################################################
-
-
 from django.contrib.auth.models import User
 from rest_framework.renderers import JSONRenderer
 from django.views.generic import *
@@ -36,7 +25,7 @@ import sys
 import re, os
 sys.path.append('/usr/local/src/ocumare/luth/')
 import ocumare.lutheria
-#import ocumare	
+#import ocumare
 import base64
 #import gnupg
 import zipfile
@@ -45,9 +34,6 @@ import zipfile
 from django.views.generic import CreateView
 from django.http import HttpResponse
 
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
 
 @api_view(['POST'])
 def add_app(request):
@@ -80,6 +66,8 @@ def add_app(request):
         else:
             form = appForm()
             return render(request, 'index.html', {'form': form})
+
+
 @api_view(['POST'])
 def validator_app(request):
     if request.method == 'POST':
@@ -104,6 +92,7 @@ def validator_app(request):
             form = appForm()
             return render(request, 'index.html', {'form': form})
 
+
 @api_view(['GET'])
 def check(request, accion, codigo_apps):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
@@ -126,9 +115,7 @@ def check(request, accion, codigo_apps):
         else:
             return Response(False)
 
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
+
 @api_view(['GET'])
 def check_edo_app(request,codigo_apps):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
@@ -136,18 +123,14 @@ def check_edo_app(request,codigo_apps):
     print(str(chk_edo))
     return Response(chk_edo)
     
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
+
 @api_view(['GET'])
 def checked_aplicacion(request, codigo_apps):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
     ck_app = octs.check_app(codigo_apps)
     return Response(ck_app)
 
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
+
 @api_view(['GET'])
 def eliminar_app(request,codigo_apps):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
@@ -160,9 +143,6 @@ def eliminar_app(request,codigo_apps):
         message = 'La Aplicacion Solicitada No Existe'
         return Response(message)
 
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
 
 @api_view(['GET'])
 def nuevo_edo_app(request,serv,app,cod,ctl):
@@ -196,9 +176,6 @@ def nuevo_edo_app(request,serv,app,cod,ctl):
     message = True
     return Response(message)
 
-###################################################
-#             REST-FRAMEWORK CUMBOTO              #
-###################################################
 
 @api_view(['GET'])
 def listar_elementos(request):
@@ -208,9 +185,6 @@ def listar_elementos(request):
     data = json.dumps(lst)
     return Response(lst,status=None, template_name=None, headers=None, content_type=None)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
 
 @api_view(['GET'])
 def copiar_apps(request):
@@ -221,9 +195,6 @@ def copiar_apps(request):
     message = 'La Aplicacion Fue Copiada Con Exito'
     return Response(message)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
 
 @api_view(['GET'])
 def detener_serv(request, serv, app):
@@ -246,9 +217,6 @@ def detener_serv(request, serv, app):
     stp = str(stop)
     return Response(stp)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
 
 @api_view(['GET'])
 def listar_servicios(request, accion_serv):
@@ -262,9 +230,6 @@ def listar_servicios(request, accion_serv):
             opciones += (x['codigo'],x['n']),
         return Response(codigo, nombre)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
 
 @api_view(['GET'])
 def Obt_ranuras(request, serv):
@@ -288,27 +253,21 @@ def Obt_ranuras(request, serv):
         else:
             return Response(opciones)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
+
 @api_view(['GET'])
 def listar_aplicaciones(request):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
     aplicaciones = octs.obt_apps_biblio()
     return Response(aplicaciones)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
+
 @api_view(['GET'])
 def config_omision(request, cod):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
     config_omision = octs.nv_edo_app_rell(cod)
     return Response(config_omision)
 
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
+
 @api_view(['GET', 'POST'])
 def decoded_zip(request, encoded):
     
@@ -319,8 +278,4 @@ def decoded_zip(request, encoded):
         octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
         copiar = octs.bib_copiar_app(decoded)
 
-        return Response(copiar) 
-
-####################################################
-#             REST-FRAMEWORK CUMBOTO               #
-####################################################
+        return Response(copiar)

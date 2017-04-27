@@ -1,23 +1,10 @@
 # -*- coding: utf-8 -*-
-
-    ###################################################################################################
-    #   ######## #####      ###              ###   #####  ##       #  #####  ###### ###### ########   #
-    #      ##    ##   ##  ##   ##          ##   ## ##   # ##      #   ##   # ##     ##        ##      #
-    #      ##    ##    ## #######  ######  ####### #####  ##     #    #####  ####   ######    ##      #
-    #      ##    ##    ## ##   ##          ##   ## ##     ##    #     ##  ## ##         ##    ##      #
-    #      ##    #####    ##   ##          ##   ## ##     ##   #      ##  ## ###### ######    ##      #
-    ###################################################################################################
-
 from django.conf.urls import *
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.decorators import api_view
 from django.utils.translation import ugettext_lazy as _
 from .views import *
 from django.views.generic import CreateView
-
-####################################################
-#             REST-FRAMEWORK CUMBOTO URLS          #
-####################################################
 
 urlpatterns = [
 
