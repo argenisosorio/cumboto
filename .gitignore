@@ -10,5 +10,5 @@
 cumboto-interfaz/cumboto_Front-End/biblioteca/migrations
 cumboto-capa-enlace/API-REST_Back-end/capa/migrations
 cumboto-capa-enlace/API-REST_Back-end/db.sqlite3
-cumboto-interfaz/cumboto_Front-End/tmp
+cumboto-interfaz/cumboto_Front-End/tmp/
 settings.py
