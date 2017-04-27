@@ -8,5 +8,6 @@
 *.sqlite3
 *.db
 /cumboto-interfaz/cumboto_Front-End/biblioteca/migrations
+/cumboto-capa-enlace/API-REST_Back-end/capa/migrations
 settings.py
 

@@ -7,78 +7,78 @@
                 $(".alert-success").slideUp(10);
             });
             var selected = [];
-			var valboton = 0;
-			//[INICIO]-------------------------------------------------------------------------------------------------------vv
-			// Se crea la variable table, se vincula con el elemento #datatable y se inicializa consumiendo los datos del 
-			// API-Rest junto con la creación de un botón único a cada fila
-			var table = $("#datatable").DataTable({
-				"processing": true,
-				"serverSide": true,
-				"ajax": "{% url 'biblioteca:listar_data' %}",
-				"columns": [
-					null,
-					null,
-					null,
-					null,
-					{
-						"targets": -1,
-						"data": null,
-						"render" : function(type, full, row, meta) {
-							var id = meta.row;
-					        return '<button type="button" class="btn btn-default btn-circle"  data-toggle="tooltip" data-placement="top" title="Seleccione una fila de la tabla para eliminar" align="rigth" id="boton'+id+'" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>'
-						}
-					}
-				],
-				"rowCallback": function( row, data ) {
-					if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
-						$(row).addClass('selected');
-					}
-				}
-			});
-			//[FIN]--------------------------------------------------------------------------------------------------------^^
-			
-			//[INICIO]-----------------------------------------------------------------------------------------------------vv
-			// Se crea la secuencia de seleccion de las filas y la interacción con el valor del boton 
-			$('#datatable')
+            var valboton = 0;
+            //[INICIO]-------------------------------------------------------------------------------------------------------vv
+            // Se crea la variable table, se vincula con el elemento #datatable y se inicializa consumiendo los datos del 
+            // API-Rest junto con la creación de un botón único a cada fila
+            var table = $("#datatable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{% url 'biblioteca:listar_data' %}",
+                "columns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    {
+                        "targets": -1,
+                        "data": null,
+                        "render" : function(type, full, row, meta) {
+                            var id = meta.row;
+                            return '<button type="button" class="btn btn-default btn-circle"  data-toggle="tooltip" data-placement="top" title="Seleccione una fila de la tabla para eliminar" align="rigth" id="boton'+id+'" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>'
+                        }
+                    }
+                ],
+                "rowCallback": function( row, data ) {
+                    if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
+                        $(row).addClass('selected');
+                    }
+                }
+            });
+            //[FIN]--------------------------------------------------------------------------------------------------------^^
+
+            //[INICIO]-----------------------------------------------------------------------------------------------------vv
+            // Se crea la secuencia de seleccion de las filas y la interacción con el valor del boton 
+            $('#datatable')
                 .addClass('table table-striped table-bordered dt-responsive nowrap');
             $('#datatable tbody').on( 'click', 'tr', function () {
                 if ( $(this).hasClass('selected') ) {
                     $(this).removeClass('selected');
-					$("#boton"+valboton).prop("disabled", true);
+                    $("#boton"+valboton).prop("disabled", true);
                     $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
 
                 }
                 else {
                     $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
-					$("#boton"+valboton).prop("disabled", true);
-					valboton = table.row( this ).index();
+                    $("#boton"+valboton).prop("disabled", true);
+                    valboton = table.row( this ).index();
                     table.$('tr.selected').removeClass('selected');
-	                $(this).addClass('selected');
-					$("#boton"+valboton).prop("disabled", false);
+                    $(this).addClass('selected');
+                    $("#boton"+valboton).prop("disabled", false);
                     $("#boton"+valboton).removeClass("btn btn-default btn-circle").addClass("btn btn-default btn-circle btn-danger");
 
                 }
-			});
-			//[FIN]-----------------------------------------------------------------------------------------------------^^
+            });
+            //[FIN]-----------------------------------------------------------------------------------------------------^^
             
-			//[INICIO]--------------------------------------------------------------------------------------------------vv
-			//Función que permite eliminar los valores de la fila en el API-Rest y actualiza la vista de la tabla
-			$('#datatable tbody').on( 'click', 'button', function () {
-				var data = table.row('.selected').index();
+            //[INICIO]--------------------------------------------------------------------------------------------------vv
+            //Función que permite eliminar los valores de la fila en el API-Rest y actualiza la vista de la tabla
+            $('#datatable tbody').on( 'click', 'button', function () {
+                var data = table.row('.selected').index();
                 var a = table.row('.selected').data();
                 var id = a[0]
                 var codigo = a[1]
                 var nombre = a[2]
                 $.ajax({
-					url:'ajax/delete-data',
+                    url:'ajax/delete-data',
                     data:{'id': id, 'codigo': codigo, 'nombre': nombre},
                     type:'get',
                 });
                 table.ajax.reload();
                 window.location.reload();
 
-    		} );
-			//[FIN]-----------------------------------------------------------------------------------------------------^^
+            } );
+            //[FIN]-----------------------------------------------------------------------------------------------------^^
         });
     </script>
 
@@ -122,6 +122,4 @@
             <div class="col-xs-1"></div>
         </div>
     </div>
-
 {% endblock %}
-
