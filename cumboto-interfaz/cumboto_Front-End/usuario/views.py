@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -55,6 +54,11 @@ def acceso(request):
 
 
 def logout_view(request):
+    """
+    Función que permite cerrar la sesión del usuario
+    Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
+    Fecha: 2016
+    """
     user = request.user
     if user.is_authenticated():
         logout(request)
@@ -98,11 +102,10 @@ def edit_profile(request, pk):
 
         
 def useractive(request):
-
     users = User.objects.order_by('-pk')
     return render(request, 'admin.template.html', {"users": users})
 
-#Cambiar estatus de los usuarios
+
 def changestatus(request):
     """
     Funcion que activa, desactiva usuario y envia correo de confirmación

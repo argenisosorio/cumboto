@@ -26,11 +26,10 @@ from django.core import urlresolvers
 
 
 class registrar_view(CreateView):
-    
     template_name= 'registro.template.html'
     form_class = registrar_form
     success_url = reverse_lazy('biblioteca:subir')
-    
+
     def valid_extension(value):
         if (not value.name.endswith('.zip')):
             raise ValidationError("Archivos permitidos: .zip")
@@ -41,18 +40,13 @@ class registrar_view(CreateView):
             print(encoded)
             return True
 
-
     def form_valid(self, form):
-
-        #######################
 
         self.object = form.save(commit=False)
         self.object.cargar_app = form.cleaned_data['cargar_app']
         self.object.save()
         
         namefile = form.cleaned_data['cargar_app'].name
-       
-        #######################
         
         FilePath =('tmp/'+namefile)
         folders = []
@@ -64,18 +58,9 @@ class registrar_view(CreateView):
                     folders.append(name)
                 metadata = name
 
-        
-            
-
-
-            ###############################################################
-            #   ## ## #### #######  #    ###     #  ####### ####  #####   #
-            #   # # # #       #    # #   #  #   # #    #    #  #  #       #
-            #   #   # ###     #   #   #  #   # #   #   #    #  #  #####   #
-            #   #   # #       #   #####  #  #  #####   #    #  #      #   #
-            #   #   # ####    #   #   #  ###   #   #   #    ####  #####   #
-            ###############################################################
-
+            ####################
+            #### Metadatos #####
+            ####################
 
             #ruta del directorio
             path = os.getcwd()
@@ -88,17 +73,15 @@ class registrar_view(CreateView):
             #Lista con todos los ficheros del directorio:
             lstDir = os.walk(path)   #os.walk()Lista directorios y ficheros
 
-
             #Crea una lista de los ficheros conf que existen en el directorio y los incluye a la lista.
             #for root, dirs, files in lstDir:
 
                 #for fichero in files:
                     #(nombreFichero, extension) = os.path.splitext(fichero)
-                    
+
             metadata= name
             name_dir = os.path.dirname(metadata)
             ruta = path+'/'+name_dir
-            
 
             ### Valida que exista el archivo metadatos.conf y el directorio aplicacion
             metadatos = os.path.isfile(os.path.join(ruta, 'metadatos.conf'))
@@ -111,14 +94,12 @@ class registrar_view(CreateView):
                 print('hello')
 
                 #### Leer Diccionario ####
-
                 def leerDict(diccionario, elemento):
                     for i, j in elemento.items():
                         diccionario = diccionario.replace(i, j)
                     return diccionario
 
                 #### Limpieza ####
-
                 def limpieza(l):
                     v = True
                     while v == True:
@@ -131,7 +112,6 @@ class registrar_view(CreateView):
                             c = l.remove ('')
 
                 #### Parsear los Metadatos ####
-
                 def parsearFile(metadata):
 
                     libreria=[]
@@ -174,7 +154,6 @@ class registrar_view(CreateView):
             ### Ruta zip ###
             absoluta = os.path.abspath(FilePath)
 
-
             ### Envio Zip ###
             with open(absoluta, "rb") as f:
                 bytes = f.read()
@@ -183,9 +162,6 @@ class registrar_view(CreateView):
                 print(len(encoded))
                 encode_zip = requests.post(settings.URL_API_REST+'api_rest/file/'+encoded+'?format=json')
                 print(encode_zip.content)
-                
-
-
 
 
             #key = '0123456789abcdef'
@@ -201,23 +177,16 @@ class registrar_view(CreateView):
             #print(encode_t)
             #etxt = requests.post(settings.URL_API_REST+'api_rest/file/'+unicode_txt+'?format=json')
             #print(etxt.content)
-            
 
             #fileobj = open(absoluta, 'rb')
             #url = settings.URL_API_REST+'api_rest/file'
             #r = requests.post(url, data={}, files={"archivo": (namefile, fileobj)})
             #print(r.text)
 
-
-
-           
-
             if md:
 
                 ####  VALIDATORS IF EXISTS COD IN DB ####
-                
                 try:
-
                     models = metadata_model
                     validator = models.objects.get(codigo_app = codigo_app)
                     if validator.codigo_app == codigo_app:
@@ -225,13 +194,11 @@ class registrar_view(CreateView):
 
                     ide = md[2]
                     for ky, vl in ide.iteritems():
-                       
                         ide_app = vl
 
                     
                     version = md[3]
                     for key, val in version.iteritems():
-                       
                         version_app = val
 
                     version_key = version.keys()
@@ -239,9 +206,7 @@ class registrar_view(CreateView):
                          
                     nombre = md[0]
                     for clave, valor in nombre.iteritems():
-                       
                         nombre_app = valor
-                       
 
                     nombre_key = nombre.keys()
                     nombre_value = nombre.values()
@@ -249,19 +214,15 @@ class registrar_view(CreateView):
                     shutil.rmtree(Eliminar)
 
                     return render(self.request, self.template_name, {'form': form , 'metadatos': json.dumps(md) , 'codigo_app': codigo_app ,'version_app': version_app, 'nombre_app': nombre_app, 'id': ide_app, 'MSG': message ,  })
-                    
 
                 except models.DoesNotExist:
 
                     ide = md[2]
                     for ky, vl in ide.iteritems():
-                       
                         ide_app = vl
 
-                    
                     version = md[3]
                     for key, val in version.iteritems():
-                       
                         version_app = val
 
                     version_key = version.keys()
@@ -269,9 +230,7 @@ class registrar_view(CreateView):
                          
                     nombre = md[0]
                     for clave, valor in nombre.iteritems():
-                       
                         nombre_app = valor
-                       
 
                     nombre_key = nombre.keys()
                     nombre_value = nombre.values()
@@ -294,8 +253,6 @@ class registrar_view(CreateView):
             
 
 def metadatos_get_data(request):
-
-    
     nombre = request.GET.get('nombre', None)
     id_organizacion = request.GET.get('id_organizacion', None)
     id = request.GET.get('id', None)
@@ -308,7 +265,6 @@ def metadatos_get_data(request):
     respuesta = checked_app.content
 
     try:
-
         ### Consulta a la base de datos la aplicacion que sera reemplazada ###
         model = metadata_model
         val = model.objects.get(id_app = id)
