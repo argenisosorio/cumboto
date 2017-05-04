@@ -6,7 +6,11 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class registrar_form(ModelForm):
-
+    """!
+    Clase del formulario para registrar aplicaciones en la biblioteca
+    Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
+    Fecha: 2016
+    """
     cargar_app = forms.FileField(label=("Cargar Aplicación"),widget=forms.FileInput(attrs={
         'class': 'filestyle',
         'type': 'file',

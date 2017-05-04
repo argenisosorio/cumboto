@@ -8,10 +8,11 @@ from zipfile import BadZipfile, ZipFile
 import urllib2, sys, zipfile
 from shutil import * 
 
-def generate_path(instance, filename):
 
+def generate_path(instance, filename):
     folder = os.path.join("tmp", filename)
     return folder
+
 
 class registrar_app(models.Model):
     cargar_app = models.FileField(
@@ -21,8 +22,8 @@ class registrar_app(models.Model):
     def __unicode__(self):
         return self.cargar_app
 
-class metadata_model(models.Model):
 
+class metadata_model(models.Model):
     nombre = models.CharField(max_length=25,)
     id_organizacion = models.CharField(max_length=25,)
     id_app = models.CharField(max_length=25, primary_key=True)

@@ -9,7 +9,7 @@ import random, struct
 from django.conf import settings
 from django.http import JsonResponse
 from ConfigParser import ConfigParser
-from django.shortcuts import render,  render_to_response
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template import loader, Context, RequestContext
@@ -41,7 +41,6 @@ class registrar_view(CreateView):
             return True
 
     def form_valid(self, form):
-
         self.object = form.save(commit=False)
         self.object.cargar_app = form.cleaned_data['cargar_app']
         self.object.save()
@@ -75,7 +74,6 @@ class registrar_view(CreateView):
 
             #Crea una lista de los ficheros conf que existen en el directorio y los incluye a la lista.
             #for root, dirs, files in lstDir:
-
                 #for fichero in files:
                     #(nombreFichero, extension) = os.path.splitext(fichero)
 
@@ -249,7 +247,6 @@ class registrar_view(CreateView):
             form = registrar_form
             msg_error = 'El archivo no es un .zip'
             return render(self.request, self.template_name, {'msg_error': msg_error, 'form': form})  
-
             
 
 def metadatos_get_data(request):
@@ -318,28 +315,27 @@ def metadatos_get_data(request):
 
             message_ex = 'La aplicacion se guardado de manera correcta'
             return JsonResponse(message_ex,safe=False)
-     
 
 
 def listar_app_view(request):
+    """
+    Función que lista las aplicaciones registradas
+    Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
+    Fecha: 2016
+    """
     return render_to_response('listar.template.html', {}, context_instance=RequestContext(request))
 
 
 class ListDataJsonView(BaseDatatableView):
-   
     model = metadata_model
-  
     columns = ['nombre', 'codigo_app' , 'id_app', 'version']
-    
     order_columns = ['id_app', 'codigo_app' , 'nombre', 'version']
-   
     max_display_length = 500
 
     def __init__(self):
         super(ListDataJsonView, self).__init__()
 
     def get_initial_queryset(self):
-       
         return self.model.objects.all()
 
     def prepare_results(self, qs):
@@ -397,7 +393,6 @@ def delete_get_data(request):
 
 
 def delete_get_data(request):
-
     codigo = request.GET.get('codigo', None)
     model = metadata_model
     ap = model.objects.get(codigo_app = codigo)
