@@ -53,7 +53,7 @@ $('#myModal').on('hidden', function () {
             <a href="#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">
             <input type="checkbox" class="js-switch" checked /> Activado</a>
           </label>
-          | <a href="{% url 'usuario_eliminar' user.id %}">Eliminar</a>
+          | <a href="{% url 'usuario:usuario_eliminar' u.id %}">Eliminar</a>
         </td>
         {% else %}
         <td>
@@ -61,7 +61,7 @@ $('#myModal').on('hidden', function () {
             <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">
             <input type="checkbox" class="js-switch"  /> Desactivado</a>
           </label>
-          | <a href="{% url 'usuario_eliminar' user.id %}">Eliminar</a>
+          | <a href="{% url 'usuario:usuario_eliminar' u.id %}">Eliminar</a>
         {% endif%}
         </td>
       {% endfor %}

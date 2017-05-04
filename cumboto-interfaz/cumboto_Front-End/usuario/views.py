@@ -179,22 +179,16 @@ def editar_contrasena(request):
     return render(request, 'base.password.html', args)
 
 
-class UsuarioEliminarr(SuccessMessageMixin,DeleteView):
-    model = User
-    #fields = ['autor', 'titulo', 'cuerpo', 'fecha']
-    success_url = reverse_lazy('adminuser')
-    success_message = "Se eliminó la publicación con éxito"
-
-
-class UsuarioEliminar(SuccessMessageMixin, DeleteView):
+class UsuarioEliminar(SuccessMessageMixin,DeleteView):
     """
-    Sub-class the DeleteView to restrict a User from deleting other 
-    user's data.
+    Clase que permite eliminar un objeto(usuario) pidiendo confirmación por template
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 04-05-2017
+    **************************
+    ***** Aún en pruebas *****
+    **************************
     """
     model = User
+    #fields = ['username', 'last_name', 'email']
+    success_url = reverse_lazy('base')
     success_message = "Se eliminó el usuario con éxito"
-    success_url = reverse_lazy('adminuser')
-
-    def get_queryset(self):
-        qs = super(UsuarioEliminar, self).get_queryset()
-        return qs.filter(owner=self.request.user)
