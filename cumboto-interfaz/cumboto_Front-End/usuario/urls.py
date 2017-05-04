@@ -25,6 +25,7 @@ urlpatterns = [
 	url(r'^logout/$', views.logout_view, name="logout"),
     url(r'^adminuser/$', login_required(useractive), name='adminuser'),
     url(r'^changestatus/', login_required(changestatus), name='changestatus'),
+    url(r'^eliminar_usuario/(?P<pk>\d+)$', login_required(views.UsuarioEliminar.as_view()), name='usuario_eliminar'),
     url(r'^password/$', login_required(views.editar_contrasena), name='editar_contrasena'),
     
     url(r'^reset/password_reset/$', password_reset, {'template_name': 'password_reset_form.html', 

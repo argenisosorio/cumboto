@@ -20,6 +20,8 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.template import loader, Context
+from django.views import generic
+from django.views.generic import DeleteView
 import logging
 logger = logging.getLogger("usuario")
 
@@ -175,3 +177,24 @@ def editar_contrasena(request):
         args = {}
         args['form'] = EditarContrasenaForm
     return render(request, 'base.password.html', args)
+
+
+class UsuarioEliminarr(SuccessMessageMixin,DeleteView):
+    model = User
+    #fields = ['autor', 'titulo', 'cuerpo', 'fecha']
+    success_url = reverse_lazy('adminuser')
+    success_message = "Se eliminó la publicación con éxito"
+
+
+class UsuarioEliminar(SuccessMessageMixin, DeleteView):
+    """
+    Sub-class the DeleteView to restrict a User from deleting other 
+    user's data.
+    """
+    model = User
+    success_message = "Se eliminó el usuario con éxito"
+    success_url = reverse_lazy('adminuser')
+
+    def get_queryset(self):
+        qs = super(UsuarioEliminar, self).get_queryset()
+        return qs.filter(owner=self.request.user)
