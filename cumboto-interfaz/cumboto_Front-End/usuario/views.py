@@ -102,7 +102,7 @@ def edit_profile(request, pk):
         return render_to_response('user_profile.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
     return render(request, 'user_profile.html', {'form':form})
 
-        
+
 def useractive(request):
     users = User.objects.order_by('-pk')
     return render(request, 'admin.template.html', {"users": users})
@@ -144,25 +144,6 @@ def changestatus(request):
                 [to_email], fail_silently=False)
 
     return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
-
-
-def update_profile(request):
-    if request.method == 'POST':
-        #user_form = User.objects.get(pk=user_id)
-        user_form = UserForm(request.POST['idusuario'])
-       # user_form = request.POST['idusuario'] 
-        profile_form = PerfilForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, ('Tu perfil ha sido actualizado!'))
-            return redirect('base:inicio')
-        else:
-            messages.error(request, ('Ocurrió un error.'))
-    else:
-        user_form = UserForm(instance=request.user)
-        profile_form = PerfilForm(instance=request.user.profile)
-    return render(request, 'perfil.html', {'user_form': user_form, 'profile_form': profile_form}) 
 
 
 def editar_contrasena(request):

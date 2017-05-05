@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 #inclusión del nombre del metodo login
 from usuario.views import (
-	changestatus, useractive, update_profile, acceso
+	changestatus, useractive, acceso
    )
 from . import views 
 
