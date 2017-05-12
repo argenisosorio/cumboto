@@ -2,29 +2,42 @@
 {% load staticfiles %}
 {% block content %}
 <div class="x_panel">
-	<div class="row">
-		<br>
-		<div class="col-md-4">
-			<img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
-		</div>
-		<div class="col-md-8"></div>
-	</div>
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-6">
-			<section class="login_content">
-        <h1>Perfil</h1>
-        Usuario: {{user.username}} <br />
-				Nombreo: {{user.first_name}} <br />
-				Apellido: {{user.last_name}} <br />
-				Dirección de Correo: {{user.email}} <br />
-			</section>
-		</div>
-		<div class="col-md-3"></div>
-	</div>
-	<br><br><br>
-	<br><br><br>
-	<br><br><br>
-	<br>
+  <div class="row">
+    <br>
+    <div class="col-md-4">
+      <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+    </div>
+    <div class="col-md-8"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <section class="login_content">
+        {% if messages %}
+          <div class="alert alert-success alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{ messages }}</strong>
+          </div>
+        {% endif %}
+        <form method="POST" action="" class="" />{% csrf_token %}
+          <h1>Perfil</h1>
+          <label>Nombre de Usuario:</label>
+          {{ form.username }}
+          <label>Nombre:</label>
+          {{ form.first_name }}
+          <label>Apellidos:</label>
+          {{ form.last_name }}
+          <label>Dirección de correo electrónico:</label>
+          {{ form.email }}
+          <button class="btn btn-default" type="submit">Actualizar</button>
+        </form>
+      </section>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+  <br><br><br>
+  <br><br><br>
+  <br><br><br>
+  <br>
 </div>
 {% endblock content %}

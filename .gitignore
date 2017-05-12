@@ -7,5 +7,9 @@
 *.swp
 *.sqlite3
 *.db
-/cumboto-interfaz/cumboto_Front-End/biblioteca/migrations
-/cumboto-interfaz/cumboto_Front-End/cumboto/settings.py
+cumboto-interfaz/cumboto_Front-End/biblioteca/migrations
+cumboto-capa-enlace/API-REST_Back-end/capa/migrations
+cumboto-interfaz/cumboto_Front-End/servicio/migrations
+cumboto-capa-enlace/API-REST_Back-end/db.sqlite3
+cumboto-interfaz/cumboto_Front-End/tmp/
+settings.py

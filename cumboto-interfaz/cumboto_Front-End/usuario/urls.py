@@ -6,10 +6,11 @@ from usuario.forms import LoginForm
 from django.contrib.auth.views import *
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+#from validate_email import validate_email
 
 #inclusión del nombre del metodo login
 from usuario.views import (
-	changestatus, useractive, update_profile, acceso
+	changestatus, useractive, acceso
    )
 from . import views 
 
@@ -19,10 +20,12 @@ urlpatterns = [
     url(r'^login/$', views.acceso, name='acceso'),
 	#url(r'^login/$', views.login_view, name='login'),
 	url(r'^registro/$', views.registro_usuario, name="registro"),
-	url(r'^profile/$', views.Profile, name='perfil'),
+	#url(r'^perfil/(?P<pk>\d+)$', login_required(views.ProfileView.as_view()), name='perfil'),
+	url(r'^perfil/(?P<pk>\d+)$', views.edit_profile, name="perfil"),
 	url(r'^logout/$', views.logout_view, name="logout"),
     url(r'^adminuser/$', login_required(useractive), name='adminuser'),
     url(r'^changestatus/', login_required(changestatus), name='changestatus'),
+    url(r'^eliminar_usuario/(?P<pk>\d+)$', login_required(views.UsuarioEliminar.as_view()), name='usuario_eliminar'),
     url(r'^password/$', login_required(views.editar_contrasena), name='editar_contrasena'),
     
     url(r'^reset/password_reset/$', password_reset, {'template_name': 'password_reset_form.html', 

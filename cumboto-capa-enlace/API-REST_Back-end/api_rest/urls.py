@@ -1,5 +1,4 @@
-"""api_rest URL Configuration
-"""
+# -*- coding: utf-8 -*-
 from django.conf.urls import *
 from django.contrib import admin
 

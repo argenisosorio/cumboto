@@ -207,3 +207,43 @@ class EditarContrasenaForm(forms.Form):
         if password != password2:
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
+
+
+class EditProfileForm(forms.ModelForm):
+    """
+    Clase del formulario que permite editar el perfil del usuario autenticado.
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 03-04-2017
+    """
+
+    class Meta:
+        model = User
+
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        ]
+
+        labels = {
+            'username': 'Nombre de usuario',
+            'first_name': 'Nombre',
+            'last_name': 'Apellidos',
+            'email': 'Dirección de correo electrónico',
+        }
+
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class':'form-control input-md',
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class':'form-control input-md',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class':'form-control input-md',
+            }),
+            'email': forms.TextInput(attrs={
+                'class':'form-control input-md',
+            }),
+        }

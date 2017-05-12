@@ -4,3 +4,28 @@
 Django>=1.9.5,<1.10
 psycopg2
 #
+<<<<<<< HEAD
+=======
+###### Archivos de requerimientos extendidos de bibliotecas de python ##
+jinja2
+markdown 
+markupsafe 
+configparser 
+coreapi 
+coreschema 
+django-crispy-forms 
+django-datatables-view 
+django-filter 
+django-guardian 
+django-psi 
+djangorestframework 
+filelock 
+google-api-python-client 
+httplib2 
+itypes 
+requests 
+six 
+uritemplate 
+urllib3 
+python-cjson
+>>>>>>> desarrollo
