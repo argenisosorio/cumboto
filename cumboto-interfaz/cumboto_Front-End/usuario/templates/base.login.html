@@ -3,64 +3,59 @@
 <html lang="es">
 {% include 'base.head.template.html' %}
 {% block content %}
-  <body class="login" style="background: url({% static 'img/fondo_cumboto4.png' %}) repeat-y fixed center center; -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            text-align: center;
-            height: 100%;
-            width: 100%;
-            margin: 0px;
-            background-position: center;">
-     <div>
-      <a class="hiddenanchor" id="signup"></a>
-      <a class="hiddenanchor" id="signin"></a>
-
-      <div class="login_wrapper">
-        <div class="animate form login_form">
-          <section class="login_content">
-            <form  class="form-horizontal form-label-left" name="" action="" method="post" >
-               {% csrf_token %}
-                {{ LoginForm.as_p }}
-              <h1>Iniciar sesión</h1>
-              <div class="item form-group">
-                <input id="id_username" name="username" type="text" class="form-control col-md-5 col-xs-16" placeholder="Usuario" required="required" title="Ingrese su usuario" autofocus>
+<body class="login" style="background: url({% static 'img/fondo_cumboto4.png' %}) repeat-y fixed center center; -webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+text-align: center;
+height: 100%;
+width: 100%;
+margin: 0px;
+background-position: center;">
+<div>
+  <a class="hiddenanchor" id="signup"></a>
+  <a class="hiddenanchor" id="signin"></a>
+    <div class="login_wrapper">
+      <div class="animate form login_form">
+        <section class="login_content">
+          <form  class="form-horizontal form-label-left" name="" action="" method="post" >
+            {% csrf_token %}
+            {{ LoginForm.as_p }}
+            <h1>Iniciar sesión</h1>
+            <div class="item form-group">
+              <input id="id_username" name="username" type="text" class="form-control col-md-5 col-xs-16" placeholder="Usuario" required="required" title="Ingrese su usuario" autofocus>
+            </div>
+            <div class="item form-group">
+              <input id="id_password" name="password" type="password" class="form-control col-md-5 col-xs-16" placeholder="Contraseña" required="required" title="Ingrese su contraseña" autofocus>
+            </div>
+            {% if messages %}
+            <div class="item form-group">
+              <div class="oaerror warning">
+                <strong>Alerta: </strong>{{ messages }}
               </div>
-              <div class="item form-group">
-                <input id="id_password" name="password" type="password" class="form-control col-md-5 col-xs-16" placeholder="Contraseña" required="required" title="Ingrese su contraseña" autofocus>
-              </div>
-              {% if messages %}
-                <div class="item form-group">
-                  <div class="oaerror warning">
-                    <strong>Alerta: </strong>{{ messages }}
-                  </div>
-                </div>
-              {% endif %}
-              <div>
-                <input class="btn btn-default submit" type="submit" style="margin-left: 115px" value="Iniciar sesión">
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p>
-                  <a href="{% url 'usuario:registro' %}" class="to_register"> Crear una cuenta </a>
-                  <a href="{% url 'usuario:password_reset' %}" class="to_register"> Recuperar Contraseña </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                  <h1><img src="{% static 'img/logo.png' %}"> Cumboto</h1>
-                  <p>©2016 Copyleft CENDITEL</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
-        </div>
+            </div>
+            {% endif %}
+            <div>
+              <input class="btn btn-default submit" type="submit" style="margin-left: 115px" value="Iniciar sesión">
+            </div>
+            <div class="clearfix"></div>
+            <div class="separator">
+            <p>
+              <a href="{% url 'usuario:registro' %}" class="to_register"> Crear una cuenta </a>
+              <a href="{% url 'usuario:password_reset' %}" class="to_register"> Recuperar Contraseña </a>
+            </p>
+            <div class="clearfix"></div>
+            <br />
+            <div>
+              <h1><img src="{% static 'img/logo.png' %}"> Cumboto</h1>
+              <p>©2016 Copyleft CENDITEL</p>
+            </div>
+            </div>
+          </form>
+        </section>
+      </div>
     </div>
+</div>
 </body>
 {% endblock %}
 {% include 'base.footer.template.html' %}
