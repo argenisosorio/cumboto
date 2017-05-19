@@ -4,85 +4,79 @@
 {% include 'base.head.template.html' %}
 {% block content %}
 <body class="login" style="background: url({% static 'img/fondo_cumboto4.png' %}) repeat-y fixed center center; -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            text-align: center;
-            height: 100%;
-            width: 100%;
-            margin: 0px;
-            background-position: center;">
-    <div>
-      <a class="hiddenanchor" id="signup"></a>
-      <a class="hiddenanchor" id="signin"></a>
-
-
-    <div class="login_wrapper">
-     <div class="animate form login_form">
-          <section class="login_content">
-            <form class="form-horizontal form-label-left" name="UserForm" action="" method="post">
-               {% csrf_token %}
-              <h1>Crear una cuenta</h1>
-                <div>
-                {{ form.first_name }}
-                <div>
-                {{ form.last_name }}
-                </div>
-                <div>
-                {{ form.email }}
-                </div>
-                {% if form.email.errors %}
-                    <div class="item form-group">
-                    <div class="oaerror warning">
-                    <strong>Error: </strong>El email ya existe
-                    </div>
-                    </div>
-                 {% endif %}
-                 <div>
-                {{ form.username }}
-                </div>
-                 {% if form.username.errors %}
-                    <div class="item form-group">
-                    <div class="oaerror warning">
-                    <strong>Error: </strong>El nombre de usuario indicado ya existe
-                    </div>
-                    </div>
-                 {% endif %}
-                <div>
-                {{ form.password1 }}
-                </div> 
-                 <div>
-                 {{ form.password2 }}
-                </div>
-                {% if form.password2.errors %}
-                    <div class="item form-group">
-                    <div class="oaerror warning">
-                    <strong>Error: </strong>Las contraseñas no coinciden
-                    </div>
-                    </div>
-                 {% endif %}
-              <div>
-                <input class="btn btn-default submit" type="submit" style="margin-left: 115px" value="Registrar">
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  background-position: center;">
+<div>
+  <a class="hiddenanchor" id="signup"></a>
+  <a class="hiddenanchor" id="signin"></a>
+  <div class="login_wrapper">
+    <div class="animate form login_form">
+      <section class="login_content">
+        <form class="form-horizontal form-label-left" name="UserForm" action="" method="post">{% csrf_token %}
+          <h1>Crear una cuenta</h1>
+          <div>
+            {{ form.first_name }}
+          </div>
+          <div>
+            {{ form.last_name }}
+          </div>
+          <div>
+            {{ form.email }}
+          </div>
+          {% if form.email.errors %}
+          <div class="item form-group">
+            <div class="oaerror warning">
+              <strong>Error: </strong>El email ya existe
+            </div>
+          </div>
+          {% endif %}
+          <div>
+            {{ form.username }}
+          </div>
+          {% if form.username.errors %}
+          <div class="item form-group">
+            <div class="oaerror warning">
+              <strong>Error: </strong>El nombre de usuario indicado ya existe
+            </div>
+          </div>
+          {% endif %}
+          <div>
+            {{ form.password1 }}
+          </div>
+          <div>
+            {{ form.password2 }}
+          </div>
+          {% if form.password2.errors %}
+            <div class="item form-group">
+              <div class="oaerror warning">
+                <strong>Error: </strong>Las contraseñas no coinciden
               </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p class="change_link">¿Ya eres usuario?
-                  <a href="{% url 'usuario:adminuser' %}" class="to_register">Iniciar sesión </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                  <h1><img src="{% static 'img/logo.png' %}"> Cumboto</h1>
-                  <p>©2016 Copyleft CENDITEL</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
+            </div>
+          {% endif %}
+          <div>
+            <input class="btn btn-default submit" type="submit" style="margin-left: 115px" value="Registrar">
+          </div>
+          <div class="clearfix"></div>
+          <div class="separator">
+            <p class="change_link">¿Ya eres usuario?
+              <a href="{% url 'usuario:adminuser' %}" class="to_register">Iniciar sesión </a>
+            </p>
+            <div class="clearfix"></div>
+            <br />
+            <div>
+              <h1><img src="{% static 'img/logo.png' %}"> Cumboto</h1>
+              <p>©2016 Copyleft CENDITEL</p>
+            </div>
+          </div>
+        </form>
+      </section>
+      </div>
     </div>
   </div>
 </body>
@@ -90,16 +84,12 @@
 {% include 'base.footer.template.html' %}
 </html>
 {% block extra_footer %}
-    <script type="text/javascript">
-
-          $('#d_first_name').on('keyup', function(){
-            $(this).val((this.value + '').replace(/[^A-Z,a-z]/g, ''));
-        });
-           $('#id_last_name').on('keyup', function(){
-            $(this).val((this.value + '').replace(/[^A-Z,a-z]/g, ''));
-        });
-           
-     
-
-    </script>
+<script type="text/javascript">
+  $('#d_first_name').on('keyup', function(){
+    $(this).val((this.value + '').replace(/[^A-Z,a-z]/g, ''));
+  });
+   $('#id_last_name').on('keyup', function(){
+    $(this).val((this.value + '').replace(/[^A-Z,a-z]/g, ''));
+  });
+</script>
 {% endblock %}
