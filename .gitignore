@@ -1,6 +1,7 @@
 *.*.backup
 *.*~
 *.tar.gz
+*.zip
 *.pyc
 *.pyo
 *.log
@@ -13,3 +14,4 @@ cumboto-interfaz/cumboto_Front-End/servicio/migrations
 cumboto-capa-enlace/API-REST_Back-end/db.sqlite3
 cumboto-interfaz/cumboto_Front-End/tmp/
 settings.py
+database_config.py

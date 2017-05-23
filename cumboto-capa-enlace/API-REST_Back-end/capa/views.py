@@ -17,6 +17,7 @@ from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import filters
 from .models import appModel
 from .forms import appForm
 from capa.serializer import appSerializer
@@ -25,7 +26,7 @@ import sys
 import re, os
 sys.path.append('/usr/local/src/ocumare/luth/')
 import ocumare.lutheria
-#import ocumare
+#import ocumare	
 import base64
 #import gnupg
 import zipfile
@@ -34,6 +35,10 @@ import zipfile
 from django.views.generic import CreateView
 from django.http import HttpResponse
 
+from .models import Archivo
+from rest_framework import viewsets
+from rest_framework import filters
+from serializer import appSerializer 
 
 @api_view(['POST'])
 def add_app(request):
@@ -253,7 +258,6 @@ def Obt_ranuras(request, serv):
         else:
             return Response(opciones)
 
-
 @api_view(['GET'])
 def listar_aplicaciones(request):
     octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
@@ -278,4 +282,17 @@ def decoded_zip(request, encoded):
         octs = ocumare.lutheria.tsco('/etc/cumaco/ocumare.conf')
         copiar = octs.bib_copiar_app(decoded)
 
-        return Response(copiar)
+        return Response(copiar) 
+
+"""
+Clase que permite clasificar la información a serealizar
+Autor: Luis Guillermo Echenque (lechenique@gmail.com)
+fecha: 22-05-2017
+"""
+
+class ArchivoVerSet(viewsets.ModelViewSet):
+    queryset = Archivo.objects.all()
+    serializer_class = appSerializer
+    filter_backends = (filters.DjangoFilterBackend,filters.OrderingFilter,)
+    filter_fields  = ('descomprimido',)
+    ordering = ('fecha_creado',)

@@ -3,121 +3,134 @@
 {% block content %}
 <script type="text/javascript">
 $(document).ready(function() {
-  $(".alert-success").fadeTo(2000, 500).slideUp(200, function(){
-    $(".alert-success").slideUp(10);
-  });
-  var selected = [];
-  var valboton = 0;
-
-  /**
-  * Se crea la variable table, se vincula con el elemento #datatable y se inicializa
-  * consumiendo los datos del API-Rest junto con la creación de un botón único a cada fila
-  */
-  var table = $("#datatable").DataTable({
-    "processing": true,
-    "serverSide": true,
-    "ajax": "{% url 'biblioteca:listar_data' %}",
-    "columns": [
-      null,
-      null,
-      null,
-      null,
-      {
-        "targets": -1,
-        "data": null,
-        "render" : function(type, full, row, meta) {
-          var id = meta.row;
-            return '<button type="button" class="btn btn-default btn-circle"  data-toggle="tooltip" data-placement="top" title="Seleccione una fila de la tabla para eliminar" align="rigth" id="boton'+id+'" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>'
-        }
-      }
-    ],
-    "rowCallback": function( row, data ) {
-      if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
-        $(row).addClass('selected');
-      }
-    }
-  });
-
-  /**
-  * Se crea la secuencia de seleccion de las filas y la interacción con el valor del boton
-  */
-  $('#datatable') .addClass('table table-striped table-bordered dt-responsive nowrap');
-  $('#datatable tbody').on( 'click', 'tr', function () {
-    if ( $(this).hasClass('selected') ) {
-      $(this).removeClass('selected');
-      $("#boton"+valboton).prop("disabled", true);
-      $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
-    }
-    else {
-      $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
-      $("#boton"+valboton).prop("disabled", true);
-        valboton = table.row( this ).index();
-        table.$('tr.selected').removeClass('selected');
-      $(this).addClass('selected');
-      $("#boton"+valboton).prop("disabled", false);
-      $("#boton"+valboton).removeClass("btn btn-default btn-circle").addClass("btn btn-default btn-circle btn-danger");
-      }
-  });
-
-  /**
-  * Función que permite eliminar los valores de la fila en el API-Rest y actualiza la vista de la tabla
-  */
-  $('#datatable tbody').on( 'click', 'button', function() {
-    var data = table.row('.selected').index();
-    var a = table.row('.selected').data();
-    var id = a[0]
-    var codigo = a[1]
-    var nombre = a[2]
-    $.ajax({
-      url:'ajax/delete-data',
-      data:{'id': id, 'codigo': codigo, 'nombre': nombre},
-      type:'get',
+    $(".alert-success").fadeTo(2000, 500).slideUp(200, function(){
+        $(".alert-success").slideUp(10);
     });
-    table.ajax.reload();
-    window.location.reload();
-  });
+    var selected = [];
+    var valboton = 0;
+    /**
+    * Se crea la variable table, se vincula con el elemento #datatable y se inicializa consumiendo los datos del
+    * API-Rest junto con la creación de un botón único a cada fila
+    * Autor: Luis Guillermo Echenque (lechenique@gmail.com)
+    * Fecha: 22-05-2017
+    */
+    var table = $("#datatable").DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": "{% url 'biblioteca:listar_data' %}",
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            {
+                "targets": -1,
+                "data": null,
+                "render" : function(type, full, row, meta) {
+                    var id = meta.row;
+                    return '<button type="button" class="btn btn-default btn-circle"  data-toggle="tooltip" data-placement="top" title="Seleccione una fila de la tabla para eliminar" align="rigth" id="boton'+id+'" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>'
+                }
+            }
+        ],
+        "rowCallback": function( row, data ) {
+            if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
+                $(row).addClass('selected');
+            }
+        }
+    });
+    
+
+    /**
+    * Se crea la secuencia de seleccion de las filas y la interacción con el valor del boton
+    * Autor: Luis Guillermo Echenque (lechenique@gmail.com)
+    * Fecha: 22-05-2017
+    */
+    $('#datatable')
+        .addClass('table table-striped table-bordered dt-responsive nowrap');
+    $('#datatable tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+            $("#boton"+valboton).prop("disabled", true);
+            $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
+
+        }
+        else {
+            $("#boton"+valboton).removeClass("btn btn-default btn-circle btn-danger").addClass("btn btn-default btn-circle");
+            $("#boton"+valboton).prop("disabled", true);
+            valboton = table.row( this ).index();
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $("#boton"+valboton).prop("disabled", false);
+            $("#boton"+valboton).removeClass("btn btn-default btn-circle").addClass("btn btn-default btn-circle btn-danger");
+
+        }
+    });
+
+
+    /**
+    * Función que permite eliminar los valores de la fila en el API-Rest y actualiza la vista de la tabla
+    * Autor: Luis Guillermo Echenque (lechenique@gmail.com)
+    * Fecha: 22-05-2017
+    */
+    $('#datatable tbody').on( 'click', 'button', function () {
+        var data = table.row('.selected').index();
+        var a = table.row('.selected').data();
+        var id = a[0]
+            var codigo = a[1]
+            var nombre = a[2]
+            $.ajax({
+                url:'ajax/delete-data',
+                data:{'id': id, 'codigo': codigo, 'nombre': nombre},
+                type:'get',
+            });
+        table.ajax.reload();
+        window.location.reload();
+
+    } );
+
 });
 </script>
+
 <div class="page-title">
-  <div class="title_left">
-    <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
-  </div>
+    <div class="title_left">
+        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+    </div>
 </div>
 <div class="x_panel">
     {% if messages %}
     <div class="alert alert-success alert-dismissable fade in">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>{{ messages }}</strong>
     </div>
     {% endif %}
     <div class="row">
-      <br>
-      <div class="col-md-4">
-        <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
-      </div>
-      <div class="col-md-8"></div>
+        <br>
+        <div class="col-md-4">
+            <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+        </div>
+        <div class="col-md-8"></div>
     </div>
     <br>
     <div class="row">
-      <div class="col-xs-1"></div>
-      <div class="mensaje"></div>
-      <div class="col-xs-10">
-        <h1 align="center">Lista de Aplicaciones</h1>
-        <hr>
-        <br>
-        <table id="datatable" cellspacing="0" width="100%" style="text-align: center;" >
-          <thead>
-            <tr align="center">
-              <th style="text-align: center">id</th>
-              <th style="text-align: center">codigo aplicacion</th>
-              <th style="text-align: center">nombre</th>
-              <th style="text-align: center">version</th>
-              <th></th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      <div class="col-xs-1"></div>
+        <div class="col-xs-1"></div>
+        <div class="mensaje"></div>
+        <div class="col-xs-10">
+            <h1 align="center">Lista de Aplicaciones</h1><hr><br>
+            <table id="datatable" cellspacing="0" width="100%" style="text-align: center;" >
+                <thead>
+                    <tr align="center">
+                        <th style="text-align: center">id</th>
+                        <th style="text-align: center">codigo aplicacion</th>
+                        <th style="text-align: center">nombre</th>
+                        <th style="text-align: center">version</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-xs-1"></div>
     </div>
 </div>
+
 {% endblock %}
+

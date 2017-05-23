@@ -9,15 +9,16 @@ from django.utils.translation import ugettext_lazy as _
 
 class appModel(models.Model):
 
-    codigo_app = models.CharField(
-        max_length=12, help_text=_("Codigo de la aplicacion"),
-        #validators=[
-            #validators.RegexValidator(
-              #  r'^[\d]+$',
-               # _("Codigo de aplicacion inválido. Solo se permiten numeros")
-            #),
-        #]
-    )
+    codigo_app = models.CharField(max_length=12, help_text=_("Codigo de la aplicacion"),)
 
-    def __unicode__(self):
-        return self.codigo_app
+class Archivo(models.Model):
+    codigo_app = models.CharField(max_length=12,  help_text=_("Codigo de la aplicacion"),)
+    archivo_nombre = models.CharField(max_length=20)
+    fecha_creado = models.DateTimeField(auto_now=True)
+    descomprimido = models.BooleanField(default=False)
+    doc = models.FileField(upload_to='Doc/',default='Doc/None/No-doc.zip')
+    id_app = models.CharField(max_length=25, primary_key=True)
+    version = models.CharField(max_length=25,)
+
+    def __str__(self):
+        return "%s" % self.archivo_nombre

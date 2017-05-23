@@ -11,18 +11,22 @@ class registrar_form(ModelForm):
     Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
     Fecha: 2016
     """
-    cargar_app = forms.FileField(label=("Cargar Aplicación"),widget=forms.FileInput(attrs={
-        'class': 'filestyle',
-        'type': 'file',
-        'data-placeholder' : 'Archivos permitidos: .zip ',
-        'data-buttonName' : 'btn-default',
-        'data-toggle': 'tooltip',
-        'data-buttonText': 'Buscar archivo',
-        'data-classInput' : 'input-small',
-        'data-size':'sm',
-        'required': 'true',
-        'title': _("Seleccione el zip que contenga la Aplicacion a cargar"),
-    }))
+    cargar_app = forms.FileField(
+        label=("Cargar Aplicación"),
+        widget=forms.FileInput(attrs={'class': 'filestyle',
+                                      'type': 'file',
+                                      'data-placeholder' : 'Archivos permitidos: .zip ',
+                                      'data-buttonName' : 'btn-default',
+                                      'data-toggle': 'tooltip',
+                                      'data-buttonText': 'Buscar archivo',
+                                      'data-classInput' : 'input-small',
+                                      'data-size':'sm',
+                                      'required': 'true',
+                                      'title': _("Seleccione el zip que contenga la Aplicacion a cargar"),
+
+                                   }))
+
+
 
     class Meta:
         model = registrar_app
