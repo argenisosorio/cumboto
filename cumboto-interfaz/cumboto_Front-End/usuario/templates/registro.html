@@ -22,43 +22,64 @@
           <h1>Crear una cuenta</h1>
           <div>
             {{ form.first_name }}
+            {% if form.first_name.errors %}
+              <div class="item form-group">
+                <div class="oaerror warning">
+                  <strong>Alerta: </strong>{{ form.first_name.errors}}
+                </div>
+              </div>
+            {% endif %}
           </div>
           <div>
             {{ form.last_name }}
+            {% if form.last_name.errors %}
+              <div class="item form-group">
+                <div class="oaerror warning">
+                  <strong>Alerta: </strong>{{ form.last_name.errors}}
+                </div>
+              </div>
+            {% endif %}
           </div>
           <div>
             {{ form.email }}
+            {% if form.email.errors %}
+              <div class="item form-group">
+                <div class="oaerror warning">
+                  <strong>Alerta: </strong>{{ form.email.errors}}
+                </div>
+              </div>
+            {% endif %}
           </div>
-          {% if form.email.errors %}
-          <div class="item form-group">
-            <div class="oaerror warning">
-              <strong>Error: </strong>El email ya existe
-            </div>
-          </div>
-          {% endif %}
           <div>
             {{ form.username }}
+            {% if form.username.errors %}
+              <div class="item form-group">
+                <div class="oaerror warning">
+                  <strong>Alerta: </strong>{{ form.username.errors}}
+                </div>
+              </div>
+            {% endif %}
           </div>
-          {% if form.username.errors %}
-          <div class="item form-group">
-            <div class="oaerror warning">
-              <strong>Error: </strong>El nombre de usuario indicado ya existe
-            </div>
-          </div>
-          {% endif %}
           <div>
             {{ form.password1 }}
+            {% if form.password1.errors %}
+              <div class="item form-group">
+                <div class="oaerror warning">
+                  <strong>Alerta: </strong>{{ form.password1.errors}}
+                </div>
+              </div>
+            {% endif %}
           </div>
           <div>
             {{ form.password2 }}
-          </div>
-          {% if form.password2.errors %}
-            <div class="item form-group">
-              <div class="oaerror warning">
-                <strong>Error: </strong>Las contraseñas no coinciden
+            {% if form.password2.errors %}
+              <div class="item form-group">
+                <div class="oaerror warning">
+                  <strong>Alerta: </strong>{{ form.password2.errors}}
+                </div>
               </div>
-            </div>
-          {% endif %}
+            {% endif %}
+          </div>
           <div>
             <input class="btn btn-default submit" type="submit" style="margin-left: 115px" value="Registrar">
           </div>

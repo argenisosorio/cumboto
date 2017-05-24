@@ -18,9 +18,7 @@ background-position: center;">
     <div class="login_wrapper">
       <div class="animate form login_form">
         <section class="login_content">
-          <form  class="form-horizontal form-label-left" name="" action="" method="post" >
-            {% csrf_token %}
-            {{ LoginForm.as_p }}
+          <form  class="form-horizontal form-label-left" name="" action="" method="post" >{% csrf_token %}
             <h1>Iniciar sesión</h1>
             <div class="item form-group">
               <input id="id_username" name="username" type="text" class="form-control col-md-5 col-xs-16" placeholder="Usuario" required="required" title="Ingrese su usuario" autofocus>

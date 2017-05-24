@@ -64,10 +64,6 @@ class UserForm(UserCreationForm):
     Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
     Fecha: 2016
     """
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2')
-
     first_name = forms.CharField(
         label=("Nombres"),
         widget=forms.TextInput(attrs={
@@ -77,7 +73,7 @@ class UserForm(UserCreationForm):
             'title':'Ingrese su nombre completo',
             'id': 'first_name',
             'data-toggle': 'tooltip',
-            'placeholder': 'Nombres'
+            'placeholder': 'Nombres',
         })
     )
     
@@ -90,7 +86,7 @@ class UserForm(UserCreationForm):
             'title':'Ingrese sus apellidos completo',
             'id': 'last_name',
             'data-toggle': 'tooltip',
-            'placeholder': 'Apellidos'
+            'placeholder': 'Apellidos',
         })
     )
 
@@ -142,15 +138,34 @@ class UserForm(UserCreationForm):
         })
     )
 
-    def save(self, commit = True):      
-        user = User.objects.create_user(self.cleaned_data['username'],
-                                     self.cleaned_data['email'],
-                                     self.cleaned_data['password1'])
-        user.is_active = False
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        user.save()
-        return user
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2')
+
+    def clean_username(self):
+        """
+        Método que verifica si el campo username es menor a 3 caractéres.
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 19-02-2017
+        """
+        username = self.cleaned_data['username']
+        if len(username) < 3:
+            print "***** El username debe tener mas de 3 caractéres"
+            raise forms.ValidationError("El username debe tener mas de 3 caractéres")
+        return username
+
+    def clean_email(self):
+        """
+        Método que valida si el email a registrar ya existe
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 19-02-2017
+        """
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            print "Este email ya está registrado"
+            raise forms.ValidationError("Este email ya está registrado.")
+        return email
+
 
 class EditarEmailForm(forms.Form):
     email = forms.EmailField(
