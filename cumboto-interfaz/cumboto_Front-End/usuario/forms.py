@@ -146,11 +146,10 @@ class UserForm(UserCreationForm):
         """
         Método que verifica si el campo username es menor a 3 caractéres.
         Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-        Fecha: 19-02-2017
+        Fecha: 19-05-2017
         """
         username = self.cleaned_data['username']
         if len(username) < 3:
-            print "***** El username debe tener mas de 3 caractéres"
             raise forms.ValidationError("El username debe tener mas de 3 caractéres")
         return username
 
@@ -158,11 +157,10 @@ class UserForm(UserCreationForm):
         """
         Método que valida si el email a registrar ya existe
         Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-        Fecha: 19-02-2017
+        Fecha: 19-05-2017
         """
         email = self.cleaned_data['email']
         if User.objects.filter(email=email).exists():
-            print "Este email ya está registrado"
             raise forms.ValidationError("Este email ya está registrado.")
         return email
 

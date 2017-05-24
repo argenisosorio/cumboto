@@ -93,7 +93,7 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
     """
     Clase que registra los usuarios del sistema
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 22-03-2017
+    Fecha: 22-05-2017
     """
     model = User
     form_class = UserForm
@@ -105,7 +105,7 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
         """
         Método que verifica si el formulario es válido, en cuyo caso procede a registrar los datos del usuario.
         Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-        Fecha: 22-03-2017
+        Fecha: 22-05-2017
         """
         self.object = form.save(commit=False)
         self.object.username = form.cleaned_data['username']
