@@ -14,23 +14,33 @@ from django.forms import (
 
 
 class LoginForm(AuthenticationForm):
+    """
+    Clase del formulario de inicio de sesíon de los usuarios
+    Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
+    Fecha: 2016
+    """
     username = forms.CharField(
         label=("username"),
-        widget=forms.TextInput(attrs={'class': 'form-control col-md-5 col-xs-16',
-                                      'type': 'text',
-                                      'id': 'id_username',
-                                      'name': 'username',
-                                      'placeholder': 'Usuario',
-                                      'autofocus': 'autofocus',
-                                      'title':'Ingrese su nombre de usuario',
-                                      'required': 'true'})) 
+        widget=forms.TextInput(attrs={
+            'class': 'form-control col-md-5 col-xs-16',
+            'type': 'text',
+            'id': 'id_username',
+            'name': 'username',
+            'placeholder': 'Usuario',
+            'autofocus': 'autofocus',
+            'title':'Ingrese su nombre de usuario',
+            'required': 'true'
+        })
+    )
+
     password = forms.CharField(
         label=("Password"), 
         max_length=30, 
         widget=PasswordInput(attrs={
-            'class': 'item form-group', 'placeholder': _("contraseña de acceso"), 'data-toggle': 'tooltip',
+            'class': 'item form-group',
+            'placeholder': _("contraseña de acceso"),
+            'data-toggle': 'tooltip',
             'title': _("Indique la contraseña de acceso al sistema"), 'size': '28',
-            
         })
     )
 
@@ -49,117 +59,110 @@ class LoginForm(AuthenticationForm):
         return password
 
 class UserForm(UserCreationForm):
-
+    """
+    Clase del formulario que registra los usuarios
+    Autor: Hugo Ramírez (hramirez@cenditel.gob.ve)
+    Fecha: 2016
+    """
     first_name = forms.CharField(
         label=("Nombres"),
-        widget=forms.TextInput(attrs={'class': 'form-control',
-                                      'type': 'text',
-                                      'required': 'true',
-                                      'title':'Ingrese su nombre completo',
-                                      'id': 'first_name',
-                                      'data-toggle': 'tooltip',
-                                      'placeholder': 'Nombres'
-        }),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'text',
+            'required': 'true',
+            'title':'Ingrese su nombre completo',
+            'id': 'first_name',
+            'data-toggle': 'tooltip',
+            'placeholder': 'Nombres',
+        })
     )
     
     last_name = forms.CharField(
         label=("Apellidos"),
-        widget=forms.TextInput(attrs={'class': 'form-control',
-                                      'type': 'text',
-                                      'required': 'true',
-                                      'title':'Ingrese sus apellidos completo',
-                                      'id': 'last_name',
-                                      'data-toggle': 'tooltip',
-                                      'placeholder': 'Apellidos'
-        }),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'text',
+            'required': 'true',
+            'title':'Ingrese sus apellidos completo',
+            'id': 'last_name',
+            'data-toggle': 'tooltip',
+            'placeholder': 'Apellidos',
+        })
     )
 
     email = forms.CharField(
         label=("Email"),
-        widget=forms.TextInput(attrs={'class': 'form-control',
-                                      'type': 'email',
-                                      'placeholder': 'Dirección de correo',
-                                      'required': 'true',
-                                      'data-toggle': 'tooltip',
-                                      'title':'Ingrese su email',
-                                      'id': 'email',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'email',
+            'placeholder': 'Dirección de correo',
+            'required': 'true',
+            'data-toggle': 'tooltip',
+            'title':'Ingrese su email',
+            'id': 'email',
         })
     )
 
-    
-    username = forms.RegexField(
-    label=("Usuario"), max_length=30, regex=r"^[\w.@+-]+$",
-    error_messages={
-        'invalid':("Este campo debe contener solo letras numeros y los siguientes caracteres "
-                     "@/./+/-/_")},
-    widget=forms.TextInput(attrs={'class': 'form-control',
-                            'required': 'true',
-                            'placeholder': 'Nombre de usuario',
-                            'title':'Ingrese el nombre de usuario',
-                            'data-toggle': 'tooltip',
-                            'id': 'username',
+    username = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Nombre de usuario',
+            'title':'Ingrese el nombre de usuario',
+            'data-toggle': 'tooltip',
+            'id': 'username',
         })
     )
 
     password1 = forms.CharField(
         label=("Contraseña"),
-        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                      'required': 'true',
-                                      'placeholder': 'Contraseña',
-                                      'title':'Ingrese la contraseña de su preferencia',
-                                      'data-toggle': 'tooltip',
-                                      'id': 'password1',
-                                      
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Contraseña',
+            'title':'Ingrese la contraseña de su preferencia',
+            'data-toggle': 'tooltip',
+            'id': 'password1',
         })
     )
+
     password2 = forms.CharField(
         label=("Contraseña (confirmación)"),
-        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                          'type': 'password',
-                                          'required': 'true',
-                                          'placeholder': 'Vuelva a ingresar la contraseña elegida',
-                                          'data-toggle': 'tooltip',
-                                          'id': 'password2'
-        }),
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'type': 'password',
+            'required': 'true',
+            'placeholder': 'Vuelva a ingresar la contraseña elegida',
+            'data-toggle': 'tooltip',
+            'id': 'password2',
+        })
     )
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2')
 
-    def Valid_username(self):
+    def clean_username(self):
+        """
+        Método que verifica si el campo username es menor a 3 caractéres.
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 19-05-2017
+        """
         username = self.cleaned_data['username']
-        if User.objects.filter(username=username):
-            raise forms.ValidationError(_("El usuario indicado ya existe"))
-
+        if len(username) < 3:
+            raise forms.ValidationError("El username debe tener mas de 3 caractéres")
         return username
 
     def clean_email(self):
-        """Comprueba que no exista un email igual en la db"""
+        """
+        Método que valida si el email a registrar ya existe
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 19-05-2017
+        """
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email):
-            raise forms.ValidationError('Ya existe un email igual en la db.')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este email ya está registrado.")
         return email
-
-    def clean_password2(self):
-        """Comprueba que password y password2 sean iguales."""
-        password1 = self.cleaned_data['password1']
-        password2 = self.cleaned_data['password2']
-        if password1 != password2:
-            raise forms.ValidationError('Las contraseñas no coinciden.')
-        return password2  
-    
-    def save(self, commit = True):      
-        user = User.objects.create_user(self.cleaned_data['username'],
-                                     self.cleaned_data['email'],
-                                     self.cleaned_data['password1'])
-        user.is_active = False
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        
-        user.save()
-            
-        return user
 
 
 class EditarEmailForm(forms.Form):

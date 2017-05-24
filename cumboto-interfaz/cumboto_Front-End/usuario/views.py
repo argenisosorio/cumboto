@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.core import urlresolvers
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.messages.storage.cookie import CookieStorage
 from django.views.generic import TemplateView, CreateView, ListView
 from django.core.mail import send_mail
 from django.core.validators import validate_email
@@ -67,8 +68,10 @@ def logout_view(request):
     return redirect(reverse('login'))
 
 
+'''
 def registro_usuario(request):
     """
+    ***** Desactivada temporalmente *****
     Función que permite crear usuarios del sistema, en espera de activación.
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
     Fecha: 14-02-2017
@@ -83,6 +86,37 @@ def registro_usuario(request):
     args = {}
     args['form'] = UserForm
     return render(request, 'registro.html', args)
+'''
+
+
+class UsuarioCreate(SuccessMessageMixin,CreateView):
+    """
+    Clase que registra los usuarios del sistema
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 22-05-2017
+    """
+    model = User
+    form_class = UserForm
+    template_name = "registro.html"
+    success_url = reverse_lazy('usuario:adminuser')
+    #success_message = "¡Registro exitoso! debe esperar la activación de su cuenta"
+
+    def form_valid(self,form):
+        """
+        Método que verifica si el formulario es válido, en cuyo caso procede a registrar los datos del usuario.
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 22-05-2017
+        """
+        self.object = form.save(commit=False)
+        self.object.username = form.cleaned_data['username']
+        self.object.first_name = form.cleaned_data['first_name']
+        self.object.last_name = form.cleaned_data['last_name']
+        self.object.set_password(form.cleaned_data['password1'])
+        self.object.email = form.cleaned_data['email']
+        self.object.is_active = 0
+        self.object.save()
+        #messages.success(self.request, "¡Registro exitoso! debe esperar la activación de su cuenta")
+        return super(UsuarioCreate, self).form_valid(form)
 
 
 def edit_profile(request, pk):
