@@ -26,11 +26,11 @@ background-position: center;">
             <div class="item form-group">
               <input id="id_password" name="password" type="password" class="form-control col-md-5 col-xs-16" placeholder="Contraseña" required="required" title="Ingrese su contraseña" autofocus>
             </div>
-            {% for x in messages %}
-              {% if x %}
+            {% for msg in messages %}
+              {% if msg %}
               <div class="item form-group">
                 <div class="oaerror warning">
-                  <strong>Alerta: </strong>{{ x }}
+                  <strong>Alerta: </strong>{{ msg }}
                 </div>
               </div>
               {% endif %}
