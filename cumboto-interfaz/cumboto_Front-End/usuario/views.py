@@ -24,6 +24,7 @@ from django.template import loader, Context
 from django.views import generic
 from django.views.generic import DeleteView
 import logging
+from django.contrib.auth import forms, login, logout, authenticate
 logger = logging.getLogger("usuario")
 
 
@@ -46,10 +47,10 @@ def acceso(request):
                     login(request, acceso)
                     return render_to_response('home.template.html',context_instance=RequestContext(request))
                 else:
-                    messages = 'Lo sentimos, este usuario está en espera de activación'
+                    messages = ['Lo sentimos, este usuario está en espera de activación']
                     return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
             else:
-                messages = 'Lo sentimos, el usuario o la contraseña no son válidos. Vuelve a intentarlo.'
+                messages = ['Lo sentimos, el usuario o la contraseña no son válidos. Vuelve a intentarlo.']
                 return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
     else:
         form = AuthenticationForm()
@@ -98,8 +99,8 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
     model = User
     form_class = UserForm
     template_name = "registro.html"
-    success_url = reverse_lazy('usuario:adminuser')
-    #success_message = "¡Registro exitoso! debe esperar la activación de su cuenta"
+    success_url = reverse_lazy('usuario:acceso')
+    success_message = "¡Registro exitoso! debe esperar la activacion de su cuenta"
 
     def form_valid(self,form):
         """
@@ -115,7 +116,6 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
         self.object.email = form.cleaned_data['email']
         self.object.is_active = 0
         self.object.save()
-        #messages.success(self.request, "¡Registro exitoso! debe esperar la activación de su cuenta")
         return super(UsuarioCreate, self).form_valid(form)
 
 

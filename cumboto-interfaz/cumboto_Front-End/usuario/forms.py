@@ -44,6 +44,7 @@ class LoginForm(AuthenticationForm):
         })
     )
 
+    '''
     def Valid_usuaio(self):
         username = self.cleaned_data['username']
         if not User.objects.filter(username=username):
@@ -57,6 +58,7 @@ class LoginForm(AuthenticationForm):
             raise forms.ValidationError(_("La contraseña indicada es incorrecta"))
 
         return password
+    '''
 
 class UserForm(UserCreationForm):
     """

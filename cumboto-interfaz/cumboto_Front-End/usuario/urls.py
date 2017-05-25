@@ -20,6 +20,7 @@ app_name = 'usuario'
 
 urlpatterns = [
     url(r'^login/$', views.acceso, name='acceso'),
+    #url(r'^login/$', LoginView.as_view(), name = "acceso"),
     #url(r'^login/$', views.login_view, name='login'),
     url(r'^crear_usuario/$', UsuarioCreate.as_view(), name='registro'),
     #url(r'^registro/$', views.registro_usuario, name="registro"),

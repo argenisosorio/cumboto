@@ -7,9 +7,9 @@ app_name = 'biblioteca'
 
 
 urlpatterns = [
-	url(r'^biblioteca$', login_required(registrar_view.as_view()), name="subir"),
-	url(r'^biblioteca/listar$', login_required(listar_app_view), name="listar"),
-	url(r'^biblioteca/data$', login_required(ListDataJsonView.as_view()), name="listar_data"),
+    url(r'^biblioteca$', login_required(registrar_view.as_view()), name="subir"),
+    url(r'^biblioteca/listar$', login_required(listar_app_view), name="listar"),
+    url(r'^biblioteca/data$', login_required(ListDataJsonView.as_view()), name="listar_data"),
 ]
 
 # Urls usadas para ajax
