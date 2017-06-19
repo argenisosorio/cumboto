@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, absolute_import
 from django.utils.translation import ugettext_lazy as _
@@ -11,6 +10,7 @@ from django.forms import (
     ModelForm, TextInput, EmailInput, CharField, EmailField, PasswordInput,
     Select
 )
+#from .models import Perfil
 
 
 class LoginForm(AuthenticationForm):
@@ -59,6 +59,7 @@ class LoginForm(AuthenticationForm):
 
         return password
     '''
+
 
 class UserForm(UserCreationForm):
     """
@@ -140,9 +141,21 @@ class UserForm(UserCreationForm):
         })
     )
 
+    cargo = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Cargo que ocupa',
+            'title':'Ingrese el cargo que ocupa',
+            'data-toggle': 'tooltip',
+            'id': 'cargo',
+        })
+    )
+
     class Meta:
         model = User
-        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2')
+        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2', 'cargo')
+        #fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2',)
 
     def clean_username(self):
         """
@@ -167,6 +180,90 @@ class UserForm(UserCreationForm):
         return email
 
 
+class EditProfileForm(forms.ModelForm):
+    """
+    Clase del formulario que permite editar el perfil del usuario autenticado.
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 03-04-2017
+    """
+    first_name = forms.CharField(
+        label=("Nombres"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'text',
+            #'required': 'true',
+            'title':'Ingrese su nombre completo',
+            'id': 'first_name',
+            'data-toggle': 'tooltip',
+            'placeholder': 'Nombres',
+        })
+    )
+
+    last_name = forms.CharField(
+        label=("Apellidos"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'text',
+            #'required': 'true',
+            'title':'Ingrese sus apellidos completo',
+            'id': 'last_name',
+            'data-toggle': 'tooltip',
+            'placeholder': 'Apellidos',
+        })
+    )
+
+    email = forms.CharField(
+        label=("Email"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'email',
+            'placeholder': 'Dirección de correo',
+            'required': 'true',
+            'data-toggle': 'tooltip',
+            'title':'Ingrese su email',
+            'id': 'email',
+        })
+    )
+
+    username = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Nombre de usuario',
+            'title':'Ingrese el nombre de usuario',
+            'data-toggle': 'tooltip',
+            'id': 'username',
+        })
+    )
+
+    cargo = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Cargo que ocupa',
+            'title':'Ingrese el cargo que ocupa',
+            'data-toggle': 'tooltip',
+            'id': 'cargo',
+        })
+    )
+
+    formacion = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Nivel de formacion académica',
+            'title':'Ingrese el nivel de formacion académica',
+            'data-toggle': 'tooltip',
+            'id': 'formacion',
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name',  'email', 'username','cargo','formacion')
+        #fields = ('first_name', 'last_name',  'email', 'username',)
+
+
 class EditarEmailForm(forms.Form):
     email = forms.EmailField(
             widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -188,6 +285,7 @@ class EditarEmailForm(forms.Form):
             if existe:
                 raise forms.ValidationError('Ya existe un email igual en la db.')
         return email
+
 
 class EditarContrasenaForm(forms.Form):
     actual_password = forms.CharField(
@@ -212,43 +310,3 @@ class EditarContrasenaForm(forms.Form):
         if password != password2:
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
-
-
-class EditProfileForm(forms.ModelForm):
-    """
-    Clase del formulario que permite editar el perfil del usuario autenticado.
-    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 03-04-2017
-    """
-
-    class Meta:
-        model = User
-
-        fields = [
-            'username',
-            'first_name',
-            'last_name',
-            'email',
-        ]
-
-        labels = {
-            'username': 'Nombre de usuario',
-            'first_name': 'Nombre',
-            'last_name': 'Apellidos',
-            'email': 'Dirección de correo electrónico',
-        }
-
-        widgets = {
-            'username': forms.TextInput(attrs={
-                'class':'form-control input-md',
-            }),
-            'first_name': forms.TextInput(attrs={
-                'class':'form-control input-md',
-            }),
-            'last_name': forms.TextInput(attrs={
-                'class':'form-control input-md',
-            }),
-            'email': forms.TextInput(attrs={
-                'class':'form-control input-md',
-            }),
-        }

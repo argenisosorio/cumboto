@@ -26,6 +26,7 @@ from django.views.generic import DeleteView
 import logging
 from django.contrib.auth import forms, login, logout, authenticate
 logger = logging.getLogger("usuario")
+from .models import Perfil
 
 
 def acceso(request):
@@ -116,6 +117,13 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
         self.object.email = form.cleaned_data['email']
         self.object.is_active = 0
         self.object.save()
+
+        # Registro de los campos extra del perfil del usuario
+        perfil = Perfil()
+        perfil.cargo = form.cleaned_data['cargo']
+        perfil.user = self.object
+        perfil.save()
+
         return super(UsuarioCreate, self).form_valid(form)
 
 
