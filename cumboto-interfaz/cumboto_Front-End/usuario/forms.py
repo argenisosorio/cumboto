@@ -141,21 +141,9 @@ class UserForm(UserCreationForm):
         })
     )
 
-    cargo = forms.CharField(max_length=30, label=("Usuario"),
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'required': 'true',
-            'placeholder': 'Cargo que ocupa',
-            'title':'Ingrese el cargo que ocupa',
-            'data-toggle': 'tooltip',
-            'id': 'cargo',
-        })
-    )
-
     class Meta:
         model = User
-        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2', 'cargo')
-        #fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2',)
+        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2',)
 
     def clean_username(self):
         """
@@ -236,32 +224,9 @@ class EditProfileForm(forms.ModelForm):
         })
     )
 
-    cargo = forms.CharField(max_length=30, label=("Usuario"),
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'required': 'true',
-            'placeholder': 'Cargo que ocupa',
-            'title':'Ingrese el cargo que ocupa',
-            'data-toggle': 'tooltip',
-            'id': 'cargo',
-        })
-    )
-
-    formacion = forms.CharField(max_length=30, label=("Usuario"),
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'required': 'true',
-            'placeholder': 'Nivel de formacion académica',
-            'title':'Ingrese el nivel de formacion académica',
-            'data-toggle': 'tooltip',
-            'id': 'formacion',
-        })
-    )
-
     class Meta:
         model = User
-        fields = ('first_name', 'last_name',  'email', 'username','cargo','formacion')
-        #fields = ('first_name', 'last_name',  'email', 'username',)
+        fields = ('first_name', 'last_name',  'email', 'username',)
 
 
 class EditarEmailForm(forms.Form):

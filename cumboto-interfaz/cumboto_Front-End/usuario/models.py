@@ -10,15 +10,10 @@ class Perfil(models.Model):
     Fecha: 06-06-2017
     """
     # Establece la relación entre el usuario de Django y el perfil
-    #user = models.OneToOneField(User,unique=True)
-    #user = models.OneToOneField(User)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Establece el Cargo que ocupa el usuario
     cargo = models.CharField(max_length=50)
-
-    # Establece el nivel de Formación Académica del usuario
-    #formacion = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.cargo
