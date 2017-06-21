@@ -141,9 +141,20 @@ class UserForm(UserCreationForm):
         })
     )
 
+    cargo = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'placeholder': 'Cargo que ocupa',
+            'title':'Ingrese el cargo que ocupa',
+            'data-toggle': 'tooltip',
+            'id': 'cargo',
+        })
+    )
+
     class Meta:
         model = User
-        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2',)
+        fields = ('first_name', 'last_name',  'email', 'username', 'password1', 'password2', 'cargo')
 
     def clean_username(self):
         """
