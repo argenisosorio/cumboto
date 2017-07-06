@@ -35,7 +35,7 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'biblioteca:subir' %}"><i class="fa fa-edit"></i>Registrar Aplicaciones</a></li>
                       <li><a href="{% url 'biblioteca:listar' %}"><i class="fa fa-list-alt"></i>Listar Aplicaciones</a></li>
-                       </ul>
+                    </ul>
                   </li>
                   <li><a><i class="fa fa-cogs"></i>Servicios<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -46,16 +46,15 @@
                   </li> 
                   <li><a href="#"><i class="fa fa-calendar"></i>Agenda<span class="fa fa-chevron-down"></span></a>
                   {% if user.is_superuser %}
-                  <li><a href="{% url 'usuario:bitacora' %}"><i class="fa fa-eye"></i>Bitácora de Eventos</a></li>
+                    <li><a href="{% url 'usuario:bitacora' %}"><i class="fa fa-eye"></i>Bitácora de Eventos</a></li>
                   {% else %}
                   {% endif %}
                   </li>
                   {% if user.is_authenticated %}
                     <li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out"></i>Cerrar Sesión</a></li>
                   {% endif %}
-            
                 </ul>
-                
+
               </div>
             </div>
             <!-- /sidebar menu -->

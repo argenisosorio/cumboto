@@ -146,7 +146,6 @@ class PerfilUpdate(SuccessMessageMixin,UpdateView):
     success_url = reverse_lazy('usuario:perfil')
 
 
-'''
 def edit_profile(request, pk):
     """
     Función que permite editar el perfil del usuarios autenticado.
@@ -161,9 +160,9 @@ def edit_profile(request, pk):
         if form.is_valid():
             form.save()
         messages = '¡Perfil actualizado!'
+        Bitacora.objects.create(usuario=request.user, descripcion='Actualizó el perfil', tipo='Actualización', fecha_hora=datetime.now())
         return render_to_response('user_profile.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
     return render(request, 'user_profile.html', {'form':form})
-'''
 
 
 def useractive(request):
@@ -246,3 +245,20 @@ class BitacoraView(ListView):
     """
     model = Bitacora
     template_name = "bitacora.html"
+
+    def get(self, request, *args, **kwargs):
+        """
+        Método en el que definimos si un usaurio tiene permisos para acceder a la bitácora
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 06-07-2017
+        """
+        self.object_list = self.get_queryset()
+        allow_empty = self.get_allow_empty()
+        if not allow_empty and len(self.object_list) == 0:
+            raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
+                          % {'class_name': self.__class__.__name__})
+        context = self.get_context_data(object_list=self.object_list)
+        if request.user.is_superuser:
+            return self.render_to_response(context)
+        else:
+            return render_to_response('home.template.html',context_instance=RequestContext(request))

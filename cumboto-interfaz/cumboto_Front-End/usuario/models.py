@@ -36,7 +36,7 @@ class Bitacora(models.Model):
     tipo = models.CharField(max_length=50)
 
     # Establece la fecha y hora en que se realizó la acción.
-    fecha_hora = models.DateField()
+    fecha_hora = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.usuario
