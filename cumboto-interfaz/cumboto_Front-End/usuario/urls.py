@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^crear_usuario/$', UsuarioCreate.as_view(), name='registro'),
     #url(r'^registro/$', views.registro_usuario, name="registro"),
     url(r'^perfil/(?P<pk>\d+)$', login_required(views.PerfilUpdate.as_view()), name='perfil'),
+    url(r'^bitacora', views.BitacoraView.as_view(), name='bitacora'),
     #url(r'^perfil/(?P<pk>\d+)$', views.edit_profile, name="perfil"),
     url(r'^logout/$', views.logout_view, name="logout"),
     url(r'^adminuser/$', login_required(useractive), name='adminuser'),

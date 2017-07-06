@@ -236,3 +236,13 @@ class UsuarioEliminar(SuccessMessageMixin,DeleteView):
     #fields = ['username', 'last_name', 'email']
     success_url = reverse_lazy('base')
     success_message = "Se eliminó el usuario con éxito"
+
+
+class BitacoraView(ListView):
+    """
+    Clase que muestra la lista de entradas de la bitácora
+    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+    Fecha: 06-07-2017
+    """
+    model = Bitacora
+    template_name = "bitacora.html"

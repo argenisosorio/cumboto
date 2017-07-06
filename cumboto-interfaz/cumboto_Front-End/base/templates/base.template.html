@@ -24,7 +24,7 @@
                           <ul class="nav child_menu">
                           {% if user.is_superuser %}
                             <li class="sub_menu"><a href="{% url 'usuario:adminuser' %}">Control de usuarios</a></li>
-                           {% endif %}
+                          {% endif %}
                             <li><a href="{% url 'usuario:editar_contrasena' %}">Cambiar Contraseña</a>
                             </li>
                           </ul>
@@ -45,6 +45,10 @@
                     </ul>
                   </li> 
                   <li><a href="#"><i class="fa fa-calendar"></i>Agenda<span class="fa fa-chevron-down"></span></a>
+                  {% if user.is_superuser %}
+                  <li><a href="{% url 'usuario:bitacora' %}"><i class="fa fa-eye"></i>Bitácora de Eventos</a></li>
+                  {% else %}
+                  {% endif %}
                   </li>
                   {% if user.is_authenticated %}
                     <li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out"></i>Cerrar Sesión</a></li>
