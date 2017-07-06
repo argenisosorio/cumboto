@@ -26,7 +26,12 @@ from django.views.generic import DeleteView
 import logging
 from django.contrib.auth import forms, login, logout, authenticate
 logger = logging.getLogger("usuario")
-from .models import Perfil
+from datetime import datetime
+from .models import Perfil, Bitacora
+
+
+class IndexTemplate(TemplateView):
+   template_name = "home.template"
 
 
 def acceso(request):
@@ -46,6 +51,7 @@ def acceso(request):
             if acceso is not None:
                 if acceso.is_active:
                     login(request, acceso)
+                    Bitacora.objects.create(usuario=request.user, descripcion='Accedio al sistema', tipo='Acceso', fecha_hora=datetime.now())
                     return render_to_response('home.template.html',context_instance=RequestContext(request))
                 else:
                     messages = ['Lo sentimos, este usuario está en espera de activación']
@@ -127,6 +133,20 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
         return super(UsuarioCreate, self).form_valid(form)
 
 
+class PerfilUpdate(SuccessMessageMixin,UpdateView):
+    """
+    Clase que gestiona la actualización del perfil
+    Autor: Rodrigo Boet (rboet at cenditel.gob.ve)
+    Fecha: 24-04-2017
+    """
+    model = User
+    template_name = "user_profile.html"
+    form_class = EditProfileForm
+    success_message = "¡Perfil actualizado!"
+    success_url = reverse_lazy('usuario:perfil')
+
+
+'''
 def edit_profile(request, pk):
     """
     Función que permite editar el perfil del usuarios autenticado.
@@ -143,6 +163,7 @@ def edit_profile(request, pk):
         messages = '¡Perfil actualizado!'
         return render_to_response('user_profile.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
     return render(request, 'user_profile.html', {'form':form})
+'''
 
 
 def useractive(request):
