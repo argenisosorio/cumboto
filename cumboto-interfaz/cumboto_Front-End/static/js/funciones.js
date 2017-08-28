@@ -1,4 +1,26 @@
 /**
+ * @brief Función que carga los metodos del datatable de la bitácora de eventos
+ */
+$(document).ready(function() {
+  $('#bitacora_table').DataTable({
+    "language": {
+      "lengthMenu": "Mostrar _MENU_ registros por página",
+      "zeroRecords": "No hay datos",
+      "info": "Mostrando página _PAGE_ de _PAGES_",
+      "infoEmpty": "No records available",
+      "infoFiltered": "(filtered from _MAX_ total records)",
+      "search": "Buscar",
+      "paginate": {
+        "first": "Primero",
+        "last": "Último",
+        "next": "Siguiente",
+        "previous": "Anterior"
+      },
+    }
+  });
+});
+
+/**
  * @brief Función que habilita los campos dependientes de un select
  * @param opcion Respuesta del usuario según la pregunta
  * @param campo Campo a deshabilitar

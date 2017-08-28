@@ -3,3 +3,18 @@ table#bitacora_table thead th {
   background: #FF6600;
   color: #ffffff;
 }
+
+table#bitacora_table tfoot th {
+  background: #FF6600;
+  color: #ffffff;
+}
+
+.td_bitacora_acceso {
+  background: lightgreen;
+  color: #000000;
+}
+
+.td_bitacora_actualizacion {
+  background: lightblue;
+  color: #000000;
+}
