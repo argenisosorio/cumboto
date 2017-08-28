@@ -4129,3 +4129,8 @@ ul.notifications {
   border: 1px solid #e5e5e5; }
 
 /** /Dropzone.js **/
+
+table thead th {
+  background: #fc7676 !important;
+  color: #ffffff !important;
+}
