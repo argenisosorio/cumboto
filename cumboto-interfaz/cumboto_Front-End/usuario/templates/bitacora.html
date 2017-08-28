@@ -12,61 +12,44 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <!-- Section
-      ================================================== -->
       <section class="login_content">
         <h1>Bitácora de eventos</h1>
-        <!-- Dynamic Tabs Example
-        ================================================== -->
-        <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#home">Acceso</a></li>
-          <li><a data-toggle="tab" href="#menu1">Actualización</a></li>
-        </ul>
-        <div class="tab-content">
-          <div id="home" class="tab-pane fade in active">
-            <!-- Datatable
-            ================================================== -->
-            <table border="1px" id="bitacora_table" class="display" width="90%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>N</th>
-                  <th>Usuario</th>
-                  <th>Descripción</th>
-                  <th>Tipo</th>
-                  <th>Fecha y hora</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>N</th>
-                  <th>Usuario</th>
-                  <th>Descripción</th>
-                  <th>Tipo</th>
-                  <th>Fecha y hora</th>
-                </tr>
-              </tfoot>
-              <tbody>
-              {% for x in object_list %}
-              <tr>
-                <td>{{ x.id }}</td>
-                <td>{{ x.usuario }}</td>
-                <td>{{ x.descripcion }}</td>
-                {% if x.tipo == "Acceso" %}
-                  <td class="td_bitacora_acceso">Acceso</td>
-                {% elif x.tipo == "Actualización" %}
-                  <td class="td_bitacora_actualizacion">Actualización</td>
-                {% endif %}
-                <td>{{ x.fecha_hora }}</td>
-              </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div id="menu1" class="tab-pane fade">
-            xxx
-          </div>
-        </div><!-- End Dynamic Tabs Example end -->
-      </section><!-- End Section -->
+        <table border="1px" id="bitacora_table" class="display" width="90%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>Usuario</th>
+              <th>Tipo</th>
+              <th>Descripción</th>
+              <th>Fecha y hora</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>N</th>
+              <th>Usuario</th>
+              <th>Tipo</th>
+              <th>Descripción</th>
+              <th>Fecha y hora</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for x in object_list %}
+            <tr>
+              <td>{{ x.id }}</td>
+              <td>{{ x.usuario }}</td>
+              {% if x.tipo == "Acceso" %}
+                <td class="td_bitacora_acceso">Acceso</td>
+              {% elif x.tipo == "Actualización" %}
+                <td class="td_bitacora_actualizacion">Actualización</td>
+              {% endif %}
+              <td>{{ x.descripcion }}</td>
+              <td>{{ x.fecha_hora }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
     </div>
     <div class="col-md-3"></div>
   </div>
