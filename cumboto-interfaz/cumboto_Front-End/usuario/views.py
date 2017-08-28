@@ -262,3 +262,13 @@ class BitacoraView(ListView):
             return self.render_to_response(context)
         else:
             return render_to_response('home.template.html',context_instance=RequestContext(request))
+
+    def get_queryset(self):
+        """
+        Método que filtra los datos de la tabla.
+        Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
+        Fecha: 28-08-2017
+        """
+        #queryset = Bitacora.objects.filter(tipo='Acceso')
+        queryset = Bitacora.objects.all()
+        return queryset
