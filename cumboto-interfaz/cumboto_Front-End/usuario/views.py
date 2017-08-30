@@ -271,4 +271,6 @@ class BitacoraView(ListView):
         """
         #queryset = Bitacora.objects.filter(tipo='Acceso')
         queryset = Bitacora.objects.all()
+        print "------"
+        print queryset
         return queryset

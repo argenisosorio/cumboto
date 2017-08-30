@@ -1,8 +1,9 @@
 /**
- * @brief Función que carga los metodos del datatable de la bitácora de eventos
+ * @brief Función que carga los métodos del datatable de la bitácora de eventos
  */
 $(document).ready(function() {
-  $('#bitacora_table').DataTable({
+  var t = $('#bitacora_table').DataTable({
+    /* Poner la tabla en español */
     "language": {
       "lengthMenu": "Mostrar _MENU_ registros por página",
       "zeroRecords": "No hay datos",
@@ -16,8 +17,20 @@ $(document).ready(function() {
         "next": "Siguiente",
         "previous": "Anterior"
       },
-    }
-  });
+    },
+    /* Poner la columna index */
+    "columnDefs": [{
+        "searchable": false,
+        "orderable": false,
+        "targets": 0
+      }],
+      "order": [[ 1, 'asc' ]]
+      });
+      t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+        });
+      }).draw();
 });
 
 /**
