@@ -88,7 +88,7 @@
                 </div>
                 <div class="modal-body">
                   <!--<p>¿Esta seguro(a) que desea realizar el registro de la aplicación?</p>-->
-                  <h3>Metadatos</h3>
+                  <!--h3>Metadatos</h3-->
                   <P>{% if MSG %}{{ MSG }}{% endif %}</P>
                   <hr>
                   <div class="table-responsive">
@@ -117,8 +117,8 @@
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" onclick="metadatos_ajax()">Guardar</button>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-success" onclick="metadatos_ajax()">Registrar</button>
                 </div>
               </div>
             </div>

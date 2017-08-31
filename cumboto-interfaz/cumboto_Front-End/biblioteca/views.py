@@ -154,7 +154,7 @@ class registrar_view(CreateView):
                     models = metadata_model
                     validator = models.objects.get(codigo_app = codigo_app)
                     if validator.codigo_app == codigo_app:
-                        message = ('Desea reemplazar la aplicacion registrada '+validator.nombre+' por la que se esta cargando '+validator.nombre)
+                        message = ('Desea reemplazar la aplicacion registrada ('+validator.nombre+') por la que se esta cargando ('+validator.nombre+')')
 
                     ide = md[2]
                     for ky, vl in ide.iteritems():
@@ -209,7 +209,7 @@ class registrar_view(CreateView):
 
                     nombre_key = nombre.keys()
                     nombre_value = nombre.values()
-                    message = ('Desea realizar el registro de la aplicacion '+nombre_app)
+                    message = ('Desea realizar el registro de la aplicacion ('+nombre_app+')')
 
                     shutil.rmtree(Eliminar)
                     
@@ -277,7 +277,7 @@ def metadatos_get_data(request):
 
             ### Mensaje de exito ###
             print "----- La aplicacion "+nombre+" fue reemplazada -----"
-            message_er = ('La aplicacion '+nombre+' fue reemplazada')
+            message_er = ('La aplicacion ('+nombre+') fue reemplazada')
             
             return JsonResponse(message_er,safe=False)
 
@@ -304,7 +304,7 @@ def metadatos_get_data(request):
             os.remove(absoluta)
             '''
 
-            message_ex = 'La aplicacion se guardado de manera correcta'
+            message_ex = 'La aplicacion ('+nombre+') se registro de manera correcta'
             return JsonResponse(message_ex,safe=False)
 
 
