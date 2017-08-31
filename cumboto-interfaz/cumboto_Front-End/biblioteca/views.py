@@ -23,6 +23,8 @@ from django_datatables_view.base_datatable_view import BaseDatatableView
 import base64
 from django.core.exceptions import ValidationError
 from django.core import urlresolvers
+from usuario.models import Bitacora
+from datetime import datetime
 
 
 class registrar_view(CreateView):
@@ -277,6 +279,7 @@ def metadatos_get_data(request):
 
             ### Mensaje de exito ###
             print "----- La aplicacion "+nombre+" fue reemplazada -----"
+            Bitacora.objects.create(usuario=request.user, descripcion='Reemplazo de aplicacion', tipo='Registro', fecha_hora=datetime.now())
             message_er = ('La aplicacion ('+nombre+') fue reemplazada')
             
             return JsonResponse(message_er,safe=False)
@@ -303,7 +306,7 @@ def metadatos_get_data(request):
             absoluta = os.path.abspath(FilePath)
             os.remove(absoluta)
             '''
-
+            Bitacora.objects.create(usuario=request.user, descripcion='Registro de aplicacion', tipo='Registro', fecha_hora=datetime.now())
             message_ex = 'La aplicacion ('+nombre+') se registro de manera correcta'
             return JsonResponse(message_ex,safe=False)
 

@@ -42,6 +42,8 @@
                 <td class="td_bitacora_acceso">Acceso</td>
               {% elif x.tipo == "Actualización" %}
                 <td class="td_bitacora_actualizacion">Actualización</td>
+              {% elif x.tipo == "Registro" %}
+                <td class="td_bitacora_registro">Registro</td>
               {% endif %}
               <td>{{ x.descripcion }}</td>
               <td>{{ x.fecha_hora }}</td>

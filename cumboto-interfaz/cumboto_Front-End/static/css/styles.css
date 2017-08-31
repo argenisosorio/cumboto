@@ -18,3 +18,8 @@ table#bitacora_table tfoot th {
   background: lightblue;
   color: #000000;
 }
+
+.td_bitacora_registro {
+  background: #e99340;
+  color: #0b0000;
+}
