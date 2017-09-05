@@ -175,12 +175,15 @@ def changestatus(request):
 
 
 def editar_contrasena(request):
+    """
+    Función que permite cambiar la contraseña del usuario autenticado
+    """
     if request.method == 'POST':
         form = EditarContrasenaForm(request.POST)
         if form.is_valid():
             request.user.password = make_password(form.cleaned_data['password'])
             request.user.save()
-            messages = '¡La contraseña ha sido actualizada con exito!'
+            messages = ['¡La contraseña ha sido actualizada con exito!']
             return render(request, 'base.login.html', {'messages': messages}, context_instance=RequestContext(request))
     else:
         args = {}

@@ -69,16 +69,24 @@
                   <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                      {{ user.username }}  <i  class="fa fa-user" ></i> <span class="fa fa-angle-down"></span>
                   </a>
-              
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                 {% if user.is_authenticated %}
-                <li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</a></li>
-            {% endif %}
+                    {% if user.is_authenticated %}
+                    <li>
+                      <a href="{% url 'usuario:perfil' user.id%}">
+                        <i class="fa fa-user"></i>
+                        Perfil
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'usuario:logout' %}">
+                        <i class="fa fa-sign-out pull-left"></i>
+                        Cerrar Sesión
+                      </a>
+                    </li>
+                    {% endif %}
                   </ul>
-              
                 </li>
-
-                </ul>
+              </ul>
             </nav>
           </div>
         </div>
