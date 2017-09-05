@@ -29,7 +29,14 @@
           {{ form.last_name }}
           <label>Dirección de correo electrónico:</label>
           {{ form.email }}
-          <button class="btn btn-default" type="submit">Actualizar</button>
+          <label>Cargo que ocupa:</label>
+          {{ form.cargo }}
+          <a href="{% url 'usuario:editar_contrasena' %}">
+            <button class="btn btn-default" type="button">
+              Cambiar Contraseña
+            </button>
+          </a>
+          <button class="btn btn-default" type="submit">Actualizar perfil</button>
         </form>
       </section>
     </div>

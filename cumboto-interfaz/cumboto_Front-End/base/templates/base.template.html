@@ -17,20 +17,15 @@
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-users"></i> Gestion de Usuarios <span class="fa fa-chevron-down"></span></a>
+                  <li><a href="{% url 'usuario:perfil' user.id%}"><i class="fa fa-user"></i>Perfil</a></li>
+                  {% if user.is_superuser %}
+                  <li>
+                    <a><i class="fa fa-users"></i> Gestion de Usuarios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url 'usuario:perfil' user.id%}"><i class="fa fa-user"></i>Perfil</a></li>
-                      <li><a><i class="fa fa-wrench"></i>Opciones<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                          {% if user.is_superuser %}
-                            <li class="sub_menu"><a href="{% url 'usuario:adminuser' %}">Control de usuarios</a></li>
-                          {% endif %}
-                            <li><a href="{% url 'usuario:editar_contrasena' %}">Cambiar Contraseña</a>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
+                      <li class="sub_menu"><a href="{% url 'usuario:adminuser' %}">Control de usuarios</a></li>
+                    </ul>
                   </li>
+                  {% endif %}
                   <li><a><i class="fa fa-desktop"></i>Biblioteca<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'biblioteca:subir' %}"><i class="fa fa-edit"></i>Registrar Aplicaciones</a></li>
