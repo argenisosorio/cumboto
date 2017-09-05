@@ -76,27 +76,6 @@ def logout_view(request):
     return redirect(reverse('login'))
 
 
-'''
-def registro_usuario(request):
-    """
-    ***** Desactivada temporalmente *****
-    Función que permite crear usuarios del sistema, en espera de activación.
-    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 14-02-2017
-    """
-    usuario = request.user
-    if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            nuevo_usuario = form.save()
-            messages = '¡Registro exitoso! debe esperar la activación de su cuenta'
-            return render_to_response('base.login.html', {'messages': messages}, context_instance=RequestContext(request))
-    args = {}
-    args['form'] = UserForm
-    return render(request, 'registro.html', args)
-'''
-
-
 class UsuarioCreate(SuccessMessageMixin,CreateView):
     """
     Clase que registra los usuarios del sistema
@@ -131,19 +110,6 @@ class UsuarioCreate(SuccessMessageMixin,CreateView):
         perfil.save()
 
         return super(UsuarioCreate, self).form_valid(form)
-
-
-class PerfilUpdate(SuccessMessageMixin,UpdateView):
-    """
-    Clase que gestiona la actualización del perfil
-    Autor: Rodrigo Boet (rboet at cenditel.gob.ve)
-    Fecha: 24-04-2017
-    """
-    model = User
-    template_name = "user_profile.html"
-    form_class = EditProfileForm
-    success_message = "¡Perfil actualizado!"
-    success_url = reverse_lazy('usuario:perfil')
 
 
 def edit_profile(request, pk):

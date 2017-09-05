@@ -185,6 +185,18 @@ class EditProfileForm(forms.ModelForm):
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
     Fecha: 03-04-2017
     """
+    username = forms.CharField(max_length=30, label=("Usuario"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'required': 'true',
+            'disabled': 'disabled',
+            'placeholder': 'Nombre de usuario',
+            'title':'Ingrese el nombre de usuario',
+            'data-toggle': 'tooltip',
+            'id': 'username',
+        })
+    )
+
     first_name = forms.CharField(
         label=("Nombres"),
         widget=forms.TextInput(attrs={
@@ -224,20 +236,9 @@ class EditProfileForm(forms.ModelForm):
         })
     )
 
-    username = forms.CharField(max_length=30, label=("Usuario"),
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'required': 'true',
-            'placeholder': 'Nombre de usuario',
-            'title':'Ingrese el nombre de usuario',
-            'data-toggle': 'tooltip',
-            'id': 'username',
-        })
-    )
-
     class Meta:
         model = User
-        fields = ('first_name', 'last_name',  'email', 'username',)
+        fields = ('username', 'first_name', 'last_name', 'email',)
 
 
 class EditarEmailForm(forms.Form):
