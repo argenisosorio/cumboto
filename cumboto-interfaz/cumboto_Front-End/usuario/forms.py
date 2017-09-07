@@ -188,7 +188,7 @@ class EditProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=30, label=("Usuario"), widget=forms.TextInput(attrs={
             'class': 'form-control',
             'required': 'true',
-            'disabled': 'disabled',
+            #'disabled': 'disabled',
             #'placeholder': 'Nombre de usuario',
             #'title':'Ingrese el nombre de usuario',
             'data-toggle': 'tooltip',
@@ -227,6 +227,7 @@ class EditProfileForm(forms.ModelForm):
         })
     )
 
+    '''
     cargo = forms.CharField(max_length=30, label=("Cargo que ocupa"), widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Cargo que ocupa',
@@ -235,10 +236,12 @@ class EditProfileForm(forms.ModelForm):
             #'id': 'cargo',
         })
     )
+    '''
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'cargo',)
+        #fields = ('username', 'first_name', 'last_name', 'email', 'cargo',)
+        fields = ('username', 'first_name', 'last_name', 'email',)
 
 
 class EditarEmailForm(forms.Form):
