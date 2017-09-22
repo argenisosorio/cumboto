@@ -9,8 +9,6 @@ from django.conf import settings
 
 
 class servicioForm(ModelForm):
-
-   
     api = requests.get(settings.URL_API_REST+'api_rest/listar?format=json')
     servicios = api.content
     decode_data = json.loads(servicios)
@@ -18,7 +16,8 @@ class servicioForm(ModelForm):
     for x in range(len(decode_data)):
         j = decode_data[x]
         opciones += (j['codigo'], j['n']),
-    #####esto solo tiene que estar en interfaz y esperar que la capa respondaaaa
+
+    # Esto solo tiene que estar en interfaz y esperar que la capa responda
     servicio = forms.ChoiceField(
         choices=opciones,
         widget=forms.Select(attrs={
@@ -29,8 +28,9 @@ class servicioForm(ModelForm):
         })
     )
 
-    ### No siempre las ranuras son uno y dos mejorar el metodo###
-    ### FALTA FILTRAR POR EL SERVICIO SELECCIONADO PARA QUE APAREZCA LAS RANURAS ASIGNADA A ESE SERVICIO, SI COMO ESTA LISTAS LAS RANURAS DE TODOS LOS SERVICIOS, QUE TRAE EL DECODE_DATA)
+    # No siempre las ranuras son uno y dos mejorar el metodo #
+    # FALTA FILTRAR POR EL SERVICIO SELECCIONADO PARA QUE APAREZCA LAS RANURAS ASIGNADA A ESE SERVICIO, SI
+    # COMO ESTA LISTAS LAS RANURAS DE TODOS LOS SERVICIOS, QUE TRAE EL DECODE_DATA)
     ranuras = ()
     for i in decode_data:
         print decode_data
@@ -63,7 +63,7 @@ class servicioForm(ModelForm):
     listar_aplicaciones = requests.get(settings.URL_API_REST+'api_rest/listar-aplicaciones?format=json')
     lista = listar_aplicaciones.content
     loads_data = json.loads(lista)
-    
+
     apps = ()
     for x in range(len(loads_data)):
         j = loads_data[x]
@@ -109,7 +109,7 @@ class servicioForm(ModelForm):
         fields = ('codigo_app',)
 
 class SelectForm(forms.Form):
-    
+
     api = requests.get(settings.URL_API_REST+'api_rest/listar?format=json')
     servicios = api.content
     decode_data = json.loads(servicios)
