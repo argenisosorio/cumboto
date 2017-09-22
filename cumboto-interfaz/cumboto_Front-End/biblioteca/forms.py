@@ -14,7 +14,7 @@ class registrar_form(ModelForm):
     cargar_app = forms.FileField(label=("Cargar Aplicación"),widget=forms.FileInput(attrs={
         'class': 'filestyle',
         'type': 'file',
-        'data-placeholder' : 'Archivos permitidos: .zip ',
+        'data-placeholder' : 'Archivos permitidos: .zip',
         'data-buttonName' : 'btn-default',
         'data-placement':'left',
         'data-toggle': 'tooltip',

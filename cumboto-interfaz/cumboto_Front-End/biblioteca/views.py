@@ -36,17 +36,22 @@ class registrar_view(CreateView):
     template_name= 'registro.template.html'
     form_class = registrar_form
     success_url = reverse_lazy('biblioteca:subir')
-    
+
+    '''
     def valid_extension(value):
+        print "Entro en valid_extension----------"
         if (not value.name.endswith('.zip')):
             raise ValidationError("Archivos permitidos: .zip")
 
     def encrypt(value):
+        print "Entro en encrypt----------"
         with open(value, "rb") as file_z:
             encoded = base64.b64encode(file_z.read())
             return True
+    '''
 
     def form_valid(self, form):
+        print "Entro en form_valid -------------------------\n"
         self.object = form.save(commit=False)
         self.object.cargar_app = form.cleaned_data['cargar_app']
         self.object.save()        
@@ -66,21 +71,14 @@ class registrar_view(CreateView):
             #ruta del directorio
             path = os.getcwd()
             Eliminar_zip = path+'/'+FilePath
-            
+
             #Lista vacia para incluir los ficheros
             lstFiles = []
 
             #Lista con todos los ficheros del directorio:
             lstDir = os.walk(path)   #os.walk()Lista directorios y ficheros
 
-
-            #Crea una lista de los ficheros conf que existen en el directorio y los incluye a la lista.
-            #for root, dirs, files in lstDir:
-
-                #for fichero in files:
-                    #(nombreFichero, extension) = os.path.splitext(fichero)
-                    
-            metadata= name
+            metadata = name
             name_dir = os.path.dirname(metadata)
             ruta = path+'/'+name_dir
 
@@ -89,6 +87,7 @@ class registrar_view(CreateView):
             aplicacion = os.path.isdir(os.path.join(ruta, 'aplicacion'))
 
             if metadatos == True and aplicacion == True:
+
                 ### Contenedor ###
                 metadata = name
 

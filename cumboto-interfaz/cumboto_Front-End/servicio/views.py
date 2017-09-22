@@ -81,7 +81,7 @@ def servicios_get_data(request):
     for x in range(len(decode_data)):
         j = decode_data[x]
         opciones += (j['codigo'], j['n']),
-        
+
     return JsonResponse(decode_data,safe=False)
 
 
@@ -103,7 +103,6 @@ def ranuras_get_data(request):
         #Aplicacion = model.objects.get(codigo_app = codigo_0)
         #nombre_0 = Aplicacion.nombre
 
-
         ranura_text0 = "Ranura 0"
         ranura_0 = 0
 
@@ -113,14 +112,13 @@ def ranuras_get_data(request):
             if control_0 == 2:
                 ctl = "Menu"
 
-         ### Ranura (1) ###
+        ### Ranura (1) ###
         ranura1 = decode_data[1]
         control_1 = ranura1['control']
         codigo_1 = ranura1['codigo']
         #model = metadata_model
         #Aplicacion = model.objects.get(codigo_app = codigo_1)
         #nombre_1 = Aplicacion.nombre
-
 
         ranura_text1 = "Ranura 1"
         ranura_1 = 1
@@ -136,11 +134,11 @@ def ranuras_get_data(request):
         return JsonResponse(lista,safe=False)
     else:
         if len(decode_data) == 1:
-            
+
             ### Ranura (0) ###
             control_0 = ranura0['control']
             codigo_0 = ranura0['codigo']
-         
+
             ranura_text0 = "Ranura 0"
             ranura_0 = 0
 
@@ -157,20 +155,17 @@ def ranuras_get_data(request):
 
 
 class TableDataJsonView(BaseDatatableView):
-   
+
     model = servicioModel
-  
     columns = ['ranura_str', 'nombre' , 'modalidad_str']
-    
     order_columns = ['ranura_str', 'nombre' , 'modalidad_str']
-   
     max_display_length = 500
 
     def __init__(self):
         super(TableDataJsonView, self).__init__()
 
     def get_initial_queryset(self):
-       
+
         return self.model.objects.all()
 
     def prepare_results(self, qs):
