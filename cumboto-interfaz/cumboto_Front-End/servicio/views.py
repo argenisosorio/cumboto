@@ -1,16 +1,6 @@
-# Create your views here.
 # -*- coding: utf-8 -*-
-    ###################################################################################################
-    #   ######## #####      ###              ###   #####  ##       #  #####  ###### ###### ########   #
-    #      ##    ##   ##  ##   ##          ##   ## ##   # ##      #   ##   # ##     ##        ##      #
-    #      ##    ##    ## #######  ######  ####### #####  ##     #    #####  ####   ######    ##      #
-    #      ##    ##    ## ##   ##          ##   ## ##     ##    #     ##  ## ##         ##    ##      #
-    #      ##    #####    ##   ##          ##   ## ##     ##   #      ##  ## ###### ######    ##      #
-    ###################################################################################################
-
 """
 Sistema para transmisión de aplicaciones desde las salas de control maestro de TV (CUMBOTO)
-
 Copyleft (@) 2016 CENDITEL nodo Mérida - https://cumaco.cenditel.gob.ve/desarrollo/wiki/ftransporte
 """
 ## @namespace capa.views
@@ -43,27 +33,20 @@ from django.shortcuts import render_to_response
 from django.template import loader, Context,  RequestContext
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
 
 class servicioView(CreateView):
-
     """!
     Clase que permite almacenar los datos solicitados al servidor
     @author Hugo Ramirez (hramirez at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 08-06-2016
     """
-
     model = servicioModel
     form_class = servicioForm
     template_name = 'base.servicio.html'
     success_url = reverse_lazy('global')
 
     def form_valid(self, form):
-
-
         self.object = form.save(commit=False)
         self.object.servicio = form.cleaned_data['servicio']
         self.object.ranura = form.cleaned_data['ranura']
@@ -74,25 +57,21 @@ class servicioView(CreateView):
         return super(servicioView, self).form_valid(form)
 
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
-
 def GLOBAL_REST_FRAMEWORK(request):
     form = servicioForm()
     return render_to_response('base.servicio.html', {'form': form}, context_instance=RequestContext(request))
+
 
 def configurar_omision(request):
     form = servicioForm()
     return render(request, 'base.omision.servicio.html', {'form': form})
 
+
 def CONSULT_REST(request):
     form = SelectForm()
     return render(request, 'base.consulta.servicio.html', {'form': form})
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
+
 def servicios_get_data(request):
 
     api = requests.get(settings.URL_API_REST+'api_rest/listar?format=json')
@@ -105,9 +84,7 @@ def servicios_get_data(request):
         
     return JsonResponse(decode_data,safe=False)
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
+
 def ranuras_get_data(request):
 
     serv = request.GET.get('servicio', None)
@@ -179,9 +156,6 @@ def ranuras_get_data(request):
                 return JsonResponse(False,safe=False)
 
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
 class TableDataJsonView(BaseDatatableView):
    
     model = servicioModel
@@ -209,9 +183,7 @@ class TableDataJsonView(BaseDatatableView):
             ])
         return json_data
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
+
 def correr_get_data(request):
 
     serv = request.GET.get('serv', None)
@@ -232,9 +204,7 @@ def correr_get_data(request):
         message = 'Selecione todos los elementos'
         return JsonResponse(message,safe=False)
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
+
 def aplicaciones_get_data(request):
 
     listar_aplicaciones = requests.get(settings.URL_API_REST+'api_rest/listar-aplicaciones?format=json')
@@ -247,9 +217,7 @@ def aplicaciones_get_data(request):
 
     return JsonResponse(opciones,safe=False)
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
+
 def detener_get_data(request):
 
     serv = request.GET.get('serv', None)
@@ -262,9 +230,6 @@ def detener_get_data(request):
     return JsonResponse(loads_data,safe=False)
 
 
-###################################################
-#       CONFIGURACION DE SERVICIOS CUMBOTO        #
-###################################################
 def omision_get_data(request):
 
     cod = request.GET.get('cod', None)

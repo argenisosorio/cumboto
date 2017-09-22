@@ -284,13 +284,13 @@ def decoded_zip(request, encoded):
 
         return Response(copiar) 
 
-"""
-Clase que permite clasificar la información a serealizar
-Autor: Luis Guillermo Echenque (lechenique@gmail.com)
-fecha: 22-05-2017
-"""
 
 class ArchivoVerSet(viewsets.ModelViewSet):
+    """
+    Clase que permite clasificar la información a serealizar
+    Autor: Luis Guillermo Echenque (lechenique@gmail.com)
+    fecha: 22-05-2017
+    """
     queryset = Archivo.objects.all()
     serializer_class = appSerializer
     filter_backends = (filters.DjangoFilterBackend,filters.OrderingFilter,)
