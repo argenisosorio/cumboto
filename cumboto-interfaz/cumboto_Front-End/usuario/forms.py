@@ -266,7 +266,6 @@ class EditarEmailForm(forms.Form):
                 raise forms.ValidationError('Ya existe un email igual en la db.')
         return email
 
-
 class EditarContrasenaForm(forms.Form):
     actual_password = forms.CharField(
         label='Contraseña actual',
@@ -290,3 +289,37 @@ class EditarContrasenaForm(forms.Form):
         if password != password2:
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
+
+class EditClaveForm(forms.ModelForm):
+    """
+    Clase para editar la contraseña de cualquier usuario.
+    Autor: Etzel Mencias
+    Fecha: Junio 2017
+    """
+    password1 = forms.CharField(
+        label=_("Contraseña"),
+        min_length=3,
+        widget=forms.PasswordInput,
+    )
+    password2 = forms.CharField(
+        label=_("Cofirmacion de contraseña"),
+        min_length=3,
+        widget=forms.PasswordInput,
+    )
+
+    class Meta:
+        model = User
+
+        fields = [
+            'username',
+        ]
+
+        labels = {
+            'username': 'Nombre de usuario',
+        }
+
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class':'form-control input-md',
+            }),
+        }
