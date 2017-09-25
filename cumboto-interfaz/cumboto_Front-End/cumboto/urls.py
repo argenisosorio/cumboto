@@ -10,12 +10,12 @@ from base.views import inicio
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^cumboto/admin/', admin.site.urls),
     url(r'^cumboto/', include('base.urls', namespace='base', app_name='base')),
     url(r'^$',inicio, name='inicio'),
     url(r'^cumboto/', include('usuario.urls',namespace='usuario')),
     url(r'^cumboto/', include('biblioteca.urls', namespace='biblioteca')),
-    url(r'^cumboto/', include('servicio.urls', namespace='servicios')),
+    #url(r'^cumboto/', include('servicio.urls', namespace='servicios')),
     #url(r'^', include('agenda.urls')),
     url(r'^cumboto/', include('django.contrib.auth.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
