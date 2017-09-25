@@ -5,7 +5,7 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader, Context,  RequestContext
 from django.contrib.auth.models import User
-from .forms import UserForm, LoginForm, EditarEmailForm, EditarContrasenaForm, EditProfileForm
+from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -135,7 +135,7 @@ def useractive(request):
     users = User.objects.order_by('-pk')
     return render(request, 'admin.template.html', {"users": users})
 
-
+#Cambiar estatus de los usuarios
 def changestatus(request):
     """
     Funcion que activa, desactiva usuario y envia correo de confirmación
@@ -173,6 +173,140 @@ def changestatus(request):
 
     return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
+def deleteusers(request):
+    users = User.objects.order_by('-pk')
+    return render(request, 'admin.deleteusers.html', {"users": users})
+
+def editusers(request):
+    users = User.objects.order_by('-pk')
+    return render(request, 'admin.editusers.html', {"users": users})
+
+def editclav(request):
+    users = User.objects.order_by('-pk')
+    return render(request, 'admin.editclave.html', {"users": users})
+
+def deluser(request):
+    """
+    Función que elimina un usuario y avisa por correo.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
+    if request.method == 'POST':
+        usuario = request.POST['idusuario']
+        try:
+            Usuario = User.objects.get(pk=usuario)
+        except User.DoesNotExist:
+            Usuario = None
+        if (Usuario != None):
+            dat_user = Usuario
+            dat_user.save()
+            email_subject = 'Cuenta eliminada'
+            to_email = dat_user.email
+            email_body = loader.get_template('mensaje-eliminacion.html').render(dict({'dat_user': dat_user}))
+            send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, [to_email], fail_silently=False)
+            Usuario.delete()
+    return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+
+def ediuserone(request):
+    """
+    Función 01 para editar el correo.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
+    if request.method == 'POST':
+        idus = request.POST['idusuario']
+        try:
+            Usuario = User.objects.get(pk=idus)
+        except User.DoesNotExist:
+            Usuario = None
+        if(Usuario != None):
+            form = EditProfileForm(instance=Usuario)
+            return render(request, 'editprofileone.html', {'form': form, 'idus': idus})
+        else:
+            return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+    else:
+        return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+
+def ediusertwo(request):
+    """
+    Función 02 para editar el correo.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
+    if request.method == 'POST':
+        idus = request.POST['idusuario']
+        try:
+            Usuario = User.objects.get(pk=idus)
+        except User.DoesNotExist:
+            Usuario = None
+        if(Usuario != None):
+            newemail = request.POST['email']
+            username = request.POST['username']
+            existe = User.objects.filter(email=newemail).exclude(username=username)
+            if existe:
+                raise forms.ValidationError('Ya existe un email igual en la Base de Datos.')
+            Usuario.email = newemail
+            Usuario.save()
+            form = EditProfileForm(instance=Usuario)
+            messages = '¡Email de usuario actualizado!'
+            return render_to_response('editprofiletwo.html', {'form': form, 'messages': messages, 'idus': idus}, 
+            context_instance=RequestContext(request))
+        else:
+            return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+    else:
+        return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+
+def ediclavone(request):
+    """
+    Función 01 para editar la contraseña de un usuario.
+    Autor: Etzel Mencias
+    Fecha: Junio 2017
+    """
+    if request.method == 'POST':
+        idus = request.POST['idusuario']
+        try:
+            Usuario = User.objects.get(pk=idus)
+        except User.DoesNotExist:
+            Usuario = None
+        if(Usuario != None):
+            form = EditClaveForm(instance=Usuario)
+            return render(request, 'editclaveone.html', {'form': form, 'idus': idus})
+        else:
+            return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+    else:
+        return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+
+def ediclavtwo(request):
+    """
+    Función 02 para editar la contraseña de un usuario.
+    Autor: Etzel Mencias
+    Fecha: Junio 2017
+    """
+
+    if request.method == 'POST':
+        idus = request.POST['idusuario']
+        pass1 = request.POST['password1']
+        pass2 = request.POST['password2']
+        try:
+            Usuario = User.objects.get(pk=idus)
+        except User.DoesNotExist:
+            Usuario = None
+        if(Usuario != None):
+            username = Usuario.username
+            if(pass1 == pass2):
+                form = EditClaveForm(request.POST, instance=Usuario)
+                if form.is_valid():
+                    Usuario.password = make_password(form.cleaned_data['password1'])
+                    Usuario.save()
+                    messages = '¡El cambio de contraseña ha sido exitoso!'
+            else:
+                messages = '¡Las contraseñas no coinciden, inténtelo de nuevo!'
+            return render_to_response('editclavetwo.html', {'messages': messages, 'username': username, 'idus': idus}, 
+                context_instance=RequestContext(request))
+        else:
+            return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
+    else:
+        return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
 def editar_contrasena(request):
     """
@@ -189,7 +323,6 @@ def editar_contrasena(request):
         args = {}
         args['form'] = EditarContrasenaForm
     return render(request, 'base.password.html', args)
-
 
 class UsuarioEliminar(SuccessMessageMixin,DeleteView):
     """
