@@ -176,7 +176,7 @@ utilizados en la aplicación, debe abrir cada archivo .py donde el mismo present
 
 	5. Para entornos de pruebas de Ocumare, se puede ejecutar por medio del script gtsco.py:
 	# cd /usr/local/bin
-	# ln ­-s /usr/local/src/ocumare/luth/gtsco.py
+	# ln -s /usr/local/src/ocumare/luth/gtsco.py
 
 ### Instalación de Opencaster 3.2.2
 
@@ -192,22 +192,22 @@ utilizados en la aplicación, debe abrir cada archivo .py donde el mismo present
 		• zlib1g (>= 1:1.1.4)
 		• python (>= 2.7)
 		• python (< 2.8)
-		• libdvbcsa­dev
+		• libdvbcsa-dev
 	2. Instalar las siguientes dependencias:
 	# aptitude install python-all-dev libdvbcsa1 libdvbcsa-dev debhelper
-	# aptitude install build­essential devscripts
-	# aptitude -R install binutils gcc libc6-dev libgomp1 linux­libc-dev make python-dev \
+	# aptitude install build-essential devscripts
+	# aptitude -R install binutils gcc libc6-dev libgomp1 linux-libc-dev make python-dev \
 	 python2.5-dev zlib1g-dev python-dateutil
-	3. Descargar código fuente desde el trac de Cumaco­CENDITEL
+	3. Descargar código fuente desde el trac de Cumaco-CENDITEL
 	# export GIT_SSL_NO_VERIFY=True
 	# cd /usr/local/src/
 	# git clone https://cumaco.cenditel.gob.ve/desarrollo/scm/git/opencaster.git
 	4. Construir el paquete Debian de opencaster e instalar:
 		4.1. En el directorio del paquete opencaster-3.2.2/opencaster-3.2.1+dfsg ejecutar:
-		$ debuild ­-us -uc -b
+		$ debuild -us -uc -b
 		4.2. Luego de que la construcción del paquete sea exitosa, instalar (desde la cuenta de superusuario):
 		# dpkg -i opencaster_3.2.2+dfsg-1_amd64.deb
 		4.3. Realizar los siguientes enlaces simbólicos, esto se debe a que cambiaron el nombre en esta versión.
 		# ln -s /usr/bin/file2mod /usr/bin/file2mod.py
 		# ln -s /usr/bin/mod2sec /usr/bin/mod2sec.py
-		# ln -s /usr/bin/oc­update /usr/bin/oc-update.py
+		# ln -s /usr/bin/oc-update /usr/bin/oc-update.py
