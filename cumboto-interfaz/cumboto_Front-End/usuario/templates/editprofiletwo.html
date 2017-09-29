@@ -20,8 +20,8 @@
           </div>
         {% endif %}
         <form method="POST" action="{%  url 'usuario:adminuser' %}" class="" />{% csrf_token %}
-          <label>Id Usuario:</label>
-          {{ idus }} <br>
+          <!-- <label>Id Usuario:</label>
+          {{ idus }} <br> -->
           <label>Nombre de Usuario:</label>
           {{ form.username }}
           <label>Dirección de correo electrónico:</label>

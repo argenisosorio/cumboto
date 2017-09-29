@@ -20,10 +20,10 @@
           </div>
         {% endif %}
         <form method="POST" action="{%  url 'usuario:adminuser' %}" class="" />{% csrf_token %}
-          <label>Id Usuario:</label>
-          {{ idus }} <br>
+          <!-- <label>Id Usuario:</label>
+          {{ idus }} <br> -->
           <label>Nombre de Usuario:</label>
-          {{ username }}
+          {{ username }} <br>
           <button class="btn btn-default" type="submit">Salir</button>
         </form>
       </section>

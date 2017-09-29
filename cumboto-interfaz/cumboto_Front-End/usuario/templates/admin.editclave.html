@@ -1,10 +1,8 @@
 {% extends 'base.template.html' %}
 {% load static from staticfiles %}
 {% block content %}
-
 <script type='text/javascript'>
 $(document).ready(function() {
-
   $('a[data-toggle=modal], button[data-toggle=modal]').click(function () {
     var data_id = '';
     if (typeof $(this).data('user-id') !== 'undefined') {
@@ -19,7 +17,6 @@ $('#myModal').on('hidden', function () {
   document.location.reload();
 })
 </script>
-
       <div class="x_panel">
        <div class="row">
                 <br>
@@ -56,8 +53,6 @@ $('#myModal').on('hidden', function () {
                         <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">
                         Cambiar</a>
                         </label>
-                        
-  
                   {% else %}
                   <tr class="danger">
                     <td>{{u.username}}</td>
@@ -70,7 +65,6 @@ $('#myModal').on('hidden', function () {
                         <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">    
                         Cambiar</a>
                         </label>
-                        
                   {% endif%}
                     </td>
               {% endfor %}

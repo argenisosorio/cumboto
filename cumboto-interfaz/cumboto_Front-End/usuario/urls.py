@@ -11,10 +11,7 @@ from . import views
 #from validate_email import validate_email
 
 #inclusión del nombre del metodo login
-from usuario.views import (
-    changestatus, useractive, acceso
-   )
-from . import views 
+from usuario.views import *
 
 app_name = 'usuario'
 
@@ -27,20 +24,24 @@ urlpatterns = [
     url(r'^logout/$', views.logout_view, name="logout"),
     url(r'^adminuser/$', login_required(useractive), name='adminuser'),
     url(r'^changestatus/', login_required(changestatus), name='changestatus'),
-    url(r'^eliminar_usuario/(?P<pk>\d+)$', login_required(views.UsuarioEliminar.as_view()), name='usuario_eliminar'),
+    url(r'^admdelusers/$', login_required(deleteusers), name='admdelusers'),
+    url(r'^admedusers/$', login_required(editusers), name='admedusers'),
+    url(r'^admedclav/$', login_required(editclav), name='admedclav'),
+    url(r'^deluser/$', login_required(deluser), name='deluser'),
+    url(r'^ediuserone/$', login_required(ediuserone), name='ediuserone'),
+    url(r'^ediusertwo/$', login_required(ediusertwo), name='ediusertwo'),
+    url(r'^ediclavone/$', login_required(ediclavone), name='ediclavone'),
+    url(r'^ediclavtwo/$', login_required(ediclavtwo), name='ediclavtwo'),
+    #url(r'^eliminar_usuario/(?P<pk>\d+)$', login_required(views.UsuarioEliminar.as_view()), name='usuario_eliminar'),
     url(r'^password/$', login_required(views.editar_contrasena), name='editar_contrasena'),
-    
     url(r'^reset/password_reset/$', password_reset, {'template_name': 'password_reset_form.html', 
         'email_template_name':'password_reset_email.html'},
         name='password_reset'),
-    
     url(r'^password_reset/done/$', password_reset_done, {'template_name': 'password_reset_done.html'}, 
         name='password_reset/done/'),
-   
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', 
         password_reset_confirm, {'template_name': 'password_reset_confirm.html'}, 
         name='password_reset_confirm'),
-    
     url(r'^reset/done', password_reset_complete, {'template_name': 'password_reset_complete.html'}, 
         name='password_reset_complete'),
 ]

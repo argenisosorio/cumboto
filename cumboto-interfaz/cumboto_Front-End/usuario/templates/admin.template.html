@@ -28,40 +28,69 @@ $('#myModal').on('hidden', function () {
   <div class="row">
     <div class="col-md-12" align="center">
       <h1>Control de Usuarios</h1>
-      <h2>Activar y desactivar usuarios</h2>
       <hr>
       <form action="" method="post">{% csrf_token %}
         <table class="table table-bordered">
           <tr>
-            <th align="center">Opciones</th>
             <th align="center">Usuario</th>
             <th align="center">Nombres</th>
             <th align="center">Apellidos</th>
             <th align="center">Correo</th>
             <th align="center">Estatus</th>
+            <th align="center">Opciones</th>
           </tr>
           {% for u in users %}
           {% if u.is_active%}
-          <tr class="bg-success"> 
+          <tr class="bg-success">
+            <td>{{u.username}}</td>
+            <td>{{u.first_name}}</td>
+            <td>{{u.last_name}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.is_active|yesno:"Activo,Inactivo"}}</td>
             <td>
               <label>
                 <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">
-                <input type="checkbox" class="js-switch" checked /> Activado</a>
+                <input type="checkbox" class="js-switch" checked /> Desactivar</a>
               </label>
+
+              <label>
+                <a href="{% url 'usuario:admdelusers' %}">| Eliminar</a>
+              </label>
+
+              <label>
+                <a href="{% url 'usuario:admedusers' %}">| Editar email</a>
+              </label>
+
+              <label>
+                <a href="{% url 'usuario:admedclav' %}">| Cambiar contraseña</a>
+              </label>
+  
           {% else %}
-              <tr class="danger">
-                <td>
-                  <label>
-                    <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">    
-                    <input type="checkbox" class="js-switch"  /> Desactivado</a>
-                  </label>
-                  {% endif%}
-                </td>
-                <td>{{u.username}}</td>
-                <td>{{u.first_name}}</td>
-                <td>{{u.last_name}}</td>
-                <td>{{u.email}}</td>
-                <td>{{u.is_active|yesno:"Activo,Inactivo"}}</td>
+          <tr class="danger">
+            <td>{{u.username}}</td>
+            <td>{{u.first_name}}</td>
+            <td>{{u.last_name}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.is_active|yesno:"Activo,Inactivo"}}</td>
+            <td>
+              <label>
+                <a href= "#" data-toggle="modal" data-target="#myModal" data-user-id="{{u.id}}">    
+                <input type="checkbox" class="js-switch"  /> Activar</a>
+              </label>
+
+              <label>
+                <a href="{% url 'usuario:admdelusers' %}">| Eliminar</a>
+              </label>
+
+              <label>
+                <a href="{% url 'usuario:admedusers' %}">| Editar email</a>
+              </label>
+
+              <label>
+                <a href="{% url 'usuario:admedclav' %}">| Cambiar contraseña</a>
+              </label>
+          {% endif%}
+            </td>
           {% endfor %}
               </tr>
             </td>
