@@ -1,7 +1,6 @@
 {% extends 'base.template.html' %}
 {% load staticfiles %}
 {% block content %}
-
 <div class="x_panel">
   <div class="row">
     <br>
@@ -15,8 +14,8 @@
     <div class="col-md-6">
       <section class="login_content">
       <form method="POST" action="{% url 'usuario:ediusertwo' %}">{% csrf_token %}
-        <label>Id Usuario:</label>
-        {{ idus }} <br>
+        <!-- <label>Id Usuario:</label>
+        {{ idus }} <br> -->
         <label>{{ form.username.label_tag }}</label>
         {{ form.username }}
         <label>Correo electrónico:</label>

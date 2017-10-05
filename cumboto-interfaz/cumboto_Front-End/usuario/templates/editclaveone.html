@@ -1,7 +1,6 @@
 {% extends 'base.template.html' %}
 {% load staticfiles %}
 {% block content %}
-
 <div class="x_panel">
   <div class="row">
     <br>
@@ -15,8 +14,8 @@
     <div class="col-md-6">
       <section class="login_content">
       <form method="POST" action="{% url 'usuario:ediclavtwo' %}">{% csrf_token %}
-        <label>Id Usuario:</label>
-        {{ idus }} <br>
+        <!-- <label>Id Usuario:</label>
+        {{ idus }} <br> -->
         <label>Nombre de Usuario:</label>
         {{ form.username }}
         <label>Contraseña:</label>

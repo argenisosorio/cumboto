@@ -4,7 +4,7 @@
 Django>=1.9.5,<1.10
 psycopg2
 #
-<<<<<<< HEAD
+#<<<<<<< HEAD
 ###### Archivos de requerimientos extendidos de bibliotecas de python ##
 jinja2
 markdown 
