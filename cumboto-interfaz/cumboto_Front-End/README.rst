@@ -84,6 +84,8 @@ Al tener ya configurado los parámetros de acceso a la base de datos, se ejecuta
 -Para construir las migraciones de la base de datos en caso de que no existan:
 $ python manage.py makemigrations
 
+Notas: Las migraciones se deben hacer para cada modulo: base, usuario, biblioteca, servicio, agenda 
+
 -Para crear la estructura de la base de datos:
 $ python manage.py migrate
 
