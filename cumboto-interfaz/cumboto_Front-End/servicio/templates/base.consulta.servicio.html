@@ -3,19 +3,6 @@
 {% block content %}
 <script type="text/javascript">
 
-  $(document).ready(function() {
-     var info = bootbox.dialog({
-              size: '',
-              title: 'Notificacion:',
-              message: 'Consulte el servicio que desee y para detener selecione con un click y presione el boton detener',
-              buttons: {
-                main: {
-                  label: 'Aceptar' ,
-                  className: 'btn btn-default',
-                }
-              }
-            });
-  });
 
     function obt_ranuras(){
               
@@ -38,22 +25,26 @@
                             var aplicacion_0 = x[1]
                             var modalidad_0 = x[2]
                             var serv_0 = x[3]
+                            var cod_0 = x[4]
 
                             // Ranura 1
                             var ranura_1 = y[0] 
                             var aplicacion_1 = y[1]
                             var modalidad_1 = y[2]
                             var serv_1 = y[3]
+                            var cod_0 = x [4]
                             
-
-                            var dataSet = [[serv_0, ranura_0 , aplicacion_0, modalidad_0],[serv_1, ranura_1 , aplicacion_1, modalidad_1]]
+                            // Tablas para Consulta de Servicios
+                            //Revisar orden y entrada de datos que no coinciden y da mensaje de error.
+                            var dataSet = [[serv_0, ranura_0 , aplicacion_0, cod_0, modalidad_0],[serv_1, ranura_1 , aplicacion_1, cod_0, modalidad_1]]
 
                             table = $('#data').DataTable({
                             data: dataSet,
                             columns: [
-                                { title: "Servicio:" },
-                                { title: "Ranura:" },
-                                { title: "Aplicacion:" },
+                                { title: "Nombre del Servicio:" },
+                                { title: "Ranuras:" },
+                                { title: "Nombre de la Aplicacion:" },
+                                { title: "Codigo de la Aplicacion:" },
                                 { title: "Modalidad:" }
                             ]
                             });
