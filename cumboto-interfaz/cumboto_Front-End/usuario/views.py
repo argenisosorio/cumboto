@@ -333,7 +333,6 @@ def change_password(request):
     })
 
 
-
 class BitacoraView(ListView):
     """
     Clase que muestra la lista de entradas de la bitácora

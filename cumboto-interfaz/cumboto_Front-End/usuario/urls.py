@@ -30,7 +30,6 @@ urlpatterns = [
     url(r'^ediclavone/$', login_required(ediclavone), name='ediclavone'),
     url(r'^ediclavtwo/$', login_required(ediclavtwo), name='ediclavtwo'),
     url(r'^password/$', login_required(views.change_password), name='change_password'),
-    url(r'^password/$', login_required(views.editar_contrasena), name='editar_contrasena'),
     url(r'^reset/password_reset/$', password_reset, {'template_name': 'password_reset_form.html', 
         'email_template_name':'password_reset_email.html', 'password_reset_form':PasswordResetForm},
         name='password_reset'),
