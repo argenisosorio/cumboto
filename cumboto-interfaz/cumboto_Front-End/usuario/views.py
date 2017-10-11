@@ -135,7 +135,7 @@ def useractive(request):
     users = User.objects.order_by('-pk')
     return render(request, 'admin.template.html', {"users": users})
 
-#Cambiar estatus de los usuarios
+
 def changestatus(request):
     """
     Funcion que activa, desactiva usuario y envia correo de confirmación
@@ -282,7 +282,6 @@ def ediclavtwo(request):
     Autor: Etzel Mencias
     Fecha: Junio 2017
     """
-
     if request.method == 'POST':
         idus = request.POST['idusuario']
         pass1 = request.POST['password1']

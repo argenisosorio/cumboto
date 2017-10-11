@@ -8,17 +8,14 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from .views import *
 from . import views
-#from validate_email import validate_email
-
-#inclusión del nombre del metodo login
 from usuario.views import *
+#from validate_email import validate_email
 
 app_name = 'usuario'
 
 urlpatterns = [
     url(r'^login/$', views.acceso, name='acceso'),
     url(r'^crear_usuario/$', UsuarioCreate.as_view(), name='registro'),
-    #url(r'^perfil/(?P<pk>\d+)$', login_required(views.PerfilUpdate.as_view()), name='perfil'),
     url(r'^perfil/(?P<pk>\d+)$', login_required(views.edit_profile), name="perfil"),
     url(r'^bitacora', login_required(views.BitacoraView.as_view()), name='bitacora'),
     url(r'^logout/$', views.logout_view, name="logout"),
@@ -32,7 +29,6 @@ urlpatterns = [
     url(r'^ediusertwo/$', login_required(ediusertwo), name='ediusertwo'),
     url(r'^ediclavone/$', login_required(ediclavone), name='ediclavone'),
     url(r'^ediclavtwo/$', login_required(ediclavtwo), name='ediclavtwo'),
-    #url(r'^eliminar_usuario/(?P<pk>\d+)$', login_required(views.UsuarioEliminar.as_view()), name='usuario_eliminar'),
     url(r'^password/$', login_required(views.editar_contrasena), name='editar_contrasena'),
     url(r'^reset/password_reset/$', password_reset, {'template_name': 'password_reset_form.html', 
         'email_template_name':'password_reset_email.html'},
