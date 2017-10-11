@@ -137,7 +137,7 @@ def useractive(request):
     users = User.objects.order_by('-pk')
     return render(request, 'admin.template.html', {"users": users})
 
-#Cambiar estatus de los usuarios
+
 def changestatus(request):
     """
     Funcion que activa, desactiva usuario y envia correo de confirmación
@@ -284,7 +284,6 @@ def ediclavtwo(request):
     Autor: Etzel Mencias
     Fecha: Junio 2017
     """
-
     if request.method == 'POST':
         idus = request.POST['idusuario']
         pass1 = request.POST['password1']
@@ -333,20 +332,6 @@ def change_password(request):
         'form': form
     })
 
-
-class UsuarioEliminar(SuccessMessageMixin,DeleteView):
-    """
-    Clase que permite eliminar un objeto(usuario) pidiendo confirmación por template
-    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 04-05-2017
-    **************************
-    ***** Aún en pruebas *****
-    **************************
-    """
-    model = User
-    #fields = ['username', 'last_name', 'email']
-    success_url = reverse_lazy('base')
-    success_message = "Se eliminó el usuario con éxito"
 
 
 class BitacoraView(ListView):
