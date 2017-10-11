@@ -324,20 +324,6 @@ def editar_contrasena(request):
         args['form'] = EditarContrasenaForm
     return render(request, 'base.password.html', args)
 
-class UsuarioEliminar(SuccessMessageMixin,DeleteView):
-    """
-    Clase que permite eliminar un objeto(usuario) pidiendo confirmación por template
-    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 04-05-2017
-    **************************
-    ***** Aún en pruebas *****
-    **************************
-    """
-    model = User
-    #fields = ['username', 'last_name', 'email']
-    success_url = reverse_lazy('base')
-    success_message = "Se eliminó el usuario con éxito"
-
 
 class BitacoraView(ListView):
     """
