@@ -7,8 +7,9 @@ from django.template import loader, Context,  RequestContext
 from django.contrib.auth.models import User
 from .forms import *
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.views.generic import TemplateView, FormView, UpdateView, FormView
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -25,6 +26,7 @@ from django.views import generic
 from django.views.generic import DeleteView
 import logging
 from django.contrib.auth import forms, login, logout, authenticate
+from django.contrib.auth.tokens import default_token_generator
 logger = logging.getLogger("usuario")
 from datetime import datetime
 from .models import Perfil, Bitacora
@@ -40,8 +42,8 @@ def acceso(request):
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
     Fecha: 13-02-2017
     """
-    if not request.user.is_anonymous():
-        return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
+    #if not request.user.is_anonymous():
+        #return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         if form.is_valid:
@@ -52,7 +54,7 @@ def acceso(request):
                 if acceso.is_active:
                     login(request, acceso)
                     Bitacora.objects.create(usuario=request.user, descripcion='Accedio al sistema', tipo='Acceso', fecha_hora=datetime.now())
-                    return render_to_response('home.template.html',context_instance=RequestContext(request))
+                    return render_to_response('home.template.html', context_instance=RequestContext(request))
                 else:
                     messages = ['Lo sentimos, este usuario está en espera de activación']
                     return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
@@ -308,21 +310,29 @@ def ediclavtwo(request):
     else:
         return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
-def editar_contrasena(request):
+
+def change_password(request):
     """
-    Función que permite cambiar la contraseña del usuario autenticado
+    Funcion que cambia la contraseña del usuario.
+    Autor: Yngris Ibarguen (yibarguen@cenditel.gob.ve)
+    Fecha: 2016
+    Modificado: Septiembre de 2017
     """
     if request.method == 'POST':
-        form = EditarContrasenaForm(request.POST)
+        form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
-            request.user.password = make_password(form.cleaned_data['password'])
-            request.user.save()
-            messages = ['¡La contraseña ha sido actualizada con exito!']
-            return render(request, 'base.login.html', {'messages': messages}, context_instance=RequestContext(request))
+            request.user.password = make_password(form.cleaned_data['new_password1'])
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, ('¡La contraseña ha sido actualizada con exito!'))
+            return HttpResponseRedirect(urlresolvers.reverse('usuario:acceso'))
+
     else:
-        args = {}
-        args['form'] = EditarContrasenaForm
-    return render(request, 'base.password.html', args)
+        form = PasswordChangeForm(request.user)
+    return render(request, 'base.password.html', {
+        'form': form
+    })
+
 
 class UsuarioEliminar(SuccessMessageMixin,DeleteView):
     """

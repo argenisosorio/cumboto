@@ -3,7 +3,7 @@ from __future__ import unicode_literals, absolute_import
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,  PasswordResetForm, PasswordChangeForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
 from django.forms import (
@@ -266,29 +266,6 @@ class EditarEmailForm(forms.Form):
                 raise forms.ValidationError('Ya existe un email igual en la db.')
         return email
 
-class EditarContrasenaForm(forms.Form):
-    actual_password = forms.CharField(
-        label='Contraseña actual',
-        min_length=3,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-    password = forms.CharField(
-        label='Nueva contraseña',
-        min_length=3,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-    password2 = forms.CharField(
-        label='Repetir contraseña',
-        min_length=3,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-    def clean_password2(self):
-        """Comprueba que password y password2 sean iguales."""
-        password = self.cleaned_data['password']
-        password2 = self.cleaned_data['password2']
-        if password != password2:
-            raise forms.ValidationError('Las contraseñas no coinciden.')
-        return password2
 
 class EditClaveForm(forms.ModelForm):
     """
@@ -323,3 +300,25 @@ class EditClaveForm(forms.ModelForm):
                 'class':'form-control input-md',
             }),
         }
+
+class PasswordResetForm(PasswordResetForm):
+    """
+    Clase para validar la existencia del email al restablecer la contraseña
+    Autor: Yngris Ibarguen (yibarguen@cenditel.gob.ve)
+    Fecha: 2016
+    Modificado: Septiembre de 2017
+    """
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'class': 'form-control',
+                                                  'placeholder': 'Correo'})
+
+    def clean(self):
+        cleaned_data = super(PasswordResetForm, self).clean()
+        email = self.cleaned_data['email']
+        if email:
+            msg = "¡Esta dirección de correo no existe!"
+            try:
+                User.objects.get(email=email)
+            except:
+                self.add_error('email', msg)
