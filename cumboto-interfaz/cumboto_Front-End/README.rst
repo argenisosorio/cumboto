@@ -10,11 +10,10 @@ maestro del canal por parte del personal técnico asignado a ella.
 
 ### Licencia ###
 
-CUMBOTO-v2, sus carpetas y archivos, se disribuye bajo la Licencia de Software
+CUMBOTO-v2, sus carpetas y archivos, se disribuyen bajo la Licencia de Software
 Libre GNU/GPL versión 2, esto implica que el usuario final de la aplicación esta
-en la libertad de ejecutarla, modificar su código fuente, copiarla y/o
-distribuírla, siempre y cuando al hacerlo se citen las fuentes originales de ésta
-aplicación.
+en la libertad de ejecutar, modificar, copiar y/o distribuír, siempre y cuando al
+hacerlo se citen las fuentes originales de ésta aplicación.
 
 Para obtener mayor información en torno a los términos de la licencia bajo los
 cuales se distribuye la aplicación, lea con atención la
