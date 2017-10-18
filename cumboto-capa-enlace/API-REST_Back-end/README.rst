@@ -74,27 +74,33 @@ del sistema.
 3-) Crear los directorios donde se encontraran los archivos de configuración del
 sistema, archivos de transmisión y la biblioteca de aplicaciones:
 
-• Archivo de configuración del sistema de transmisión:
+Archivo de configuración del sistema de transmisión:
+
 # mkdir /etc/cumaco
 
-• Archivos de configuración y transport stream (TS) a transmitir:
+Archivos de configuración y transport stream (TS) a transmitir:
+
 # mkdir -p /var/local/cumaco/biblio
 
-• Biblioteca donde se hospedarán las aplicaciones interactivas:
+Biblioteca donde se hospedarán las aplicaciones interactivas:
+
 # mkdir /var/local/cumaco/transmision
 
 4-) Copiar los archivos de configuración desde la carpeta “doc” del codigo fuente hacia los directorios de trabajo:
 
-• Copiar el archivo de configuración del sistema de transmisión:
+Copiar el archivo de configuración del sistema de transmisión:
+
 # cp -r /usr/local/src/ocumare/doc/ocumare.conf /etc/cumaco
 
-• Copiar los archivos de configuración y transport stream (TS) a transmitir:
+Copiar los archivos de configuración y transport stream (TS) a transmitir:
+
 # cp -r /usr/local/src/ocumare/doc/transmision/* /var/local/cumaco/transmision
 
-•  Copiar ejemplo o estructura de las biblioteca donde se hospedan las aplicaciones interactivas:
+Copiar ejemplo o estructura de las biblioteca donde se hospedan las aplicaciones interactivas:
+
 # cp -r /usr/local/src/ocumare/doc/biblio/* /var/local/cumaco/biblio
 
-5-). Para entornos de pruebas de Ocumare, se puede ejecutar por medio del script gtsco.py:
+5-) Para entornos de pruebas de Ocumare, se puede ejecutar por medio del script gtsco.py:
 
 # cd /usr/local/bin
 # ln -s /usr/local/src/ocumare/luth/gtsco.py
