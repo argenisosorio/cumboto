@@ -311,7 +311,8 @@ class PasswordResetForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super(PasswordResetForm, self).__init__(*args, **kwargs)
         self.fields['email'].widget.attrs.update({'class': 'form-control',
-                                                  'placeholder': 'Correo'})
+                                                  'placeholder': 'Correo',
+                                                  'required': 'true'})
 
     def clean(self):
         cleaned_data = super(PasswordResetForm, self).clean()
