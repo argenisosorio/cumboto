@@ -135,7 +135,10 @@ def edit_profile(request, pk):
 
 def useractive(request):
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.template.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.template.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 
 def changestatus(request):
@@ -177,15 +180,24 @@ def changestatus(request):
 
 def deleteusers(request):
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.deleteusers.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.deleteusers.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def editusers(request):
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.editusers.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.editusers.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def editclav(request):
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.editclave.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.editclave.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def deluser(request):
     """

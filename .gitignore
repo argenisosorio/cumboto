@@ -12,8 +12,13 @@ cumboto-interfaz/cumboto_Front-End/cumboto/database_config.py
 cumboto-interfaz/cumboto_Front-End/usuario/migrations
 cumboto-interfaz/cumboto_Front-End/biblioteca/migrations
 cumboto-interfaz/cumboto_Front-End/servicio/migrations
+cumboto-interfaz/cumboto_Front-End/usuario/forms_etzel.py
+cumboto-interfaz/cumboto_Front-End/usuario/templates/user_profile_etzel.html
+cumboto-interfaz/cumboto_Front-End/README.py
 cumboto-capa-enlace/API-REST_Back-end/capa/migrations
 cumboto-capa-enlace/API-REST_Back-end/db.sqlite3
+cumboto-capa-enlace/API-REST_Back-end/README.py
 cumboto-interfaz/cumboto_Front-End/tmp/
 settings.py
 database_config.py
+
