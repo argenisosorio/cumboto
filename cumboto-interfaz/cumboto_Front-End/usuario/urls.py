@@ -15,6 +15,7 @@ app_name = 'usuario'
 
 urlpatterns = [
     url(r'^login/$', views.acceso, name='acceso'),
+    url(r'^bienvenido/$', login_required(inicio), name='inicio'),
     url(r'^crear_usuario/$', UsuarioCreate.as_view(), name='registro'),
     url(r'^perfil/(?P<pk>\d+)$', login_required(views.edit_profile), name="perfil"),
     url(r'^bitacora', login_required(views.BitacoraView.as_view()), name='bitacora'),

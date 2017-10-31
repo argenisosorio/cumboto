@@ -31,10 +31,8 @@ logger = logging.getLogger("usuario")
 from datetime import datetime
 from .models import Perfil, Bitacora
 
-
 class IndexTemplate(TemplateView):
    template_name = "home.template"
-
 
 def acceso(request):
     """
@@ -42,8 +40,6 @@ def acceso(request):
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
     Fecha: 13-02-2017
     """
-    #if not request.user.is_anonymous():
-        #return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         if form.is_valid:
@@ -54,7 +50,7 @@ def acceso(request):
                 if acceso.is_active:
                     login(request, acceso)
                     Bitacora.objects.create(usuario=request.user, descripcion='Accedio al sistema', tipo='Acceso', fecha_hora=datetime.now())
-                    return render_to_response('home.template.html', context_instance=RequestContext(request))
+                    return HttpResponseRedirect(urlresolvers.reverse('usuario:inicio'))
                 else:
                     messages = ['Lo sentimos, este usuario está en espera de activación']
                     return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
@@ -63,8 +59,17 @@ def acceso(request):
                 return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
     else:
         form = AuthenticationForm()
+
     return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
 
+def inicio(request):
+    """
+    Función que abre pagina de inicio.
+    Autor: Etzel Mencias
+    Fecha: 31 octubre 2017
+    """
+    users = User.objects.order_by('-pk')
+    return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def logout_view(request):
     """
@@ -179,6 +184,11 @@ def changestatus(request):
     return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
 def deleteusers(request):
+    """
+    Función que abre pagina para eliminar un usuario.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
     users = User.objects.order_by('-pk')
     if request.user.is_superuser:
         return render(request, 'admin.deleteusers.html', {"users": users})
@@ -186,6 +196,11 @@ def deleteusers(request):
         return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def editusers(request):
+    """
+    Función que abre pagina para editar el correo de un usuario.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
     users = User.objects.order_by('-pk')
     if request.user.is_superuser:
         return render(request, 'admin.editusers.html', {"users": users})
@@ -193,6 +208,11 @@ def editusers(request):
         return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def editclav(request):
+    """
+    Función que abre pagina para editar la contraseña de un usuario.
+    Autor: Etzel Mencias
+    Fecha: Junio 2017
+    """
     users = User.objects.order_by('-pk')
     if request.user.is_superuser:
         return render(request, 'admin.editclave.html', {"users": users})
@@ -223,7 +243,7 @@ def deluser(request):
 
 def ediuserone(request):
     """
-    Función 01 para editar el correo.
+    Función 01 para editar el correo de un usuario.
     Autor: Etzel Mencias
     Fecha: Mayo 2017
     """
@@ -243,7 +263,7 @@ def ediuserone(request):
 
 def ediusertwo(request):
     """
-    Función 02 para editar el correo.
+    Función 02 para editar el correo de un usuario.
     Autor: Etzel Mencias
     Fecha: Mayo 2017
     """
