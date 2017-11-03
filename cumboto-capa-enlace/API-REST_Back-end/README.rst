@@ -66,38 +66,38 @@ del sistema.
 
 2-) Descargar código fuente desde el trac de CENDITEL:
 
-# export GIT_SSL_NO_VERIFY=True
-# cd /usr/local/src/
-# git clone https://cumaco.cenditel.gob.ve/desarrollo/scm/git/ocumare.git
+$ export GIT_SSL_NO_VERIFY=True
+$ cd /usr/local/src/
+$ git clone https://cumaco.cenditel.gob.ve/desarrollo/scm/git/ocumare.git
 
 3-) Crear los directorios donde se encontraran los archivos de configuración del
 sistema, archivos de transmisión y la biblioteca de aplicaciones:
 
 Archivo de configuración del sistema de transmisión:
 
-# mkdir /etc/cumaco
+$ mkdir /etc/cumaco
 
 Archivos de configuración y transport stream (TS) a transmitir:
 
-# mkdir -p /var/local/cumaco/biblio
+$ mkdir -p /var/local/cumaco/biblio
 
 Biblioteca donde se hospedarán las aplicaciones interactivas:
 
-# mkdir /var/local/cumaco/transmision
+$ mkdir /var/local/cumaco/transmision
 
 4-) Copiar los archivos de configuración desde la carpeta “doc” del codigo fuente hacia los directorios de trabajo:
 
 Copiar el archivo de configuración del sistema de transmisión:
 
-# cp -r /usr/local/src/ocumare/doc/ocumare.conf /etc/cumaco
+$ cp -r /usr/local/src/ocumare/doc/ocumare.conf /etc/cumaco
 
 Copiar los archivos de configuración y transport stream (TS) a transmitir:
 
-# cp -r /usr/local/src/ocumare/doc/transmision/* /var/local/cumaco/transmision
+$ cp -r /usr/local/src/ocumare/doc/transmision/* /var/local/cumaco/transmision
 
 Copiar ejemplo o estructura de las biblioteca donde se hospedan las aplicaciones interactivas:
 
-# cp -r /usr/local/src/ocumare/doc/biblio/* /var/local/cumaco/biblio
+$ cp -r /usr/local/src/ocumare/doc/biblio/* /var/local/cumaco/biblio
 
 5-) Para entornos de pruebas de Ocumare, se puede ejecutar por medio del script gtsco.py:
 
