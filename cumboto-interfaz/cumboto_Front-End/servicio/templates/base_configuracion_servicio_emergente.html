@@ -1,41 +1,11 @@
 {% extends "base.template.html" %}
 {% load staticfiles %}
 {% block content %}
-<script type="text/javascript">
-    
-    function New_status(){
-
-            var serv = document.getElementById('servicio').value;
-            var app = document.getElementById('ranura').value;
-            var cod = document.getElementById('codigo_app').value;
-            var ctl = document.getElementById('modalidad').value;
-
-            $.ajax({
-                url: 'ajax/correr-data',
-                type: 'GET',
-                data: {'serv': serv, 'app': app, 'cod': cod, 'ctl': ctl },
-                success: function (response) {
-
-                    var exito = bootbox.dialog({
-                    size: 'small',
-                    title: 'Notificacion:',
-                    message: 'Response: '+response,
-                    buttons: {
-                      main: {
-                        label: 'Aceptar' ,
-                        className: "btn btn-default"
-                      }
-                    }
-                  });
-                  document.getElementById("myServ").reset();
-                    
-                }
-            });
-        };
-</script>
 <div class="page-title">
     <div class="title_left">
-        <h3>Gestión de Transmisión de Aplicaciones Interactivas para la TDA</h3>
+        <h3>
+            Gestión de Transmisión de Aplicaciones Interactivas para la TDA
+        </h3>
     </div>
 </div>
      <div class="x_panel">
@@ -50,10 +20,18 @@
                <div class="col-xs-3"></div>
                <div class="col-xs-6">
 
-               <h1 align="center">Configurar Servicio Emergente</h1><hr><br>
+                <h1 align="center">
+                   Configurar Servicio Emergente
+                </h1><hr>
+                <h4>
+                    Configurar servicios emergentes en transmision
+                </h4>
                <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off" id="myServ">
                     {% csrf_token %}
-                        <td>{{ form.servicio }}</td>
+                        <td>
+                            {{ form.servicio }}
+                        </td>
+                        <br/>
                         <table id="servicios" class="table table-striped table-bordered" cellspacing="0" width="100%" style="text-align: center;">
                             <thead>
                             <tr>
@@ -68,20 +46,18 @@
                                 <td>{{ form.ranura }}</td>
                                 <td>{{ form.codigo_app }}</td>
                                 <td>{{ form.modalidad }}</td>
-                                {% endblock %}
                             </tr>
+                            {% endblock %}
                             </tbody>
                         </table>
-                        <div class="form-group" align="right">
-                            <input type="button" class="btn btn-default" value="Configurar" onclick="New_status()">
+                        <div class="form-group">
+                                <input type="button" class="btn btn-default" name="consulta" id="consulta" value="Consultar" title="Consultar servicio" onclick="">
+                                <input type="button" class="btn btn-default" name="actualizar" id="actualizar" value="Actualizar" title="Actualizar servicio" onclick="">
                         </div>
                 </form>
-              </div>
-              <div class="col-xs-3"></div>
-          </div>
-
-            
+            </div>
+          <!-- Arreglo para visualizar complementamente fondo, buscar mejor solucion -->
+          <br><br><br><br><br>
+          <br><br><br><br><br>
     </div>
 {% endblock %}
-
-

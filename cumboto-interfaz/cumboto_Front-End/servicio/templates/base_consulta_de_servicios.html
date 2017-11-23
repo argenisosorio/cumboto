@@ -1,0 +1,59 @@
+{% extends "base.template.html" %}
+{% load static from staticfiles %}
+{% block content %}
+<div class="page-title">
+    <div class="title_left">
+        <h3>
+            Gestión de Transmisión de Aplicaciones Interactivas para la TDA
+        </h3>
+    </div>
+</div>
+    <div class="x_panel">
+        <div class="row">
+            <br/>
+            <div class="col-md-4">
+                <img class="img-reponsive" src="{% static 'img/logocumboto.png' %}" align="left">
+            </div>
+            <div class="col-md-8">
+
+            </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-3">
+
+                </div>
+                <div class="col-xs-6">
+
+                    <h1 align="center">
+                         Consulta de Servicios
+                     </h1><hr>
+                    <h4 align="center">
+                         Consultar servicios en transmisión
+                    </h4>
+                    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+                        {% csrf_token %}
+                            <td>
+                                {{ form.select_serv }}
+                            </td>
+                            <br/>
+                            <div class="form-group">
+                                <input type="button" class="btn btn-default" name="consulta" id="consulta" value="Consultar" title="Consultar servicio" onclick="obt_ranuras()">
+                                <input type="button" class="btn btn-default" name="actualizar" id="actualizar" value="Actualizar" title="Actualizar servicio" onclick="">
+                            </div>
+                    </form>
+                </div>
+                <div class="col-xs-3"></div>
+            </div>
+            <!-- Tabla con datos -->
+            <h2 align="center">
+                Tabla de Datos
+            </h2>
+                <table cellspacing="0" width="100%" style="text-align: left;" id="data">
+                            
+                </table>    
+    <!-- Arreglo para visualizar complementamente fondo, buscar mejor solucion -->
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    </div>
+{% endblock %}
