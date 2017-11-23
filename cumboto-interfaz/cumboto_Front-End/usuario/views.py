@@ -7,8 +7,9 @@ from django.template import loader, Context,  RequestContext
 from django.contrib.auth.models import User
 from .forms import *
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.views.generic import TemplateView, FormView, UpdateView, FormView
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -25,14 +26,13 @@ from django.views import generic
 from django.views.generic import DeleteView
 import logging
 from django.contrib.auth import forms, login, logout, authenticate
+from django.contrib.auth.tokens import default_token_generator
 logger = logging.getLogger("usuario")
 from datetime import datetime
 from .models import Perfil, Bitacora
 
-
 class IndexTemplate(TemplateView):
    template_name = "home.template"
-
 
 def acceso(request):
     """
@@ -40,8 +40,6 @@ def acceso(request):
     Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
     Fecha: 13-02-2017
     """
-    if not request.user.is_anonymous():
-        return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         if form.is_valid:
@@ -52,7 +50,7 @@ def acceso(request):
                 if acceso.is_active:
                     login(request, acceso)
                     Bitacora.objects.create(usuario=request.user, descripcion='Accedio al sistema', tipo='Acceso', fecha_hora=datetime.now())
-                    return render_to_response('home.template.html',context_instance=RequestContext(request))
+                    return HttpResponseRedirect(urlresolvers.reverse('usuario:inicio'))
                 else:
                     messages = ['Lo sentimos, este usuario está en espera de activación']
                     return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
@@ -61,8 +59,17 @@ def acceso(request):
                 return render_to_response('base.login.html', {'form': form, 'messages': messages}, context_instance=RequestContext(request))
     else:
         form = AuthenticationForm()
+
     return render_to_response('base.login.html', {'form': form}, context_instance=RequestContext(request))
 
+def inicio(request):
+    """
+    Función que abre pagina de inicio.
+    Autor: Etzel Mencias
+    Fecha: 31 octubre 2017
+    """
+    users = User.objects.order_by('-pk')
+    return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def logout_view(request):
     """
@@ -133,9 +140,12 @@ def edit_profile(request, pk):
 
 def useractive(request):
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.template.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.template.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
-#Cambiar estatus de los usuarios
+
 def changestatus(request):
     """
     Funcion que activa, desactiva usuario y envia correo de confirmación
@@ -174,16 +184,40 @@ def changestatus(request):
     return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
 def deleteusers(request):
+    """
+    Función que abre pagina para eliminar un usuario.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.deleteusers.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.deleteusers.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def editusers(request):
+    """
+    Función que abre pagina para editar el correo de un usuario.
+    Autor: Etzel Mencias
+    Fecha: Mayo 2017
+    """
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.editusers.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.editusers.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def editclav(request):
+    """
+    Función que abre pagina para editar la contraseña de un usuario.
+    Autor: Etzel Mencias
+    Fecha: Junio 2017
+    """
     users = User.objects.order_by('-pk')
-    return render(request, 'admin.editclave.html', {"users": users})
+    if request.user.is_superuser:
+        return render(request, 'admin.editclave.html', {"users": users})
+    else:
+        return render_to_response('home.template.html',context_instance=RequestContext(request))
 
 def deluser(request):
     """
@@ -209,7 +243,7 @@ def deluser(request):
 
 def ediuserone(request):
     """
-    Función 01 para editar el correo.
+    Función 01 para editar el correo de un usuario.
     Autor: Etzel Mencias
     Fecha: Mayo 2017
     """
@@ -229,7 +263,7 @@ def ediuserone(request):
 
 def ediusertwo(request):
     """
-    Función 02 para editar el correo.
+    Función 02 para editar el correo de un usuario.
     Autor: Etzel Mencias
     Fecha: Mayo 2017
     """
@@ -282,7 +316,6 @@ def ediclavtwo(request):
     Autor: Etzel Mencias
     Fecha: Junio 2017
     """
-
     if request.method == 'POST':
         idus = request.POST['idusuario']
         pass1 = request.POST['password1']
@@ -308,35 +341,28 @@ def ediclavtwo(request):
     else:
         return HttpResponseRedirect(urlresolvers.reverse('usuario:adminuser'))
 
-def editar_contrasena(request):
+
+def change_password(request):
     """
-    Función que permite cambiar la contraseña del usuario autenticado
+    Funcion que cambia la contraseña del usuario.
+    Autor: Yngris Ibarguen (yibarguen@cenditel.gob.ve)
+    Fecha: 2016
+    Modificado: Septiembre de 2017
     """
     if request.method == 'POST':
-        form = EditarContrasenaForm(request.POST)
+        form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
-            request.user.password = make_password(form.cleaned_data['password'])
-            request.user.save()
-            messages = ['¡La contraseña ha sido actualizada con exito!']
-            return render(request, 'base.login.html', {'messages': messages}, context_instance=RequestContext(request))
-    else:
-        args = {}
-        args['form'] = EditarContrasenaForm
-    return render(request, 'base.password.html', args)
+            request.user.password = make_password(form.cleaned_data['new_password1'])
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, ('¡La contraseña ha sido actualizada con exito!'))
+            return HttpResponseRedirect(urlresolvers.reverse('usuario:acceso'))
 
-class UsuarioEliminar(SuccessMessageMixin,DeleteView):
-    """
-    Clase que permite eliminar un objeto(usuario) pidiendo confirmación por template
-    Autor: Argenis Osorio (aosorio@cenditel.gob.ve)
-    Fecha: 04-05-2017
-    **************************
-    ***** Aún en pruebas *****
-    **************************
-    """
-    model = User
-    #fields = ['username', 'last_name', 'email']
-    success_url = reverse_lazy('base')
-    success_message = "Se eliminó el usuario con éxito"
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'base.password.html', {
+        'form': form
+    })
 
 
 class BitacoraView(ListView):
