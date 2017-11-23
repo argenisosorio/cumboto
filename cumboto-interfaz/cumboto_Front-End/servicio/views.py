@@ -59,17 +59,17 @@ class servicioView(CreateView):
 
 def GLOBAL_REST_FRAMEWORK(request):
     form = servicioForm()
-    return render_to_response('base.servicio.html', {'form': form}, context_instance=RequestContext(request))
+    return render_to_response('configuracion_servicio_emergente.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def configurar_omision(request):
     form = servicioForm()
-    return render(request, 'base.omision.servicio.html', {'form': form})
+    return render(request, 'configuracion_aplicacion_por_omision.html', {'form': form})
 
 
 def CONSULT_REST(request):
     form = SelectForm()
-    return render(request, 'base.consulta.servicio.html', {'form': form})
+    return render(request, 'consulta_de_servicios.html', {'form': form})
 
 
 def servicios_get_data(request):
